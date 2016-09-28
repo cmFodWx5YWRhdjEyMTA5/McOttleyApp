@@ -1,0 +1,5 @@
+suites:
+    main:
+        namespace: OrionMedical
+        psr4_prefix: OrionMedical
+        src_path: app
