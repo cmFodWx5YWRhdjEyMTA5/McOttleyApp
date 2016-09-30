@@ -118,7 +118,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('payment_description') ? ' has-error' : ''}}">
                             <label>Payment Description</label>
-                            <input type="text" rows="3" class="form-control" id="payment_description" data-required="true" name="payment_description" value="{{ Request::old('payment_description') ?: '' }}">      
+                            <input type="text" rows="3" class="form-control" id="payment_description" data-required="true" name="payment_description" value="Payment of policy">      
                            @if ($errors->has('payment_description'))
                           <span class="help-block">{{ $errors->first('payment_description') }}</span>
                            @endif    

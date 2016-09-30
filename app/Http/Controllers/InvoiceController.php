@@ -17,6 +17,8 @@ use Input;
 use Response;
 use Carbon\Carbon;
 use Activity;
+use PDF;
+
 
 class InvoiceController extends Controller
 {
@@ -39,8 +41,15 @@ class InvoiceController extends Controller
     {
         $paymenttypes = PaymentType::all();
         $bankaccounts = BankAccount::all();
-        $bills          =  PendingBills::where('status','Unpaid')->orwhere('outstanding','>',0)->orderBy('created_on','desc')->paginate();
+        $bills          =  PendingBills::where('status','Unpaid')->orderBy('created_on','desc')->paginate(30);
         return View('invoices.invoice',compact('paymenttypes','bankaccounts','bills'));
+        
+    }
+
+     public function getCommissions()
+    {
+        $bills =  PendingBills::orderBy('created_on','desc')->paginate(30);
+        return View('commission.index',compact('bills'));
         
     }
 
@@ -51,6 +60,16 @@ class InvoiceController extends Controller
     $customers =  Customer::where('id' ,'=', $customerid)->first();
     $bills=Bill::where('id' ,'=', $id)->where('status', 'Unpaid')->orderBy('created_on', 'ASC')->get();
     return view('invoices.print', compact('customers','bills'));
+
+    }
+
+    public function printtoPDF($id)
+    {
+  
+    $customers =  Customer::get()->toArray();
+
+    $pdf = PDF::loadView('customer.index',$customers);
+    return $pdf->download('invoice.pdf');
 
     }
 
@@ -71,7 +90,7 @@ class InvoiceController extends Controller
     {
     	$paymenttypes = PaymentType::all();
     	$bankaccounts = BankAccount::all();
-        $payments = Payments::paginate();
+      $payments = Payments::paginate();
         return View('invoices.payment',compact('paymenttypes','bankaccounts','payments'));
     }
 
@@ -106,6 +125,60 @@ class InvoiceController extends Controller
             ->route('bank-accounts')
             ->with('info','Bank Account has successfully been created!');
     	
+    }
+
+    public function searchInvoice(Request $request)
+    {
+      
+
+        $this->validate($request, [
+            'search' => 'required'
+        ]);
+
+        $search = $request->get('search');
+
+        $paymenttypes = PaymentType::all();
+        $bankaccounts = BankAccount::all();
+        $bills        =  PendingBills::where('status','Unpaid')->where('account_name', 'like', "%$search%")
+            ->orWhere('invoice_number', 'like', "%$search%")
+            ->orWhere('policy_number', 'like', "%$search%")
+            ->orderBy('created_on','desc')
+            ->paginate(30)
+            ->appends(['search' => $search])
+        ;
+
+
+       return View('invoices.invoice',compact('paymenttypes','bankaccounts','bills'));
+  
+    }
+
+    public function searchCommission(Request $request)
+    {
+      
+
+        $this->validate($request, [
+            'search' => 'required'
+        ]);
+
+        $search = $request->get('search');
+
+        $users =  User::all();
+        $gender =  Gender::get();
+        $sale_channels = SalesChannel::get();
+        $accounttype = AccountType::orderBy('type', 'ASC')->get(); 
+        $customers = Customer::where('fullname', 'like', "%$search%")
+            ->orWhere('mobile_number', 'like', "%$search%")
+            ->orWhere('postal_address', 'like', "%$search%")
+             ->orWhere('account_manager', 'like', "%$search%")
+            ->orWhere('account_number', 'like', "%$search%")
+            ->orderBy('fullname')
+            ->paginate(30)
+            ->appends(['search' => $search])
+        ;
+
+
+      return view('customer.index', compact('customers','accounttype','users','gender','sale_channels'));
+  
     }
 
 
@@ -206,7 +279,7 @@ public function generatePin()
     $data = Array(
         'payer_id'=>$user->account_number,
         'payer_name'=>$user->account_name,
-        'amount'=>$user->outstanding,
+        'amount'=>$user->amount,
         'reference_number'=>$user->invoice_number,
         'policy_number'=>$user->policy_number,
        

@@ -204,6 +204,10 @@ Route::get('/invoice',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@getInvoices',
 	 'as' => 'invoice', ]);
 
+Route::get('/find-invoice', 
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@searchInvoice', 
+	'as' => 'find-invoice', ]);
+
 Route::get('/get-invoice-info',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@fetchInvoiceDetails',
 	 'as' => '/get-invoice-info', ]);
@@ -216,6 +220,15 @@ Route::post('/do-payment',
 Route::get('/print-invoice/{id}',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@printInvoice',
 	 'as' => '/print-invoice', ]);
+
+Route::get('/print-invoice2/{id}',
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@printtoPDF',
+	 'as' => '/print-invoice2', ]);
+
+
+Route::get('/commission',
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@getCommissions',
+	 'as' => '/commission', ]);
 
 
 //Invoicing

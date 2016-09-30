@@ -169,7 +169,7 @@
                     @endrole
                        @role(['Nurse','System Admin'])
                     <li >
-                      <a href="#"  >
+                      <a href="/commission"  >
                         
                         <i class="fa fa-sort-numeric-asc icon">
                           <b class="dker" style="background-color: #bc65bd"></b>

@@ -58,6 +58,7 @@ return array(
     'GuzzleHttp\\Psr7\\' => array($vendorDir . '/guzzlehttp/psr7/src'),
     'GuzzleHttp\\' => array($vendorDir . '/guzzlehttp/guzzle/src'),
     'GrahamCampbell\\Manager\\' => array($vendorDir . '/graham-campbell/manager/src'),
+    'Fx3costa\\Laravelchartjs\\' => array($vendorDir . '/fx3costa/laravelchartjs/src'),
     'Faker\\' => array($vendorDir . '/fzaninotto/faker/src/Faker'),
     'Doctrine\\Instantiator\\' => array($vendorDir . '/doctrine/instantiator/src/Doctrine/Instantiator'),
     'Creativeorange\\Gravatar\\' => array($vendorDir . '/creativeorange/gravatar/src'),

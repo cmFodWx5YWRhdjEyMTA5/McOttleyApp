@@ -12,14 +12,14 @@
                   <h4>McOcttleyBrokers</h4>
                   <p><a href="#">www.McOcttleyBrokers.com</a></p>
                   <br>
-                {{--   <p>{{ $customers->fullname }} <br>
+                  <p>{{ $customers->fullname }} <br>
                     {{  $customers->postal_address }}<br>
                     Ghana
                   </p>
                   <p>
                     Telephone:  +{{ $customers->mobile_number }}<br>
                     Email:  {{ $customers->email }}
-                  </p> --}}
+                  </p>
                 </div>
                 <div class="col-xs-6 text-right">
                   <p class="h4">Policy : {{ $policydetails->policy_number }} </p>

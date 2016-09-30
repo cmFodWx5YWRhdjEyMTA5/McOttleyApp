@@ -758,7 +758,7 @@ class PolicyController extends Controller
     {
             $this->validate($request,[
              'customer_number'=> 'required',
-             'product'=> 'required',
+             'policy_product'=> 'required',
              'policy_insurer'=> 'required',
              'policy_type'=> 'required',
              'gross_premium' => 'required',
@@ -766,10 +766,11 @@ class PolicyController extends Controller
              'collection_mode' => 'required'
            ]); 
 
-        $policynumberval  = $this->generatePolicyNumber($request->input('product'));
+        //dd($request->input('policy_product'));
+        $policynumberval  = $this->generatePolicyNumber($request->input('policy_product'));
         $invoicenumberval = $this->generateInoviceNumber(10);
 
-        if($request->input('product')=='Motor Insurance')
+        if($request->input('policy_product')=='Motor Insurance')
         {
         
 
@@ -780,7 +781,7 @@ class PolicyController extends Controller
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -831,7 +832,7 @@ class PolicyController extends Controller
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = $request->input('vehicle_currency');   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -883,7 +884,7 @@ class PolicyController extends Controller
                                       {
                                          return redirect()
                                         ->route('online-policies')
-                                        ->with('error','Policy failed to create!');
+                                        ->with('error','Invoice failed to create!');
                                       }
 
 
@@ -894,7 +895,7 @@ class PolicyController extends Controller
 
                                      return redirect()
                                     ->route('online-policies')
-                                    ->with('error','Policy failed to create!');
+                                    ->with('error','Motor details failed to create!');
                                   }
 
 
@@ -905,13 +906,13 @@ class PolicyController extends Controller
 
              return redirect()
             ->route('online-policies')
-            ->with('error','Policy failed to create!');
+            ->with('error','Policy details failed to create!');
           }
       }
 
   //Fire Policy
    
- if($request->input('product')=='Fire Insurance')
+ if($request->input('policy_product')=='Fire Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -920,7 +921,7 @@ class PolicyController extends Controller
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -961,7 +962,7 @@ class PolicyController extends Controller
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1043,7 +1044,7 @@ class PolicyController extends Controller
     
 //Marine Insurance
 
-if($request->input('product')=='Marine Insurance')
+if($request->input('policy_product')=='Marine Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -1052,7 +1053,7 @@ if($request->input('product')=='Marine Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1090,7 +1091,7 @@ if($request->input('product')=='Marine Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1173,7 +1174,7 @@ if($request->input('product')=='Marine Insurance')
 
       //Engineering Insurance
 
-      if($request->input('product')=='Engineering Insurance')
+      if($request->input('policy_product')=='Engineering Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -1182,7 +1183,7 @@ if($request->input('product')=='Marine Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1217,7 +1218,7 @@ if($request->input('product')=='Marine Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1298,7 +1299,7 @@ if($request->input('product')=='Marine Insurance')
       }
 
 
-        if($request->input('product')=='Liability Insurance')
+        if($request->input('policy_product')=='Liability Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -1307,7 +1308,7 @@ if($request->input('product')=='Marine Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1338,7 +1339,7 @@ if($request->input('product')=='Marine Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1423,7 +1424,7 @@ if($request->input('product')=='Marine Insurance')
 
 //Bond Insurance
 
-if($request->input('product')=='Bond Insurance')
+if($request->input('policy_product')=='Bond Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -1432,7 +1433,7 @@ if($request->input('product')=='Bond Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1466,7 +1467,7 @@ if($request->input('product')=='Bond Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1548,7 +1549,7 @@ if($request->input('product')=='Bond Insurance')
     
 
 //General Accident
-if($request->input('product')=='General Accident Insurance')
+if($request->input('policy_product')=='General Accident Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -1557,7 +1558,7 @@ if($request->input('product')=='General Accident Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1591,7 +1592,7 @@ if($request->input('product')=='General Accident Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1674,7 +1675,7 @@ if($request->input('product')=='General Accident Insurance')
 
 // Travel Poloicy
 
-    if($request->input('product')=='Travel Insurance')
+    if($request->input('policy_product')=='Travel Insurance')
         {
     $time = explode(" - ", $request->input('insurance_period'));
 
@@ -1683,7 +1684,7 @@ if($request->input('product')=='General Accident Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1719,7 +1720,7 @@ if($request->input('product')=='General Accident Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 
@@ -1800,7 +1801,7 @@ if($request->input('product')=='General Accident Insurance')
       }
 
 
-      if($request->input('product')=='Personal Accident Insurance')
+      if($request->input('policy_product')=='Personal Accident Insurance')
 
         {
         
@@ -1811,7 +1812,7 @@ if($request->input('product')=='General Accident Insurance')
         $policy                         = new Policy;
         $policy->customer_number        = $request->input('customer_number');  
         $policy->policy_type            = $request->input('policy_type');
-        $policy->policy_product         = $request->input('product');
+        $policy->policy_product         = $request->input('policy_product');
         $policy->policy_insurer         = $request->input('policy_insurer'); 
         $policy->insurance_period_from  = $this->change_date_format($time[0]);
         $policy->insurance_period_to    = $this->change_date_format($time[1]);
@@ -1851,7 +1852,7 @@ if($request->input('product')=='General Accident Insurance')
         $bill->account_number               = $request->input('customer_number');
         $bill->account_name                 = $request->input('billed_to'); 
         $bill->policy_number                = $policynumberval; 
-        $bill->policy_product               = $request->input('product');
+        $bill->policy_product               = $request->input('policy_product');
         $bill->currency                     = 'GHS';   
         $bill->amount                       = $request->input('gross_premium'); 
         $bill->commission_rate              = $request->input('commission_rate'); 

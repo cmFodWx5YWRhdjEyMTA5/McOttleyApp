@@ -28,7 +28,9 @@
         "vinkla/hashids": "^2.3",
         "milon/barcode": "^5.2",
         "spatie/laravel-backup": "^3.9",
-        "hashids/hashids": "^1.0"
+        "hashids/hashids": "^1.0",
+        "fx3costa/laravelchartjs": "^1.3"
+
 
 
     },

@@ -44,7 +44,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('customer_number') ? ' has-error' : ''}}">
                             <label>Customer</label>
-                            <select id="customer_number" name="customer_number" rows="3" tabindex="1" data-placeholder="Select a customer" style="width:100%">
+                            <select id="customer_number" name="customer_number" data-required="true" rows="3" tabindex="1" data-placeholder="Select a customer" style="width:100%">
                              <option value="">-- select a customer --</option>
                         @foreach($customers as $customer)
                         <option value="{{ $customer->id }}">{{ $customer->fullname }}</option>
@@ -79,7 +79,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('policy_type') ? ' has-error' : ''}}">
                             <label>Policy Type</label>
-                            <select id="policy_type" name="policy_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b" onchange="loadInsurer(),loadinsurancetype()">
+                            <select id="policy_type" name="policy_type" data-required="true" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b" onchange="loadInsurer(),loadinsurancetype()">
                          @foreach($policytypes as $policytype)
                         <option value="{{ $policytype->type }}">{{ $policytype->type }}</option>
                           @endforeach 
@@ -95,8 +95,8 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('policy_insurer') ? ' has-error' : ''}}">
                             <label>Insurer</label>
-                            <select id="policy_insurer" name="policy_insurer" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%">
-                             <option value="">-- select from here --</option>
+                            <select id="policy_insurer" name="policy_insurer" data-required="true" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%">
+                        <option value="">-- select from here --</option>
                         @foreach($insurers as $insurer)
                         <option value="{{ $insurer->name }}">{{ $insurer->name }}</option>
                           @endforeach 
@@ -126,38 +126,6 @@
                       
                       </div>
                     </section>
-
-                     <section class="panel panel-default">
-                     <header class="panel-heading font-bold">                  
-                      Sales
-                    </header>
-                      <div class="panel-body">
-                        
-                       
-
-
-                        
-                         <div class="form-group pull-in clearfix">
-                          <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('policy_sales_channel') ? ' has-error' : ''}}">
-                            <label>Sales Channel</label>
-                          
-                            <select id="policy_sales_channel" name="policy_sales_channel" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                             <option value="">-- not set --</option>
-                       @foreach($saleschannel as $saleschannel)
-                        <option value="{{ $saleschannel->channel }}">{{ $saleschannel->channel }}</option>
-                          @endforeach
-                        </select>         
-                           @if ($errors->has('policy_sales_channel'))
-                          <span class="help-block">{{ $errors->first('policy_sales_channel') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-                    
-                   
-                      </div>
-                    </section>
                       </div>
                     {{-- Step 2 End --}}
                     {{-- Step 3 Start --}}
@@ -171,15 +139,15 @@
                         <div class="form-group pull-in clearfix">
                          
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('product') ? ' has-error' : ''}}">
-                             <select id="product" name="product" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%" onchange="getproductform()">
+                          <div class="form-group{{ $errors->has('policy_product') ? ' has-error' : ''}}">
+                             <select id="policy_product" name="policy_product" rows="3" data-required="true" tabindex="1" data-placeholder="Select here.." style="width:100%" onchange="getproductform()">
                              <option value="">-- select a product --</option>
                         @foreach($producttypes as $producttype)
                         <option value="{{ $producttype->type }}"> {{$producttype->type }}</option>
                           @endforeach
                         </select>         
-                           @if ($errors->has('product'))
-                          <span class="help-block">{{ $errors->first('product') }}</span>
+                           @if ($errors->has('policy_product'))
+                          <span class="help-block">{{ $errors->first('policy_product') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1592,7 +1560,7 @@
                          <div class="col-sm-6">
                           <div class="form-group{{ $errors->has('fire_deductible') ? ' has-error' : ''}}">
                             <label>Deductible</label>
-                           <input type="number" class="form-control" id="fire_deductible"  value="{{ Request::old('fire_deductible') ?: '' }}"  name="fire_deductible">  
+                           <input type="text" class="form-control" id="fire_deductible"  value="{{ Request::old('fire_deductible') ?: '' }}"  name="fire_deductible">  
                            @if ($errors->has('fire_deductible'))
                           <span class="help-block">{{ $errors->first('fire_deductible') }}</span>
                            @endif    
@@ -1764,7 +1732,7 @@
                           <div class="form-group{{ $errors->has('gross_premium') ? ' has-error' : ''}}">
                             <label>Gross Premium</label>
                             <div class="input-group m-b">
-                            <input type="text" class="form-control parsley-validated" id="gross_premium"  value="{{ Request::old('gross_premium') ?: '' }}" data-type="number" name="gross_premium"><span class="input-group-addon">.00</span>   
+                            <input type="text" class="form-control parsley-validated" data-required="true" id="gross_premium"  value="{{ Request::old('gross_premium') ?: '' }}" data-type="number" name="gross_premium"><span class="input-group-addon">.00</span>   
                             </div>      
                            @if ($errors->has('gross_premium'))
                           <span class="help-block">{{ $errors->first('gross_premium') }}</span>
@@ -1777,7 +1745,7 @@
                           <div class="col-sm-8">
                           <div class="form-group{{ $errors->has('commission_rate') ? ' has-error' : ''}}">
                             <label>Commission Rate</label>
-                            <input type="text" class="form-control parsley-validated" id="commission_rate"  value="{{ Request::old('commission_rate') ?: '' }}" data-type="number"   name="commission_rate">         
+                            <input type="text" class="form-control parsley-validated" data-required="true" id="commission_rate"  value="{{ Request::old('commission_rate') ?: '' }}" data-type="number"   name="commission_rate">         
                            @if ($errors->has('commission_rate'))
                           <span class="help-block">{{ $errors->first('commission_rate') }}</span>
                            @endif    
@@ -1803,7 +1771,7 @@
                         </div>
                         
                         <div class="btn-group pull-right">
-                        <button type="submit" class="btn btn-rounded btn-sm btn-info">Save Record</button>
+                        <button type="submit" onclick="fillmandatory()" class="btn btn-rounded btn-sm btn-info">Save Record</button>
                         <input type="hidden" name="_token" value="{{ Session::token() }}">
                         </div>
 
@@ -1857,8 +1825,8 @@ $(function () {
 function  getproductform() 
 {
 
-  //alert($('#product').val());
-   if( $('#product').val() == "Motor Insurance")
+  //alert($('#policy_product').val());
+   if( $('#policy_product').val() == "Motor Insurance")
     {
          $('#motorinsurance').show();
           $('#fireinsurance').hide(); 
@@ -1870,7 +1838,7 @@ function  getproductform()
           $('#contractorallrisk').hide();
           $('#generalaccident').hide();
    }
-  else if( $('#product').val() == "Fire Insurance")
+  else if( $('#policy_product').val() == "Fire Insurance")
     {
          $('#fireinsurance').show();
           $('#motorinsurance').hide(); 
@@ -1883,7 +1851,7 @@ function  getproductform()
            $('#contractorallrisk').hide();
            $('#generalaccident').hide();
    }
-else if( $('#product').val() == "Travel Insurance")
+else if( $('#policy_product').val() == "Travel Insurance")
     {
       $('#travelinsurance').show(); 
          $('#fireinsurance').hide();
@@ -1896,7 +1864,7 @@ else if( $('#product').val() == "Travel Insurance")
            $('#contractorallrisk').hide();
    }
 
-   else if( $('#product').val() == "Personal Accident Insurance")
+   else if( $('#policy_product').val() == "Personal Accident Insurance")
     {
       $('#personalaccidentinsurance').show();
       $('#travelinsurance').hide(); 
@@ -1910,7 +1878,7 @@ else if( $('#product').val() == "Travel Insurance")
            $('#generalaccident').hide();
             
    }
-    else if( $('#product').val() == "Bond Insurance")
+    else if( $('#policy_product').val() == "Bond Insurance")
     {
       $('#bondinsurance').show();
       $('#personalaccidentinsurance').hide();
@@ -1925,7 +1893,7 @@ else if( $('#product').val() == "Travel Insurance")
             
    }
 
-    else if( $('#product').val() == "Marine Insurance")
+    else if( $('#policy_product').val() == "Marine Insurance")
     {
       $('#marineinsurance').show();
       $('#bondinsurance').hide();
@@ -1941,7 +1909,7 @@ else if( $('#product').val() == "Travel Insurance")
             
    }
 
-    else if( $('#product').val() == "Liability Insurance")
+    else if( $('#policy_product').val() == "Liability Insurance")
     {
       $('#marineinsurance').hide();
       $('#bondinsurance').hide();
@@ -1957,7 +1925,7 @@ else if( $('#product').val() == "Travel Insurance")
             
    }
 
-   else if( $('#product').val() == "Engineering Insurance")
+   else if( $('#policy_product').val() == "Engineering Insurance")
     {
       $('#marineinsurance').hide();
       $('#bondinsurance').hide();
@@ -1973,7 +1941,7 @@ else if( $('#product').val() == "Travel Insurance")
             
    }
 
-   else if( $('#product').val() == "General Accident Insurance")
+   else if( $('#policy_product').val() == "General Accident Insurance")
     {
       $('#marineinsurance').hide();
       $('#bondinsurance').hide();
@@ -1989,7 +1957,7 @@ else if( $('#product').val() == "Travel Insurance")
             
    }
 
-   else if( $('#product').val() == "")
+   else if( $('#policy_product').val() == "")
     {
         $('#motorinsurance').hide(); 
         $('#fireinsurance').hide(); 
@@ -2024,7 +1992,7 @@ else if( $('#product').val() == "Travel Insurance")
 function  getcomprehensiveform() 
 {
 
-  //alert($('#product').val());
+  //alert($('#policy_product').val());
    if( $('#preferedcover').val() == "Comprehensive")
     {
          
@@ -2101,7 +2069,7 @@ $(document).ready(function () {
     $('#vehicle_body_type').select2();
     $('#vehicle_make').select2();
     $('#vehicle_model').select2();
-    $('#product').select2();
+    $('#policy_product').select2();
 
     loadInsurer();
     loadinsurancetype();
@@ -2116,6 +2084,27 @@ $(document).ready(function () {
 
 
 <script type="text/javascript">
+
+function fillmandatory()
+{
+  if($('#customer_number').val()=="")
+  {sweetAlert("Please select a customer ",'Fill all fields', "error");}
+  
+   else if($('#policy_insurer').val()=="")
+  {sweetAlert("Please select an insurer ",'Fill all fields', "error");}
+
+  else if($('#policy_product').val()=="")
+  {sweetAlert("Please select a product",'Fill all fields', "error");}
+
+   else if($('#policy_type').val()=="")
+  {sweetAlert("Please select excess ",'Fill all fields', "error");}
+
+
+
+}
+
+
+
 function computePremium()
 {
 
@@ -2133,7 +2122,7 @@ else if($('#vehicle_risk').val()=="")
   {sweetAlert("Please select risk ",'Fill all fields', "error");}
 else if($('#vehicle_seating_capacity').val()=="")
   {sweetAlert("Please enter seat number ",'Fill all fields', "error");}
-else if($('#vehicle_cubic_capacity').val()=="")
+else if($('#vehicle_cubic_capacity').val()=="" & $('#preferedcover').val()!="Third Party")
   {sweetAlert("Please enter cubic capacity ",'Fill all fields', "error");}
 else if($('#vehicle_ncd').val()=="")
   {sweetAlert("Please select ncd ",'Fill all fields', "error");}
@@ -2276,10 +2265,10 @@ else if($('#vehicle_fleet_discount').val()=="")
           function(data)
           { 
 
-            $('#product').empty();
+            $('#policy_product').empty();
             $.each(data, function () 
             {           
-            $('#product').append($('<option></option>').val(this['type']).html(this['type']));
+            $('#policy_product').append($('<option></option>').val(this['type']).html(this['type']));
             });
                                           
          },'json');      

@@ -21,7 +21,7 @@
                      <span class="badge badge-info">Record(s) Found : {{ $payments->total() }} {{ str_plural('Payment', $payments->total()) }} </span>
                     </div>
 
-                  <form action="/find-account" method="GET">
+                  <form action="/find-invoice" method="GET">
                     <div class="col-sm-4 m-b-xs">
                       <div class="input-group">
                         <input type="text" name='search' id='search' class="input-sm form-control" placeholder="Search for a client">

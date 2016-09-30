@@ -128,53 +128,6 @@
                       </div>
                     </section>
 
-                     <section class="panel panel-default">
-                     <header class="panel-heading font-bold">                  
-                      Sales
-                    </header>
-                      <div class="panel-body">
-                        
-                        <div class="form-group pull-in clearfix">
-                          <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('policy_sales_type') ? ' has-error' : ''}}">
-                            <label>Sales Type</label>
-
-                            <select id="policy_sales_type" name="policy_sales_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                              <option value="{{ $policy->policy_sales_type }}">{{ $policy->policy_sales_type }}</option>
-                            @foreach($salestype as $salestype)
-                        <option value="{{ $salestype->type }}">{{ $salestype->type }}</option>
-                          @endforeach
-                        </select>         
-                           @if ($errors->has('policy_sales_type'))
-                          <span class="help-block">{{ $errors->first('policy_sales_type') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-
-
-                        
-                         <div class="form-group pull-in clearfix">
-                          <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('policy_sales_channel') ? ' has-error' : ''}}">
-                            <label>Sales Channel</label>
-                          
-                            <select id="policy_sales_channel" name="policy_sales_channel" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                             <option value="{{ $policy->policy_sales_channel }}">{{ $policy->policy_sales_channel }}</option>
-                       @foreach($saleschannel as $saleschannel)
-                        <option value="{{ $saleschannel->channel }}">{{ $saleschannel->channel }}</option>
-                          @endforeach
-                        </select>         
-                           @if ($errors->has('policy_sales_channel'))
-                          <span class="help-block">{{ $errors->first('policy_sales_channel') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-                    
-                   
-                      </div>
-                    </section>
                       </div>
                     {{-- Step 2 End --}}
                     {{-- Step 3 Start --}}

@@ -5422,5 +5422,52 @@
         ],
         "description": "Symfony ClassLoader Component",
         "homepage": "https://symfony.com"
+    },
+    {
+        "name": "fx3costa/laravelchartjs",
+        "version": "1.3.4",
+        "version_normalized": "1.3.4.0",
+        "source": {
+            "type": "git",
+            "url": "https://github.com/fxcosta/laravel-chartjs.git",
+            "reference": "997361cd0e50dda9547dbf58bafbc2d1d6c7dd11"
+        },
+        "dist": {
+            "type": "zip",
+            "url": "https://api.github.com/repos/fxcosta/laravel-chartjs/zipball/997361cd0e50dda9547dbf58bafbc2d1d6c7dd11",
+            "reference": "997361cd0e50dda9547dbf58bafbc2d1d6c7dd11",
+            "shasum": ""
+        },
+        "require": {
+            "laravel/framework": "5.*",
+            "php": ">=5.5.9"
+        },
+        "time": "2016-04-09 05:14:01",
+        "type": "library",
+        "installation-source": "dist",
+        "autoload": {
+            "psr-4": {
+                "Fx3costa\\Laravelchartjs\\": "src/"
+            }
+        },
+        "notification-url": "https://packagist.org/downloads/",
+        "license": [
+            "MIT"
+        ],
+        "authors": [
+            {
+                "name": "Felix",
+                "email": "fx3costa@gmail.com"
+            }
+        ],
+        "description": "Simples package para facilitar e automatizar o uso de graficos no Laravel 5.x usando a lib Chartjs",
+        "keywords": [
+            "chart",
+            "chartjs",
+            "fx3costa",
+            "graphics",
+            "laravel5",
+            "reports"
+        ]
     }
 ]

@@ -15,10 +15,10 @@ class ComposerStaticInit6a2429d4d24b254ac514e63f4aa12a19
         '65fec9ebcfbb3cbb4fd0d519687aea01' => __DIR__ . '/..' . '/danielstjules/stringy/src/Create.php',
         'bd9634f2d41831496de0d3dfe4c94881' => __DIR__ . '/..' . '/symfony/polyfill-php56/bootstrap.php',
         'e7223560d890eab89cda23685e711e2c' => __DIR__ . '/..' . '/psy/psysh/src/Psy/functions.php',
-        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
-        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'f0906e6318348a765ffb6eb24e0d0938' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Foundation/helpers.php',
         '58571171fd5812e6e447dce228f52f4d' => __DIR__ . '/..' . '/laravel/framework/src/Illuminate/Support/helpers.php',
+        'ad155f8f1cf0d418fe49e248db8c661b' => __DIR__ . '/..' . '/react/promise/src/functions_include.php',
+        'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         '752af1c2bdb339e8474c3c31b22b7d54' => __DIR__ . '/..' . '/illuminate/html/helpers.php',
         'a806c12c6e24e7e4e900847766218dba' => __DIR__ . '/..' . '/uxweb/sweet-alert/src/SweetAlert/functions.php',
         '0c3c22e27afa83be19b4c938f4c6e9ea' => __DIR__ . '/..' . '/spatie/laravel-backup/src/Helpers/functions.php',
@@ -130,6 +130,7 @@ class ComposerStaticInit6a2429d4d24b254ac514e63f4aa12a19
         ),
         'F' => 
         array (
+            'Fx3costa\\Laravelchartjs\\' => 24,
             'Faker\\' => 6,
         ),
         'D' => 
@@ -359,6 +360,10 @@ class ComposerStaticInit6a2429d4d24b254ac514e63f4aa12a19
         'GrahamCampbell\\Manager\\' => 
         array (
             0 => __DIR__ . '/..' . '/graham-campbell/manager/src',
+        ),
+        'Fx3costa\\Laravelchartjs\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src',
         ),
         'Faker\\' => 
         array (
@@ -1077,6 +1082,12 @@ class ComposerStaticInit6a2429d4d24b254ac514e63f4aa12a19
         'Frame_Factory' => __DIR__ . '/..' . '/dompdf/dompdf/include/frame_factory.cls.php',
         'Frame_Reflower' => __DIR__ . '/..' . '/dompdf/dompdf/include/frame_reflower.cls.php',
         'Frame_Tree' => __DIR__ . '/..' . '/dompdf/dompdf/include/frame_tree.cls.php',
+        'Fx3costa\\Laravelchartjs\\ChartBar' => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src/ChartBar.php',
+        'Fx3costa\\Laravelchartjs\\ChartLine' => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src/ChartLine.php',
+        'Fx3costa\\Laravelchartjs\\ChartPieAndDoughnut' => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src/ChartPieAndDoughnut.php',
+        'Fx3costa\\Laravelchartjs\\ChartRadar' => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src/ChartRadar.php',
+        'Fx3costa\\Laravelchartjs\\Contracts\\Chartjs' => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src/Contracts/Chartjs.php',
+        'Fx3costa\\Laravelchartjs\\Providers\\ChartjsServiceProvider' => __DIR__ . '/..' . '/fx3costa/laravelchartjs/src/Providers/ChartjsServiceProvider.php',
         'GD_Adapter' => __DIR__ . '/..' . '/dompdf/dompdf/include/gd_adapter.cls.php',
         'GrahamCampbell\\Manager\\AbstractManager' => __DIR__ . '/..' . '/graham-campbell/manager/src/AbstractManager.php',
         'GrahamCampbell\\Manager\\ConnectorInterface' => __DIR__ . '/..' . '/graham-campbell/manager/src/ConnectorInterface.php',

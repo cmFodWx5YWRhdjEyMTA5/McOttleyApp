@@ -11,8 +11,6 @@
                     <a href="#" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw  fa-refresh"></i> Renew</a>
                     <a href="#" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw  fa-lock"></i> Lock</a>
                     <a href="/print-policy/{{ $policydetails->id }}" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-print"></i> Print</a>
-                    <a href="/download-schedule/xlsx" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-print"></i> Print 2</a>
-
               </p>
               </div>
             </header>
@@ -550,7 +548,7 @@
                             Customer payable
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-light">{{ $balancesheet->payment_sum  - $balancesheet->amount  }}</span>
+                            <span class="badge bg-light">{{    $balancesheet->amount - $balancesheet->payment_sum  }}</span>
                             <i class="fa  fa-qrcode"></i> 
                            Policy balance
                           </a>
@@ -566,10 +564,20 @@
                           <a class="list-group-item" href="#">
                             <span class="badge bg-default">{{ $balancesheet->commission_rate }}%</span>
                             <i class="fa fa-money"></i> 
-                            Commission 
+                            Commission Rate
+                          </a>
+                           <a class="list-group-item" href="#">
+                            <span class="badge bg-default">{{ $policydetails->amount * ($balancesheet->commission_rate/100) }}</span>
+                            <i class="fa fa-bar-chart-o"></i> 
+                            Gross Commission
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ $policydetails->amount * ($balancesheet->commission_rate/100) }}</span>
+                            <span class="badge bg-default">{{ (($policydetails->amount * ($balancesheet->commission_rate/100)) * 5/100) }}</span>
+                            <i class="fa fa-bar-chart-o"></i> 
+                            Tax
+                          </a>
+                          <a class="list-group-item" href="#">
+                            <span class="badge bg-default">{{ ($policydetails->amount * ($balancesheet->commission_rate/100)) - (($policydetails->amount * ($balancesheet->commission_rate/100)) * 5/100) }}</span>
                             <i class="fa fa-bar-chart-o"></i> 
                             Commission Receivable
                           </a>
