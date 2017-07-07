@@ -1,4 +1,4 @@
-  @role(['Receptionist','System Admin','Billing','Doctor','Nurse','Medical Assistant','Cashier','Marketing','Purchases','Laboratory','Pharmacist'])
+  @role(['Broker','System Admin'])
  <aside class="bg-dark lter aside-md hidden-print" id="nav">          
           <section class="vbox">
            <header class="header lter text-center clearfix" style="background-color: #bc65bd">
@@ -55,6 +55,17 @@
                        
                       </ul>
                     </li>
+                    @role(['Broker','System Admin'])
+                    <li >
+                      <a href="/online-quotation/new"  >
+                        
+                        <i class="fa fa-umbrella icon">
+                          <b class="dker" style="background-color: #bc65bd"></b>
+                        </i>
+                        <span>Quote</span>
+                      </a>
+                    </li>
+                    @endrole
 
                     <li >
                       <a href="#layout"  >
@@ -68,15 +79,30 @@
                         <span>Policy Manage</span>
                       </a>
                       <ul class="nav lt">
-                        <li >
-                          <a href="/online-policies" >  
+                       
+                         <li >
+                          <a href="/online-policies/new" >  
                           <b class="badge bg-gavel pull-right"></b>                                                           
                             <i class="fa fa-angle-right"></i>
                             <span>New Policy</span>
                           </a>
                         </li>
                         <li >
-                          <a href="#" >  
+                          <a href="/online-policies/fleet" >  
+                          <b class="badge bg-gavel pull-right"></b>                                                           
+                            <i class="fa fa-angle-right"></i>
+                            <span>Fleet Policy</span>
+                          </a>
+                        </li>
+                         <li >
+                          <a href="/online-policies" >  
+                          <b class="badge bg-gavel pull-right"></b>                                                           
+                            <i class="fa fa-angle-right"></i>
+                            <span>View Policies</span>
+                          </a>
+                        </li>
+                        <li >
+                          <a href="/expired-policies" >  
                           <b class="badge bg-info pull-right"></b>                                                           
                             <i class="fa fa-angle-right"></i>
                             <span>Renewals</span>
@@ -100,7 +126,7 @@
                        
                       </ul>
                     </li>
-                      @role(['Nurse','System Admin'])
+                      @role(['Broker','System Admin'])
                     <li >
                       <a href="/claims"  >
                         
@@ -111,7 +137,7 @@
                       </a>
                     </li>
                     @endrole
-                    @role(['Nurse','System Admin'])
+                    @role(['Broker','System Admin'])
                     <li >
                       <a href="/event-calendar"  >
                         
@@ -122,7 +148,7 @@
                       </a>
                     </li>
                     @endrole
-                       @role(['Nurse','System Admin'])
+                       @role(['Broker','System Admin'])
                         <li >
                       <a href="#pages"  >
                         <i class="fa fa-file-text icon">
@@ -144,7 +170,7 @@
                         </li>
 
                         <li >
-                          <a href="#" >                                                        
+                          <a href="/quick-invoices" >                                                        
                             <i class="fa fa-angle-right"></i>
                             <span>Generate Invoices</span>
                           </a>
@@ -163,11 +189,18 @@
                             <span>Debt Management</span>
                           </a>
                         </li>
+                          
+                        <li >
+                          <a href="/banking.banks" >                                                        
+                            <i class="fa fa-angle-right"></i>
+                            <span>Banking</span>
+                          </a>
+                        </li>
                        
                       </ul>
                     </li>
                     @endrole
-                       @role(['Nurse','System Admin'])
+                       @role(['Broker','System Admin'])
                     <li >
                       <a href="/commission"  >
                         
@@ -178,15 +211,40 @@
                       </a>
                     </li>
                     @endrole
-                       @role(['Nurse','System Admin'])
+                       @role(['Broker','System Admin'])
                     <li >
-                      <a href="#"  >
-                        
-                        <i class="fa fa-exchange icon">
-                          <b class="dker" style="background-color: #bc65bd"></b>
+                      <a href="#pages"  >
+                        <i class="fa fa-money icon">
+                          <b class="bg-danger"></b>
                         </i>
-                        <span>Credit Control</span>
+                        <span class="pull-right">
+                          <i class="fa fa-angle-down text"></i>
+                          <i class="fa fa-angle-up text-active"></i>
+                        </span>
+                        <span>Accounting</span>
                       </a>
+                      <ul class="nav lt">
+                        
+                        <li >
+                          <a href="/company-assets" >                                                        
+                            <i class="fa fa-angle-right"></i>
+                            <span>Assets</span>
+                          </a>
+                        </li>
+
+                        <li >
+                          <a href="/account-transactions" >                                                        
+                            <i class="fa fa-angle-right"></i>
+                            <span>Transactions</span>
+                          </a>
+                        </li>
+                        <li >
+                          <a href="/account-reports" >                                                        
+                            <i class="fa fa-angle-right"></i>
+                            <span>Reports</span>
+                          </a>
+                        </li>
+                      </ul>
                     </li>
                     @endrole
                        
@@ -240,13 +298,7 @@
                         <span>Setup</span>
                       </a>
                       <ul class="nav lt">
-                        
-                        <li >
-                          <a href="/reporting" >                                                        
-                            <i class="fa fa-angle-right"></i>
-                            <span>Banking</span>
-                          </a>
-                        </li>
+                      
                          <li >
                           <a href="/reporting" >                                                        
                             <i class="fa fa-angle-right"></i>
@@ -265,6 +317,15 @@
                             <span>User Management</span>
                           </a>
                         </li>
+
+                         <li >
+                          <a href="/setup" >                                                        
+                            <i class="fa fa-angle-right"></i>
+                            <span>Policy Management</span>
+                          </a>
+                        </li>
+
+
                        
                       </ul>
                     </li>

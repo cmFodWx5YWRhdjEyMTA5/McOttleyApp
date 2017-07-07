@@ -3,9 +3,23 @@
 namespace OrionMedical\Http\Controllers;
 
 use Illuminate\Http\Request;
-use JasperPHP\JasperPHP;
 use OrionMedical\Http\Requests;
 use OrionMedical\Http\Controllers\Controller;
+use OrionMedical\Models\Customer;
+use OrionMedical\Models\Currency;
+use OrionMedical\Models\Insurers;
+use OrionMedical\Models\PolicyProductType;
+use OrionMedical\Models\FileFormat;
+use OrionMedical\Models\User;
+use Input;
+use Response;
+use Auth;
+use Validator;
+use Activity;
+use Redirect;
+use Excel;
+use JasperPHP\JasperPHP;
+use Carbon\Carbon;
 
 class ReportController extends Controller
 {
@@ -68,7 +82,15 @@ class ReportController extends Controller
  
     public function salesCommission()
     {
-        return view('reporting.sales.commission');
+
+    $customers    = Customer::all();
+    $insurers     = Insurers::where('name','<>','null')->orderby('name','asc')->get();
+    $producttypes = PolicyProductType::where('type','<>','null')->orderby('type','asc')->get();
+    $intermediary = User::orderby('username','ASC')->get();
+    $currencies   = Currency::all();
+    $fileformats   = FileFormat::all();
+
+        return view('reporting.sales.commission',compact('customers','insurers','fileformats','producttypes','intermediary','currencies'));
     }
  
     public function salesMoneyflow()
@@ -109,6 +131,57 @@ class ReportController extends Controller
     public function customersUnpaid()
     {
         return view('reporting.customer.unpaid');
+    }
+
+
+
+    public function printsalesCommission(Request $request)
+    {
+
+        $customer_number = $request->input('customer_number');
+        $policy_insurer = $request->input('policy_insurer');  
+        $policy_product = $request->input('policy_product');  
+        $account_manager = $request->input('account_manager');  
+        $vehicle_currency = $request->input('vehicle_currency');  
+        $fileformat = $request->input('fileformat');    
+        //dd($policy_product);
+
+        $policy_product =  '"' .$policy_product. '"';
+        $policy_insurer =  '"' .$policy_insurer. '"';
+        $account_manager = '"' .$account_manager.'"';
+
+        $database = \Config::get('database.connections.mysql');
+        $output = public_path() . '/reports/'.time().'_commssion_report';
+        
+        $ext = $fileformat;
+        $realPath = public_path() . '/reports';
+        $jasperPHP = new JasperPHP;
+        $jasperPHP->process(
+            public_path() . '/reports/commssion_report.jasper', 
+            $output, 
+            array($ext),
+            array("customerval" => $customer_number,"businessclass" => $policy_product,"insurer" => $policy_insurer,"currencyval" => $vehicle_currency,"salesagentval" => $account_manager,"realPath"=>$realPath),
+            $database,
+            false,
+            false
+        )->execute();
+
+        // foreach($output as $parameter_description)
+        //     echo $parameter_description;
+ 
+        header('Content-Description: File Transfer');
+        header('Content-Type: application/octet-stream');
+        header('Content-Disposition: attachment; filename='.time().'_commssion_report.'.$ext);
+        header('Content-Transfer-Encoding: binary');
+        header('Expires: 0');
+        header('Cache-Control: must-revalidate, post-check=0, pre-check=0');
+        header('Pragma: public');
+        header('Content-Length: ' . filesize($output.'.'.$ext));
+        flush();
+        readfile($output.'.'.$ext);
+        unlink($output.'.'.$ext); // deletes the temporary file
+        
+        return Redirect::to('/reports');
     }
  
  

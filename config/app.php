@@ -149,6 +149,9 @@ return [
         Milon\Barcode\BarcodeServiceProvider::class,
         Spatie\Backup\BackupServiceProvider::class,
         Vinkla\Hashids\HashidsServiceProvider::class,
+        Fx3costa\Laravelchartjs\Providers\ChartjsServiceProvider::class,
+        'Webpatser\Countries\CountriesServiceProvider',
+        Tylercd100\LERN\LERNServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -216,7 +219,8 @@ return [
         'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
         'Hashids' => Vinkla\Hashids\Facades\Hashids::class,
-
+        'Countries' => 'Webpatser\Countries\CountriesFacade',
+        "LERN" => "Tylercd100\LERN\Facades\LERN",
     ],
 
 ];

@@ -46,7 +46,7 @@
                             <th>Customer</th>
                             <th>Date</th>
                             <th>Last Payment</th>
-                            <th>Invoice Sum</th>
+                            <th>Premium</th>
                             <th>Status</th>
                             <th></th>
                           </tr>

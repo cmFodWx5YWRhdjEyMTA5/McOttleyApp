@@ -4,7 +4,7 @@
 <body>
   <section id="content" class="m-t-lg wrapper-md animated fadeInUp">    
     <div class="container aside-xxl">
-      <a class="navbar-brand block" href="#">McOttley Broker Login</a>
+      <a class="navbar-brand block" href="#">Asterix Brokers Login</a>
       <section class="panel panel-default bg-white m-t-lg">
         <header class="panel-heading text-center">
           <strong>Sign in</strong>

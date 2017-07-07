@@ -147,6 +147,24 @@
                         </div>
                         </div>
 
+                          <div class="form-group pull-in clearfix">
+                          
+                        <div class="col-sm-12">
+                            <label>Pay Into</label> 
+                            <div class="form-group{{ $errors->has('broker_bank_account') ? ' has-error' : ''}}">
+                            <select id="broker_bank_account" name="broker_bank_account" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b" >
+                        <option value=""> -- Please select account -- </option>
+                        @foreach($bankaccounts as $bankaccounts)
+                        <option value="{{ $bankaccounts->account_number }}">{{ $bankaccounts->bank_name }} | {{ $bankaccounts->account_number}}</option>
+                          @endforeach 
+                        </select>  
+                           @if ($errors->has('broker_bank_account'))
+                          <span class="help-block">{{ $errors->first('broker_bank_account') }}</span>
+                           @endif    
+                          </div>
+                          </div>
+                        </div>
+
                       
                       </div>
                       </section>
@@ -163,5 +181,6 @@
                      
                       <footer class="panel-footer text-right bg-light lter">
                         <button type="submit" class="btn btn-success btn-s-xs">Process</button>
+                        <input type="hidden" name="premium" id="premium" value="{{ Request::old('premium') ?: '' }}">
                       </footer>
                     </section>

@@ -1,0 +1,406 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sale_report" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5c4c5480-6c78-4df3-8095-9ef42aac66e5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/lionsecurity/payroll"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/services/repository"/>
+	<parameter name="start_date" class="java.util.Date"/>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="pay_period" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     payroll.`id` AS payroll_id,
+     payroll.`trasactionid` AS payroll_trasactionid,
+     payroll.`staffid` AS payroll_staffid,
+     payroll.`name` AS payroll_name,
+     payroll.`basic` AS payroll_basic,
+     payroll.`allowance` AS payroll_allowance,
+     payroll.`ssf` AS payroll_ssf,
+     payroll.`income_tax` AS payroll_income_tax,
+     payroll.`uniform` AS payroll_uniform,
+     payroll.`other_deduc` AS payroll_other_deduc,
+     payroll.`welfare` AS payroll_welfare,
+     payroll.`other_tax` AS payroll_other_tax,
+     payroll.`bank` AS payroll_bank,
+     payroll.`accountnumber` AS payroll_accountnumber,
+     payroll.`createdby` AS payroll_createdby,
+     payroll.`createdon` AS payroll_createdon,
+     payroll.`payperiod` AS payroll_payperiod,
+     payroll.`employer_ssf` AS payroll_employer_ssf,
+     payroll.`other_allowance` AS payroll_other_allowance,
+     payroll.`payroll_post` AS payroll_payroll_post
+FROM
+     `payroll` payroll where
+ (payroll.`payperiod` = $P{pay_period})]]>
+	</queryString>
+	<field name="payroll_id" class="java.lang.Integer"/>
+	<field name="payroll_trasactionid" class="java.lang.String"/>
+	<field name="payroll_staffid" class="java.lang.String"/>
+	<field name="payroll_name" class="java.lang.String"/>
+	<field name="payroll_basic" class="java.math.BigDecimal"/>
+	<field name="payroll_allowance" class="java.math.BigDecimal"/>
+	<field name="payroll_ssf" class="java.math.BigDecimal"/>
+	<field name="payroll_income_tax" class="java.math.BigDecimal"/>
+	<field name="payroll_uniform" class="java.math.BigDecimal"/>
+	<field name="payroll_other_deduc" class="java.math.BigDecimal"/>
+	<field name="payroll_welfare" class="java.math.BigDecimal"/>
+	<field name="payroll_other_tax" class="java.math.BigDecimal"/>
+	<field name="payroll_bank" class="java.lang.String"/>
+	<field name="payroll_accountnumber" class="java.lang.String"/>
+	<field name="payroll_createdby" class="java.lang.String"/>
+	<field name="payroll_createdon" class="java.sql.Timestamp"/>
+	<field name="payroll_payperiod" class="java.lang.String"/>
+	<field name="payroll_employer_ssf" class="java.math.BigDecimal"/>
+	<field name="payroll_other_allowance" class="java.math.BigDecimal"/>
+	<field name="payroll_payroll_post" class="java.lang.String"/>
+	<variable name="gross_salary" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{payroll_basic} + $F{payroll_allowance}]]></variableExpression>
+	</variable>
+	<variable name="net_salary" class="java.math.BigDecimal">
+		<variableExpression><![CDATA[($F{payroll_basic} + $F{payroll_allowance})-($F{payroll_ssf}+$F{payroll_income_tax}+$F{payroll_uniform} + $F{payroll_other_deduc} + $F{payroll_other_tax})+($F{payroll_welfare} + $F{payroll_other_allowance})]]></variableExpression>
+	</variable>
+	<variable name="total_net_salary" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{net_salary}]]></variableExpression>
+	</variable>
+	<variable name="total_deductions" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[($F{payroll_other_deduc}+$F{payroll_uniform}+$F{payroll_other_tax})]]></variableExpression>
+	</variable>
+	<variable name="total_other_allowances" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[($F{payroll_welfare} + $F{payroll_other_allowance} )]]></variableExpression>
+	</variable>
+	<variable name="total_income_tax" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{payroll_income_tax}]]></variableExpression>
+	</variable>
+	<variable name="employer_ssf" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{payroll_employer_ssf}]]></variableExpression>
+	</variable>
+	<variable name="employee_ssf" class="java.lang.Double">
+		<variableExpression><![CDATA[$F{payroll_ssf}]]></variableExpression>
+	</variable>
+	<variable name="total_gross" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{gross_salary}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<staticText>
+				<reportElement x="2" y="1" width="228" height="20" uuid="f2d558f2-0522-4215-b7cf-a98282c1ef47"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[PAYROLL GENERAL LISTING]]></text>
+			</staticText>
+			<image>
+				<reportElement x="635" y="1" width="99" height="87" uuid="c1068484-c547-4006-8b77-c0ba5c55add2"/>
+				<imageExpression><![CDATA["Untitled1.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="802" height="1" uuid="69e06e0c-14df-49b7-8b81-bff775755fe8"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="30" width="802" height="1" uuid="c9a5b7a8-2e1e-481c-9fce-702f27b7aaa9"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="215" y="11" width="56" height="20" uuid="1d1fcdd6-81ae-46bd-8e1a-483179e40063"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Basic Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="425" y="11" width="56" height="20" uuid="a972d0d9-27d2-4b11-b9ce-a2857da0c9d3"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employee SSF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="483" y="11" width="53" height="20" uuid="89a1056c-b518-4c73-bdc5-bfbf2cdaf614"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Employer SSF]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="542" y="10" width="55" height="20" uuid="c24d8e4d-8158-4a36-af50-e6665b3d386b"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Income Tax]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="601" y="10" width="69" height="20" uuid="4a24acd2-b649-419e-973e-3eb34a35accd"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Other Allowances]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="734" y="10" width="60" height="20" uuid="c6649f76-dc57-477b-bbf2-a6b7cc3966af"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Net Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="22" y="11" width="57" height="20" uuid="2da34b21-9db8-4871-8341-057a4920773b"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Staff #]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="275" y="10" width="73" height="20" uuid="39a2211f-00df-4294-8a7b-5a35a44c379f"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Allowance]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="352" y="11" width="71" height="20" uuid="c62828ca-7f81-4201-b419-4c8cf2ea5f81"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gross Salary]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="674" y="10" width="55" height="20" uuid="0a784465-ba34-426e-948f-04bc353f2748"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Deductions]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="89" y="11" width="124" height="20" uuid="7a6be8f6-ab8c-4f15-aac0-0e684f28f55e"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Name]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<line>
+				<reportElement x="2" y="23" width="802" height="1" uuid="07b2dff5-fdc7-49df-8ee0-f6aeff3983f5"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="2" y="3" width="20" height="17" uuid="64c9bfd6-ccc4-403d-b8c4-d19640480951"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="22" y="4" width="57" height="20" uuid="d677806c-009a-4943-9846-e21babbe8730"/>
+				<textElement textAlignment="Center">
+					<font size="6"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_staffid}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="89" y="3" width="124" height="20" uuid="e0eaf50b-0f3c-4961-b1b3-b1276772b8b0"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="215" y="4" width="56" height="20" uuid="bf6fe785-90a7-422f-b098-7189832d507b"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_basic}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="275" y="3" width="73" height="20" uuid="5fd90e53-64bf-4634-a846-1272e98cc65e"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_allowance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="425" y="4" width="56" height="20" uuid="96700e4a-0074-4142-b499-e699bc5eb798"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_ssf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="4" width="53" height="20" uuid="5fabb8dc-76d5-4a9c-8e71-ce4d7724469a"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_employer_ssf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="542" y="0" width="55" height="20" uuid="3812cd6a-59aa-4095-8540-f0b4ad4f03b2"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_income_tax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="601" y="0" width="69" height="20" uuid="4dbbe15c-d126-497e-bcfa-2f2720ecbb79"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_other_allowance}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="3" width="55" height="20" uuid="1dd90869-1413-45d9-8759-e28d1ec34a21"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{payroll_other_deduc}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="3" width="71" height="20" uuid="fe507522-babc-4a55-a899-84e93f67e33b"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gross_salary}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="734" y="4" width="60" height="20" uuid="65644bc0-68fe-4e60-b103-5140f18f6c50"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{net_salary}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="674" y="13" width="80" height="20" uuid="68c76b04-7204-41a2-a3cc-b1f9db7d9e6a"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="754" y="13" width="40" height="20" uuid="870a0ae1-4a66-429d-adfa-399921a2b4ca"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="105" splitType="Stretch">
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="5" y="58" width="142" height="17" uuid="90e39d0f-4b82-4836-b858-bfb959d55ace"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="77" width="41" height="20" uuid="210d3f1e-6510-449f-9eaf-3511004bab44"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Printed By :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="27" width="63" height="20" uuid="a266ee6f-8d82-4aad-9404-4b92c1f9583b"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="53" width="802" height="1" uuid="1d23dcee-b7a6-4cce-85d3-d05aa33c2d16"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="278" y="85" width="219" height="20" uuid="be544574-7d05-4e38-8c37-8b60f139b1ff"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End of Report]]></text>
+			</staticText>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="734" y="33" width="63" height="20" uuid="647ea750-983b-486c-a53e-6b3cc5da495c"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_net_salary}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="674" y="34" width="55" height="20" uuid="0dd186df-ab23-4cb5-bf8c-d65e87321534"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_deductions}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="601" y="34" width="69" height="20" uuid="ec46b338-b660-46cb-a312-49977bae896f"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_other_allowances}]]></textFieldExpression>
+			</textField>
+			<textField pattern="###0.00;(###0.00)">
+				<reportElement x="483" y="34" width="53" height="19" uuid="3c610d2e-9817-41d4-836f-54efa447e545"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{employer_ssf}]]></textFieldExpression>
+			</textField>
+			<elementGroup>
+				<textField pattern="###0.00;(###0.00)">
+					<reportElement x="542" y="34" width="55" height="20" uuid="be96a6dc-f7b7-4dd5-a20d-bf3683c85eab"/>
+					<textElement textAlignment="Center">
+						<font size="7" isBold="true"/>
+					</textElement>
+					<textFieldExpression><![CDATA[$V{total_income_tax}]]></textFieldExpression>
+				</textField>
+			</elementGroup>
+			<textField>
+				<reportElement x="425" y="34" width="56" height="20" uuid="d08b182b-6e7f-4106-b007-d38863b11e38"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{employee_ssf}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="352" y="34" width="73" height="20" uuid="f4600d0d-40ed-4295-a3e7-f4a8a95399a8"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_gross}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

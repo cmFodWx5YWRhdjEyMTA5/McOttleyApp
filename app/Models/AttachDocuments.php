@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class AttachDocuments extends Model
 {
     public $timestamps = false;
-	 protected $table = 'documents';
+	 protected $table = 'images';
    	 protected $fillable = [
         'owner_id',
         'filename',

@@ -46,7 +46,7 @@
                             <th>Type</th>
                             <th>Invoice #</th>
                             <th>Payment #</th>
-                            <th>Sum</th>
+                            <th>Amount Paid</th>
                             <th>Payment Date</th>
                             <th>Payer</th>
                             <th>Payment Description</th>

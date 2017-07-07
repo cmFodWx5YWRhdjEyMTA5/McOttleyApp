@@ -13,7 +13,7 @@
               <div class="row">
                 <div class="col-md-12">
                 <section class="scrollable wrapper w-f">
-                 <form method="post" data-validate="parsley" action="/save-claim" class="panel-body wrapper-lg">
+                 <form method="post" data-validate="parsley" action="/update-claim" class="panel-body wrapper-lg">
                   <section class="panel panel-default">
                     
                     <div class="wizard clearfix">
@@ -44,6 +44,7 @@
                           <div class="form-group{{ $errors->has('policy_number') ? ' has-error' : ''}}">
                             <label>Policy</label>
                             <select id="policy_number" data-required="true" name="policy_number" rows="3"  data-trigger="change" tabindex="1" data-placeholder="Select a customer" style="width:100%">
+                            <option value="{{ $claimdetails->policy_number }}">{{ $claimdetails->policy_number }}</option>
                              <option value="">-- select from here --</option>
                         @foreach($policies as $policies)
                         <option value="{{ $policies->policy_number }}">{{ $policies->policy_number }} | {{ $policies->fullname }} | {{ $policies->policy_product }} </option>
@@ -79,6 +80,7 @@
                           <div class="form-group{{ $errors->has('status_of_claim') ? ' has-error' : ''}}">
                             <label>Status</label>
                             <select id="status_of_claim" name="status_of_claim" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                             <option value="{{ $claimdetails->status_of_claim }}">{{ $claimdetails->status_of_claim }}</option>
                         @foreach($status_of_claim as $status_of_claim)
                         <option value="{{ $status_of_claim->type }}">{{ $status_of_claim->type }}</option>
                           @endforeach 
@@ -94,7 +96,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('insurer_reference_id') ? ' has-error' : ''}}">
                             <label>Insurer Reference ID</label>
-                            <input type="text" class="form-control" name="insurer_reference_id" id="insurer_reference_id" placeholder="" value="{{ old('time') }}">
+                            <input type="text" class="form-control" name="insurer_reference_id" id="insurer_reference_id" placeholder="" value="{{ $claimdetails->insurer_reference_id }}">
                            @if ($errors->has('insurer_reference_id'))
                           <span class="help-block">{{ $errors->first('insurer_reference_id') }}</span>
                            @endif    
@@ -213,7 +215,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('location_of_loss') ? ' has-error' : ''}}">
                             <label>Location of Loss or Incidence</label>
-                             <textarea type="text" rows="3" class="form-control" id="location_of_loss" name="location_of_loss" value="{{ Request::old('location_of_loss') ?: '' }}"></textarea>         
+                             <textarea type="text" rows="3" class="form-control" id="location_of_loss" name="location_of_loss" value="{{ $claimdetails->location_of_loss }}">{{ $claimdetails->location_of_loss }}</textarea>         
                            @if ($errors->has('location_of_loss'))
                           <span class="help-block">{{ $errors->first('location_of_loss') }}</span>
                            @endif    
@@ -227,7 +229,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('loss_amount') ? ' has-error' : ''}}">
                             <label>Loss Amount</label>
-                            <input type="number" class="form-control" name="loss_amount" id="loss_amount" placeholder="" value="{{ old('loss_amount') }}">         
+                            <input type="number" class="form-control" name="loss_amount" id="loss_amount" placeholder="" value="{{ $claimdetails->loss_amount }}">         
                            @if ($errors->has('loss_amount'))
                           <span class="help-block">{{ $errors->first('loss_amount') }}</span>
                            @endif    
@@ -240,7 +242,7 @@
                           <div class="form-group{{ $errors->has('excess_amount') ? ' has-error' : ''}}">
                             <label>Deductible/Excess Amount </label>
                             <div class="input-group">
-                             <input type="number" class="form-control" name="excess_amount" id="excess_amount" placeholder="" value="{{ old('excess_amount') }}">
+                             <input type="number" class="form-control" name="excess_amount" id="excess_amount" placeholder="" value="{{ $claimdetails->excess_amount }}">
                              <span class="input-group-addon">
                             <span class="fa fa-money"></span>
                             </span>         
@@ -267,7 +269,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('insurer_contact_name') ? ' has-error' : ''}}">
                             <label>Insurer Contact Name</label>
-                            <input type="text" class="form-control" name="insurer_contact_name" id="insurer_contact_name" placeholder="" value="{{ old('insurer_contact_name') }}">
+                            <input type="text" class="form-control" name="insurer_contact_name" id="insurer_contact_name" placeholder="" value="{{ $claimdetails->insurer_contact_name }}">
                            @if ($errors->has('insurer_contact_name'))
                           <span class="help-block">{{ $errors->first('insurer_contact_name') }}</span>
                            @endif    
@@ -281,7 +283,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('insurer_contact_email') ? ' has-error' : ''}}">
                             <label>Insurer Contact Email</label>
-                            <input type="text" class="form-control" name="insurer_contact_email" id="insurer_contact_email" placeholder="" value="{{ old('insurer_contact_email') }}">
+                            <input type="text" class="form-control" name="insurer_contact_email" id="insurer_contact_email" placeholder="" value="{{ $claimdetails->insurer_contact_email }}">
                            @if ($errors->has('insurer_contact_email'))
                           <span class="help-block">{{ $errors->first('insurer_contact_email') }}</span>
                            @endif    
@@ -293,7 +295,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('insurer_contact_phone') ? ' has-error' : ''}}">
                             <label>Insurer Contact Phone </label>
-                            <input type="text" class="form-control" name="insurer_contact_phone" id="insurer_contact_phone" placeholder="" value="{{ old('insurer_contact_phone') }}">       
+                            <input type="text" class="form-control" name="insurer_contact_phone" id="insurer_contact_phone" placeholder="" value="{{ $claimdetails->insurer_contact_phone }}">       
                            @if ($errors->has('insurer_contact_phone'))
                           <span class="help-block">{{ $errors->first('insurer_contact_phone') }}</span>
                            @endif    
@@ -319,6 +321,7 @@
                           <div class="form-group{{ $errors->has('loss_cause') ? ' has-error' : ''}}">
                             <label>Cause Of Loss </label>
                             <select id="loss_cause" name="loss_cause" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                            <option value="{{ $claimdetails->loss_cause }}">{{ $claimdetails->loss_cause }}</option>
                              <option value="">-- Not set --</option>
                           @foreach($loss_causes as $loss_cause)
                         <option value="{{ $loss_cause->type }}">{{ $loss_cause->type }}</option>
@@ -337,7 +340,7 @@
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('loss_description') ? ' has-error' : ''}}">
                             <label>Loss / Damage Description </label>
-                            <textarea type="text" rows="3" class="form-control" id="loss_description" name="loss_description" value="{{ Request::old('loss_description') ?: '' }}"></textarea> 
+                            <textarea type="text" rows="3" class="form-control" id="loss_description" name="loss_description" value="{{ Request::old('loss_description') ?: '' }}">{{ $claimdetails->loss_description }}</textarea> 
                            @if ($errors->has('loss_description'))
                           <span class="help-block">{{ $errors->first('loss_description') }}</span>
                            @endif    
@@ -460,12 +463,13 @@
                   
 
 
-                       <button type="submit" class="btn btn-success btn-s-xs">Save Record</button>
+                       <button type="submit" class="btn btn-success btn-s-xs">Update Record</button>
                        </div>
 
                     </div>
                   </section>
                     <input type="hidden" name="_token" value="{{ Session::token() }}">
+                     <input type="hidden" name="claimid" id="claimid" value="{{$claimdetails->claim_number}}">
                   </form>
                 </section>
                 </div>

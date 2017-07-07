@@ -103,21 +103,21 @@
                     <div class="panel-body">
                       <div>
                         <span class="text-muted">Total:</span>
-                        <span class="h3 block">GHS2500.00</span>
+                        <span class="h3 block">GHS{{ $paidbills->sum('amount') }}</span>
                       </div>
                       <div class="line pull-in"></div>
                       <div class="row m-t-sm">
                         <div class="col-xs-4">
-                          <small class="text-muted block">Overdue Invoices</small>
-                          <span>GHS{{ $bills->sum('amount') }}</span>
-                        </div>
-                        <div class="col-xs-4">
-                          <small class="text-muted block">Paid</small>
+                          <small class="text-muted block"> Invoices Generated</small>
                           <span>GHS{{ $paidbills->sum('amount') }}</span>
                         </div>
                         <div class="col-xs-4">
+                          <small class="text-muted block">Paid</small>
+                          <span>GHS{{ $paidbills->sum('paid_amount') }}</span>
+                        </div>
+                        <div class="col-xs-4">
                           <small class="text-muted block">Outstanding</small>
-                          <span>GHS{{ $bills->sum('amount')-$paidbills->sum('amount') }}</span>
+                          <span>GHS{{ $paidbills->sum('amount')-$paidbills->sum('paid_amount') }}</span>
                         </div>
                       </div>
                     </div>
@@ -164,7 +164,9 @@
                     <br>
                     <br>
 
-                     <header class="panel-heading bg-dark dker no-border"><strong>Overdue invoices</strong></header>
+                     <header class="panel-heading bg-dark dker no-border">
+                     <strong>Overdue invoices</strong>
+                     </header>
                     <div class="table-responsive">
                       <table cellpadding="0" cellspacing="0" border="0" class="table table-striped m-b-none text-sm" width="100%">
                         <thead>
@@ -173,6 +175,7 @@
                             <th>Invoice #</th>
                             <th>Product</th>
                             <th>Due Date</th>
+                            <th>Currency</th>
                             <th>Sum</th>
                             <th></th>
                           </tr>
@@ -184,6 +187,7 @@
                             <td>{{ $bill->invoice_number }}</td>
                             <td>{{ $bill->policy_product }}</td>
                             <td>{{ $bill->created_on }} ({{ Carbon\Carbon::parse($bill->created_on)->diffForHumans() }} overdue )</td>
+                            <td>{{ $bill->currency }}</td>
                             <td>{{ $bill->amount }}</td>
                             <td></td>
                           </tr>
@@ -230,17 +234,17 @@
                   
 
                      <section class="panel b-light">
-                    <header class="panel-heading bg-dark dker no-border"><strong>Birthdays</strong></header>
+                    <header class="panel-heading bg-dark dker no-border"><strong>Upcoming Birthdays</strong></header>
                     <div id="calendar" class="bg-primary m-l-n-xxs m-r-n-xxs"></div>
                     <div class="list-group">
-                 {{--    @foreach( $customers as $account )
-                      <a href="/customer-profile/{{ $account->id }}" class="list-group-item text-ellipsis">
-                        <span class="badge bg-default">{{ $account->created_at }}</span> 
+                     @foreach( $birthdays as $birthday )
+                      <a href="/customer-profile/{{ $birthday->id }}" class="list-group-item text-ellipsis">
+                        <span class="badge bg-default">{{ $birthday->date_of_birth }}</span> 
                         <span class="pull-left thumb-sm">
-                        <img src="/images/{{ $account->image }}" class="img-circle"> {{ $account->fullname }} - {{ $account->account_number }}  </span> 
+                        <img src="/images/{{ $birthday->image }}" class="img-circle"> {{ $birthday->fullname }} - {{ $birthday->date_of_birth->age }} years old </span> 
                         
                       </a>
-                      @endforeach --}} 
+                      @endforeach
                     </div>
                   </section> 
             

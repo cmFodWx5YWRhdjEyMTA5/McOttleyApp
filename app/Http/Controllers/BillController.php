@@ -26,7 +26,7 @@ class BillController extends Controller
      public function __construct()
     {
 
-        $this->middleware('role:Billing|System Admin');
+        $this->middleware('role:Broker|System Admin');
     }
 
     public function __construct()

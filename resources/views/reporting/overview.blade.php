@@ -114,6 +114,30 @@
                 </div>
               </div>
 
+              <div class="row">
+
+              <div class="col-lg-4">
+                <section class="panel panel-default">
+                    <header class="panel-heading font-bold">Paid amounts</header>
+                <div class="container-fluid">
+                      <canvas id="BarChart" style="width:100%;"></canvas>
+                  </div>
+
+                  <?php
+                      $data = array(
+                          'Jan' => array(33),
+                          'Feb' => array(32),
+                          'Mar' => array(12)
+                      );
+                  ?>
+
+                  {!! app()->chartbar->render("BarChart", $data) !!}
+                  </section>
+              </div>
+                
+
+              </div>
+
                
 
               </div>

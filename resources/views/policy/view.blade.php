@@ -6,10 +6,12 @@
               
               <div class="btn-group pull-right">
               <p>
-                    <a href="#" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-ban"></i> Cancel</a>
-                    <a href="#" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-trash"></i> Delete</a>
-                    <a href="#" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw  fa-refresh"></i> Renew</a>
-                    <a href="#" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw  fa-lock"></i> Lock</a>
+                    <a href="#" onclick="suspendPolicy('{{ $policydetails->id }}','{{ $policydetails->fullname }}')" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-archive"></i> Suspend</a>
+                    <a href="/edit-policy/{{ $policydetails->id }}" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-pencil"></i> Edit</a>
+                    <a href="#" onclick="cancelPolicy('{{ $policydetails->id }}','{{ $policydetails->fullname }}')" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-ban"></i> Cancel</a>
+                    <a href="#" onclick="deletePolicy('{{ $policydetails->id }}','{{ $policydetails->fullname }}')" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-trash"></i> Delete</a>
+                    <a href="/renew-policy/{{ $policydetails->id }}" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw  fa-refresh"></i> Renew</a>
+                    <a href="#" onclick="lockPolicy('{{ $policydetails->id }}','{{ $policydetails->fullname }}')" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw  fa-lock"></i> Lock</a>
                     <a href="/print-policy/{{ $policydetails->id }}" class="btn btn-rounded btn-sm btn-default"><i class="fa fa-fw fa-print"></i> Print</a>
               </p>
               </div>
@@ -210,13 +212,13 @@
                                       @elseif($policydetails->policy_product == 'Travel Insurance')
                                       <div class="list-group bg-white">
                                         <a href="#" class="list-group-item">
-                                          </i>Destination Country : {{ $fetchrecord->destination_country}}
+                                          </i>Date of Departure : {{ $fetchrecord->departure_date}}
                                         </a>
                                         <a href="#" class="list-group-item">
-                                          </i>Destination Phone : {{ $fetchrecord->destination_phone}}
+                                          </i>Date of Arrival : {{ $fetchrecord->arrival_date}}
                                         </a>
                                         <a href="#" class="list-group-item">
-                                          </i>Destination Address : {{ $fetchrecord->destination_address}}
+                                          </i>Destination Address : {{ $fetchrecord->destination_country}}
                                         </a>
                                        <a href="#" class="list-group-item">
                                           </i>Passport No. : {{ $fetchrecord->passport_number}}
@@ -403,19 +405,40 @@
                           </ul>
                         </div>
                         <div class="tab-pane" id="document_tab">
-                          <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
-                      {{--     @foreach($images as $image)
-                            <li class="list-group-item">
-                              <a href="{!! '/uploads/images/'.$image->filepath !!}" class="thumb-sm pull-left m-r-sm">
-                                <img src="{!! '/uploads/images/'.$image->filepath !!}" class="img-circle">
-                              </a>
-                              <a href="{!! '/uploads/images/'.$image->filepath !!}" class="clear">
-                                <small class="pull-right">{{ $image->created_on }}</small>
-                                <strong class="block">{{ $image->filename }}</strong>
-                                <small>{{ $image->filepath }}</small>
-                              </a>
-                            </li>
-                            @endforeach  --}}
+                         <ul class="list-group no-radius m-b-none m-t-n-xxs list-group-lg no-border">
+                          <header class="panel-heading">
+                      <a href="#attach_document" class="bootstrap-modal-form-open" data-toggle="modal"><span class="label bg-success pull-right">Add New</span></a>
+                      
+                    </header>
+                          <div class="table-responsive">
+                      <table cellpadding="0" cellspacing="0" border="0" class="table table-striped m-b-none text-sm" width="100%">
+                        <thead>
+                          <tr>
+                            <th>File</th>
+                            <th>Comment</th>
+                            <th>Added</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                        
+                        @foreach($images as $image)
+                         <tr>
+                        <td>{{ $image->filename }}</td>
+                        <td>{{ $image->created_by }}</td>
+                        <td>{{ $image->created_on }}</td>
+                        <td>
+                            <a href="{!! '/uploads/images/'.$image->filepath !!}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-eye"></i></a>
+                        </td>
+                         <td>
+                            <a href="#" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-trash"></i></a>
+                        </td>
+                          
+                        </tr>
+                        @endforeach
+
+                        </tbody>
+                      </table>
+                    </div>
                           </ul>
                         </div>
 
@@ -444,7 +467,9 @@
                                         <tr>
                                            <th>Invoice #</th>
                                             <th>Date</th>
-                                            <th>Invoice Sum</th>
+                                            <th>Currency</th>
+                                            <th>Premium</th>
+                                            <th>Paid</th>
                                             <th>Status</th>
                                             <th>Generated By</th>
                                         </tr>
@@ -454,7 +479,9 @@
                                     <tr>
                                       <td>{{ $bill->invoice_number }}</td>
                                       <td>{{ $bill->created_on }}</td>
-                                      <td>{{ $bill->currency }}{{ $bill->amount }}</td>
+                                      <td>{{ $bill->currency }}</td>
+                                      <td>{{ $bill->amount }}</td>
+                                      <td>{{ $bill->paid_amount }}</td>
                                       <td>{{ $bill->status }}</td>
                                       <td>{{ $bill->created_by }}</td>
                                     </tr>
@@ -498,7 +525,7 @@
                           <ul class="list-group">
                             <div class="list-group no-radius alt">
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ $policydetails->amount }}</span>
+                            <span class="badge bg-default">{{ $balancesheet->amount }}</span>
                             <i class="fa fa-money"></i> 
                             Gross premium
                           </a>
@@ -538,17 +565,17 @@
                           <ul class="list-group">
                             <div class="list-group no-radius alt">
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-info">{{ $balancesheet->payment_sum }}</span>
+                            <span class="badge bg-info">{{ $bills->sum('paid_amount') }}</span>
                             <i class="fa fa-money"></i> 
                             Customer paid
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-danger">{{ $balancesheet->amount }}</span>
+                            <span class="badge bg-danger">{{ $bills->sum('amount') }}</span>
                             <i class="fa fa-bar-chart-o"></i> 
                             Customer payable
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-light">{{    $balancesheet->amount - $balancesheet->payment_sum  }}</span>
+                            <span class="badge bg-light">{{    $bills->sum('amount') - $bills->sum('paid_amount')  }}</span>
                             <i class="fa  fa-qrcode"></i> 
                            Policy balance
                           </a>
@@ -567,17 +594,17 @@
                             Commission Rate
                           </a>
                            <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ $policydetails->amount * ($balancesheet->commission_rate/100) }}</span>
+                            <span class="badge bg-default">{{ $balancesheet->amount * ($balancesheet->commission_rate/100) }}</span>
                             <i class="fa fa-bar-chart-o"></i> 
                             Gross Commission
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ (($policydetails->amount * ($balancesheet->commission_rate/100)) * 5/100) }}</span>
+                            <span class="badge bg-default">{{ (($balancesheet->amount * ($balancesheet->commission_rate/100)) * 5/100) }}</span>
                             <i class="fa fa-bar-chart-o"></i> 
                             Tax
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ ($policydetails->amount * ($balancesheet->commission_rate/100)) - (($policydetails->amount * ($balancesheet->commission_rate/100)) * 5/100) }}</span>
+                            <span class="badge bg-default">{{ ($balancesheet->amount * ($balancesheet->commission_rate/100)) - (($balancesheet->amount * ($balancesheet->commission_rate/100)) * 5/100) }}</span>
                             <i class="fa fa-bar-chart-o"></i> 
                             Commission Receivable
                           </a>
@@ -598,6 +625,231 @@
                     </section>
 
   @stop
+
+   <div class="modal fade" id="attach_document" size="600">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Attach Document</h4>
+        </div>
+
+        <div class="modal-body">
+         <div class="fallback">
+          <form method="post"  enctype="multipart/form-data" action="/uploadfiles">
+          <input type="text" class="form-control" width="1000px" height="40px" name="filename" id="filename" placeholder="Enter file name" /><br>
+          <input type="file" class="form-control dropbox" width="500px" height="40px" name="image" /><br>
+          <input type="submit" name="submit"  class="btn btn-success btn-s-xs" value="upload" />
+          <input type="hidden" name="_token" value="{{ Session::token() }}">
+          <input type="hidden" name="selectedid" id="selectedid" value="{{ $policydetails->policy_number }}">
+          <input type="hidden" name="selectedcustomer" id="selectedcustomer" value="{{ $policydetails->customer_number }}">
+        </form>
+        </div>
+          <br>
+          <br>
+          <br>
+              <div class="jumbotron how-to-create">
+                <ul>
+                    <li>Documents/Images are uploaded as soon as you drop them</li>
+                    <li>Maximum allowed size of image is 8MB</li>
+                </ul>
+
+            </div>
+
+      </div>
+      </div>
+      </div>
+      </div>
+
+
+<script type="text/javascript">
+  function deletePolicy(id,name)
+   {
+      swal({   
+        title: "Are you sure?",   
+        text: "Do you want to remove "+name+" from the policy list?",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        cancelButtonText: "No, cancel plx!",   
+        closeOnConfirm: false,   
+        closeOnCancel: false }, 
+        function(isConfirm){   
+          if (isConfirm) 
+          { 
+          $.get('/delete-policy',
+          {
+             "ID": id 
+          },
+          function(data)
+          { 
+            
+            $.each(data, function (key, value) 
+            {
+            if(value == "OK")
+            {
+              swal("Deleted!", name +" was delete from policy list.", "success"); 
+               location.reload(true);
+             }
+            else
+            { 
+              swal("Cancelled", name +" failed to delete.", "error");
+              
+            }
+           
+        });
+                                          
+          },'json');    
+           
+             } 
+        else {     
+          swal("Cancelled", name +" failed to delete.", "error");   
+        } });
+
+    
+   }
+
+   function suspendPolicy(id,name)
+   {
+      swal({   
+        title: "Are you sure?",   
+        text: "Do you want to suspend "+name+" from the policy list?",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        cancelButtonText: "No, cancel plx!",   
+        closeOnConfirm: false,   
+        closeOnCancel: false }, 
+        function(isConfirm){   
+          if (isConfirm) 
+          { 
+          $.get('/suspend-policy',
+          {
+             "ID": id 
+          },
+          function(data)
+          { 
+            
+            $.each(data, function (key, value) 
+            {
+            if(value == "OK")
+            {
+              swal("Suspended!", name +" was suspended from policy list.", "success"); 
+               location.reload(true);
+             }
+            else
+            { 
+              swal("Cancelled", name +" failed to suspend.", "error");
+              
+            }
+           
+        });
+                                          
+          },'json');    
+           
+             } 
+        else {     
+          swal("Cancelled", name +" failed to suspend.", "error");   
+        } });
+
+    
+   }
+
+
+   function cancelPolicy(id,name)
+   {
+      swal({   
+        title: "Are you sure?",   
+        text: "Do you want to cancel "+name+" from the policy list?",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        cancelButtonText: "No, cancel plx!",   
+        closeOnConfirm: false,   
+        closeOnCancel: false }, 
+        function(isConfirm){   
+          if (isConfirm) 
+          { 
+          $.get('/cancel-policy',
+          {
+             "ID": id 
+          },
+          function(data)
+          { 
+            
+            $.each(data, function (key, value) 
+            {
+            if(value == "OK")
+            {
+              swal("Cancelled!", name +" was cancelled from policy list.", "success"); 
+               location.reload(true);
+             }
+            else
+            { 
+              swal("Cancelled", name +" failed to cancel.", "error");
+              
+            }
+           
+        });
+                                          
+          },'json');    
+           
+             } 
+        else {     
+          swal("Cancelled", name +" failed to cancel.", "error");   
+        } });
+
+   }
+
+   function lockPolicy(id,name)
+   {
+      swal({   
+        title: "Are you sure?",   
+        text: "Do you want to lock "+name+" from the policy list?",   
+        type: "warning",   
+        showCancelButton: true,   
+        confirmButtonColor: "#DD6B55",   
+        confirmButtonText: "Yes, delete it!",   
+        cancelButtonText: "No, cancel plx!",   
+        closeOnConfirm: false,   
+        closeOnCancel: false }, 
+        function(isConfirm){   
+          if (isConfirm) 
+          { 
+          $.get('/lock-policy',
+          {
+             "ID": id 
+          },
+          function(data)
+          { 
+            
+            $.each(data, function (key, value) 
+            {
+            if(value == "OK")
+            {
+              swal("Locked!", name +" was locked in policy list.", "success"); 
+               location.reload(true);
+             }
+            else
+            { 
+              swal("Cancelled", name +" failed to lock.", "error");
+              
+            }
+           
+        });
+                                          
+          },'json');    
+           
+             } 
+        else {     
+          swal("Cancelled", name +" failed to lock.", "error");   
+        } });
+
+   }
+</script>
 
 
 

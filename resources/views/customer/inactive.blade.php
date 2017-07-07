@@ -44,7 +44,7 @@
                       <table class="table table-striped m-b-none text-sm" width="100%">
                         <thead>
                           <tr>
-                           @permission('edit-patient')
+                           @permission('edit-customer')
                             <th width="5"></th>
                             <th width="5"></th>
                              <th width="5"></th>
@@ -60,7 +60,7 @@
                         <tbody>
                         @foreach( $customers as $customer )
                           <tr>
-                            @permission('edit-patient')
+                            @permission('edit-customer')
                             <td>
                             @if(!$customer->id == null)
                             <a href="#edit_customer" data-toggle="modal" class="bootstrap-modal-form-open" onclick="setAccountNo('{{ $customer->id }}')"><i class="fa fa-pencil"></i></a>
@@ -76,7 +76,7 @@
                             </td>
                              <td>
                              @if($customer->status == 'Active')
-                              <a href="#" class="" onclick="deactivate('{{ $customer->id }}','{{ $customer->fullname }}')" data-toggle="class"><i class="fa fa-thumbs-down"></i> </a>
+                              <a href="#" class="" onclick="deactivate('{{ $customer->id }}','{{ $customer->fullname }}')" data-toggle="class" ><i class="fa fa-thumbs-down" ></i> </a>
                               @else
                              <a href="#" class="" onclick="activate('{{ $customer->id }}','{{ $customer->fullname }}')" data-toggle="class"><i class="fa fa-thumbs-up"></i></a>
                              @endif

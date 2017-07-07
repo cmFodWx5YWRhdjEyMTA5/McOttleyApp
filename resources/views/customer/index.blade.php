@@ -44,23 +44,31 @@
                       <table class="table table-striped m-b-none text-sm" width="100%">
                         <thead>
                           <tr>
-                           @permission('edit-patient')
-                            <th width="5"></th>
-                            <th width="5"></th>
-                            {{--  <th width="5"></th> --}}
-                              <th width="5"></th>
-                            @endpermission
+                          
                             <th>Name</th>
                             <th>Address</th>
                             <th>Phone #</th>
                             <th>Created On</th>
                             <th>Managed By</th>
+                             @permission('edit-customer')
+                            <th width="5"></th>
+                            <th width="5"></th>
+                             <th width="5"></th> 
+                              <th width="5"></th>
+                            @endpermission
                           </tr>
                         </thead>
                         <tbody>
                         @foreach( $customers as $customer )
                           <tr>
-                            @permission('edit-patient')
+                           
+
+                            <td><a href="/customer-profile/{{ $customer->id }}" class="text-default">{{ ucwords(strtolower($customer->fullname )) }}</a></td>
+                            <td>{{ $customer->postal_address }}</td>
+                            <td>{{ $customer->mobile_number }}</td>
+                            <td>{{ $customer->created_on }}</td>
+                            <td>{{ $customer->account_manager }}</td>
+                             @permission('edit-customer')
                             <td>
                             @if(!$customer->id == null)
                             <a href="#edit_customer" data-toggle="modal" class="bootstrap-modal-form-open" onclick="setAccountNo('{{ $customer->id }}')"><i class="fa fa-pencil"></i></a>
@@ -69,26 +77,20 @@
                             @endif
                              </td>
                             <td>
-                            <a  href="#attach_document" data-toggle="modal" class="bootstrap-modal-form-open" onclick="showidonModal('{{$customer->id}}')"><i class="fa fa-cloud-upload"></i></a>
+                            <a  href="#attach_document" data-toggle="modal" class="bootstrap-modal-form-open" onclick="showidonModal('{{$customer->id}}')"><i class="fa fa-cloud-upload" data-toggle="tooltip" data-placement="top" title="" data-original-title="Upload"></i></a>
                             </td>
-                              {{-- <td>
-                            <a  href="#" class="" onclick="deletecustomer('{{$customer->id}}','{{ $customer->fullname }}')"><i class="fa fa-trash"></i></a>
-                            </td> --}}
+                              <td>
+                            <a  href="#" class="" onclick="deletecustomer('{{$customer->id}}','{{ $customer->fullname }}')"><i class="fa fa-trash" data-toggle="tooltip" data-placement="top" title="" data-original-title="Delete"></i></a>
+                            </td> 
                              <td>
                              @if($customer->status == 'Active')
-                              <a href="#" class="" onclick="deactivate('{{ $customer->id }}','{{ $customer->fullname }}')" data-toggle="class"><i class="fa fa-thumbs-down"></i> </a>
+                              <a href="#" class="" onclick="deactivate('{{ $customer->id }}','{{ $customer->fullname }}')" data-toggle="class"><i class="fa fa-thumbs-down" data-toggle="tooltip" data-placement="top" title="" data-original-title="Deactive"></i> </a>
                               @else
                              <a href="#" class="" onclick="activate('{{ $customer->id }}','{{ $customer->fullname }}')" data-toggle="class"><i class="fa fa-thumbs-up"></i></a>
                              @endif
                             </td>
                           
                             @endpermission
-
-                            <td><a href="/customer-profile/{{ $customer->id }}" class="text-default">{{ $customer->fullname }}</a></td>
-                            <td>{{ $customer->postal_address }}</td>
-                            <td>{{ $customer->mobile_number }}</td>
-                            <td>{{ $customer->created_on }}</td>
-                            <td>{{ $customer->account_manager }}</td>
                           </tr>
                          @endforeach
                         </tbody>
@@ -136,7 +138,7 @@
           <input type="file" class="form-control dropbox" width="500px" height="40px" name="image" /><br>
           <input type="submit" name="submit"  class="btn btn-success btn-s-xs" value="upload" />
           <input type="hidden" name="_token" value="{{ Session::token() }}">
-          <input type="hidden" name="selectedid" id="selectedid" value="{{ $customer->id }}">
+         <input type="hidden" name="selectedid" id="selectedid" value=""> 
         </form>
         </div>
           <br>
@@ -317,6 +319,7 @@ function deactivate(id,name)
           },'json');    
            
              } 
+             
         else {     
           swal("Cancelled", name +" failed to deactivate.", "error");   
         } });

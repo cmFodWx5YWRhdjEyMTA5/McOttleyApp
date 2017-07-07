@@ -50,12 +50,16 @@ Route::post('/upload-document',
 
 //Authentication
 Route::get('/signup',
-	['uses' => '\OrionMedical\Http\Controllers\AuthController@getSignup',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@getSignup',
 	 'as' => 'auth.signup', ]);
 
 Route::get('/manage-users',
 	['uses' => '\OrionMedical\Http\Controllers\AuthController@getUsers',
 	 'as' => 'manage-users', ]);
+
+Route::get('/delete-user',
+	['uses' => '\OrionMedical\Http\Controllers\AuthController@deleteUser',
+	 'as' => 'delete-user', ]);
 
 Route::post('/signup',
 	['uses' => '\OrionMedical\Http\Controllers\AuthController@postSignup',]);
@@ -72,10 +76,20 @@ Route::post('/signin',
 Route::get('auth/logout', '\OrionMedical\Http\Controllers\AuthController@getSignOut');
 
 
+// Password reset link request routes...
+Route::get('password/email', '\OrionMedical\Http\Controllers\PasswordController@getEmail');
+Route::post('password/email', '\OrionMedical\Http\Controllers\PasswordController@postEmail');
+
+// Password reset routes...
+Route::get('password/reset/{token}', '\OrionMedical\Http\Controllers\PasswordController@getReset');
+Route::post('password/reset', '\OrionMedical\Http\Controllers\PasswordController@postReset');
+
+
+
 Route::get('/signout', function(){
   Auth::logout(); //logout the current user
   Session::flush(); //delete the session
-  return Redirect::to('login'); //redirect to login page
+  return Redirect::to('/auth/login'); //redirect to login page
 });
 
 //Client Registration and Management routes
@@ -130,10 +144,24 @@ Route::get('/online-policies',
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@index',
 	 'as' => 'online-policies', ]);
 
+Route::get('/expired-policies',
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@expired',
+	 'as' => 'expired-policies', ]);
 
 Route::get('/online-policies/new',
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@newpolicy',
 	 'as' => 'online-policies/new', ]);
+
+Route::get('/online-policies/fleet',
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@motorfleetpolicy',
+	 'as' => 'online-policies/fleet', ]);
+
+
+
+Route::get('/online-policies/new/{id}',
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@newpolicywithcustomer',
+	 'as' => 'online-policies/new', ]);
+
 
 Route::get('/find-policy-detail', 
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@getSearchResults', 
@@ -142,6 +170,14 @@ Route::get('/find-policy-detail',
 
 Route::post('/create-policy',
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@createPolicy',]);
+
+Route::post('/update-policy', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@updatePolicy',
+	'as' => 'update-policy',]);
+
+Route::post('/renew-policy', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@renewPolicy',
+	'as' => 'update-policy',]);
 
 Route::get('/compute-motor',
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@computeMotorPremium',
@@ -155,6 +191,18 @@ Route::get('/edit-policy/{id}',
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@editPolicy',
 	'as' => 'edit-policy',]);
 
+Route::get('/renew-policy/{id}', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@Renew',
+	'as' => 'renew-policy',]);
+
+
+Route::get('/print-slip',
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@printslip',
+	 'as' => '/print-slip', ]);
+
+
+
+
 Route::get('/print-policy/{id}',
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@printPolicy',
 	 'as' => '/print-policy', ]);
@@ -166,6 +214,20 @@ Route::get('/download-schedule/{type}',
 Route::get('/delete-policy', 
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@excludePolicy',
 	'as' => 'delete-policy',]);
+
+Route::get('/lock-policy', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@lockPolicy',
+	'as' => 'lock-policy',]);
+
+Route::get('/suspend-policy', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@suspendPolicy',
+	'as' => 'suspend-policy',]);
+
+Route::get('/cancel-policy', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@cancelPolicy',
+	'as' => 'cancel-policy',]);
+
+
 
 Route::get('/load-ncd-rate', 
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@loadncd',
@@ -186,6 +248,10 @@ Route::get('/load-insurer',
 Route::get('/load-product', 
 	['uses' => '\OrionMedical\Http\Controllers\PolicyController@loadproduct',
 	'as' => 'load-product',]);
+
+Route::post('/fleet-upload', 
+	['uses' => '\OrionMedical\Http\Controllers\PolicyController@fleetcompute',
+	'as' => 'fleet-upload',]);
 
 
 
@@ -216,19 +282,31 @@ Route::post('/do-payment',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@doPayment',
 	 'as' => '/do-payment', ]);
 
+Route::post('/do-proforma',
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@createProforma',
+	 'as' => '/do-proforma', ]);
+
 
 Route::get('/print-invoice/{id}',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@printInvoice',
 	 'as' => '/print-invoice', ]);
 
-Route::get('/print-invoice2/{id}',
+Route::get('/print-pro-invoice/{id}',
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@printProforma',
+	 'as' => '/print-pro-invoice', ]);
+
+Route::get('/print-invoice-pdf/{id}',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@printtoPDF',
-	 'as' => '/print-invoice2', ]);
+	 'as' => '/print-invoice-pdf', ]);
 
 
 Route::get('/commission',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@getCommissions',
 	 'as' => '/commission', ]);
+
+Route::get('/find-commission', 
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@searchCommission', 
+	'as' => 'find-commission', ]);
 
 
 //Invoicing
@@ -249,6 +327,15 @@ Route::get('/send-invoice',
 	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@dosendInvoices',
 	 'as' => '/send-invoice', ]);
 
+Route::get('/quick-invoices',
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@loadProformaInvoices',
+	 'as' => '/quick-invoices', ]);
+
+Route::get('/process-commission',
+	['uses' => '\OrionMedical\Http\Controllers\InvoiceController@doCommissionPaid',
+	 'as' => '/process-commission', ]);
+
+
 
 //Claims
 
@@ -261,7 +348,9 @@ Route::get('/add-claims',
 	['uses' => '\OrionMedical\Http\Controllers\ClaimsController@createClaim',
 	 'as' => 'add-claims', ]);
 
-
+Route::get('/edit-claim/{id}', 
+	['uses' => '\OrionMedical\Http\Controllers\ClaimsController@editClaim',
+	'as' => 'edit-claim',]);
 
 Route::post('/save-claim',
 	['uses' => '\OrionMedical\Http\Controllers\ClaimsController@addClaim',
@@ -270,6 +359,10 @@ Route::post('/save-claim',
 Route::get('/claim-profile/{id}', 
 	['uses' => '\OrionMedical\Http\Controllers\ClaimsController@claimprofile',
 	'as' => 'claim-profile',]);
+
+Route::post('/update-claim', 
+	['uses' => '\OrionMedical\Http\Controllers\ClaimsController@updateClaim',
+	'as' => 'update-claim',]);
 
 
 
@@ -357,6 +450,27 @@ Route::get('/unpaid-invoices',
 	 'as' => '/unpaid-invoices', ]);
 
 
+//Accounting
+
+Route::get('/company-assets',
+	['uses' => '\OrionMedical\Http\Controllers\CompanyAssetsController@index',
+	 'as' => '/company-assets', ]);
+
+Route::get('/account-transactions',
+	['uses' => '\OrionMedical\Http\Controllers\CompanyAssetsController@transactionmanager',
+	 'as' => '/account-transactions', ]);
+
+Route::get('/account-reports',
+	['uses' => '\OrionMedical\Http\Controllers\CompanyAssetsController@index',
+	 'as' => '/account-reports', ]);
+
+
+
+//Print reports
+Route::get('/print-sales-commission',
+	['uses' => '\OrionMedical\Http\Controllers\ReportController@printsalesCommission',
+	 'as' => '/print-sales-commission', ]);
+
 
 //Events
 
@@ -386,6 +500,71 @@ Route::get('/delete-appointment',
 	['uses' => '\OrionMedical\Http\Controllers\EventController@deleteappointmentfromevent',
 	'as' => 'delete-appointment',]);
 
+
+//banking
+Route::get('/banking.banks',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@getbanks',
+	 'as' => 'banking.banks', ]);
+
+//Setting up
+Route::get('/setup',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@index',
+	 'as' => 'setup', ]);
+
+
+Route::post('/add-vehicle-make',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewMake',]);
+
+Route::post('/add-vehicle-model',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewModel',]);
+
+Route::post('/add-insurer',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewInsurer',]);
+
+Route::post('/add-currency',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewCurrency',]);
+
+Route::post('/add-property',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewPropertype',]);
+
+Route::post('/add-policy-product',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewProduct',]);
+
+Route::post('/add-mortgage',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewMortgageCompany',]);
+
+Route::post('/add-beneficiary',
+	['uses' => '\OrionMedical\Http\Controllers\SetupController@addNewBeneficiary',]);
+
+
+Route::get('/banking.accounts',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@getBankAccount',
+	 'as' => 'banking.accounts', ]);
+
+Route::get('/banking.payments',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@getPayments',
+	 'as' => 'banking.payments', ]);
+
+Route::get('/banking.deposites',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@getDeposites',
+	 'as' => 'banking.deposites', ]);
+
+Route::get('/banking.transfers',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@getTransfers',
+	 'as' => 'banking.transfers', ]);
+
+Route::post('/banking.create-bank',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@createBank',
+	
+	]);
+Route::get('/billing.profile/{id}', 
+	['uses' => '\OrionMedical\Http\Controllers\BankController@showProfile',
+	'as' => 'billing.profile',]);
+
+Route::post('/banking.create-bank-account',
+	['uses' => '\OrionMedical\Http\Controllers\BankController@createAccount',
+	
+	]);
 
 //Whatsapp routes
 Route::get('/do-registration', 

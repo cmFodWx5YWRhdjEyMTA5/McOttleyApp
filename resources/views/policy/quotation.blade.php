@@ -6,151 +6,39 @@
             <section class="scrollable padder">
               <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
                 <li><a href="index.html"><i class="fa fa-home"></i> Home </a></li>
-                <li class="active"> Policy Administration </li>   
+                <li class=""> Policy Administration </li>
+                 <li class="active"> Quotation </li>   
               </ul>
-             
-              <section class="panel panel-default">
-                <div class="row m-l-none m-r-none bg-light lter">
-                  <div class="col-sm-6 col-md-3 padder-v b-r b-light">
-                    <span class="fa-stack fa-2x pull-left m-r-sm">
-                      <i class="fa fa-circle fa-stack-2x text-info"></i>
-                      <i class="fa fa-gavel fa-stack-1x text-white"></i>
-                    </span>
-                    <a class="clear" href="/online-policies/new">
-                      <span class="h3 block m-t-xs"><strong>23</strong></span>
-                      <small class="text-muted text-uc">Buy New Policy</small>
-                    </a>
-                  </div>
-                  <div class="col-sm-6 col-md-3 padder-v b-r b-light lt">
-                    <span class="fa-stack fa-2x pull-left m-r-sm">
-                      <i class="fa fa-circle fa-stack-2x text-warning"></i>
-                      <i class="fa fa-money fa-stack-1x text-white"></i>
-                      </span>
-                    </span>
-                    <a class="clear" href="#">
-                      <span class="h3 block m-t-xs"><strong id="bugs">799</strong></span>
-                      <small class="text-muted text-uc">Payments</small>
-                    </a>
-                  </div>
-                  <div class="col-sm-6 col-md-3 padder-v b-r b-light">                     
-                    <span class="fa-stack fa-2x pull-left m-r-sm">
-                      <i class="fa fa-circle fa-stack-2x text-danger"></i>
-                      <i class="fa fa-fire-extinguisher fa-stack-1x text-white"></i>
-                      <span class="easypiechart pos-abt" data-percent="0" data-line-width="4" data-track-Color="#f5f5f5" data-scale-Color="false" data-size="50" data-line-cap='butt' data-animate="3000" data-target="#firers" data-update="5000"></span>
-                    </span>
-                    <a class="clear" href="/online-quotation/new">
-                      <span class="h3 block m-t-xs"><strong id="firers">Quotation</strong></span>
-                      <small class="text-muted text-uc">New Quotation</small>
-                    </a>
-                  </div>
-                  <div class="col-sm-6 col-md-3 padder-v b-r b-light lt">
-                    <span class="fa-stack fa-2x pull-left m-r-sm">
-                      <i class="fa fa-circle fa-stack-2x icon-muted"></i>
-                      <i class="fa fa-clock-o fa-stack-1x text-white"></i>
-                    </span>
-                    <a class="clear" href="#">
-                      <span class="h3 block m-t-xs"><strong>{{ Carbon\Carbon::now() }}</strong></span>
-                      <small class="text-muted text-uc">Left to exit</small>
-                    </a>
-                  </div>
-                </div>
-              </section>
 
 
               <div class="row">
                 <div class="col-md-12">
                 <section class="scrollable wrapper w-f">
-                <form method="post" action="/create-policy" class="panel-body wrapper-lg">
+                <form method="post" id="masterform" name="masterform" data-validate="parsley" action="/create-policy" class="panel-body wrapper-lg">
                   <section class="panel panel-default">
                     
                     <div class="wizard clearfix">
                       <ul class="steps">
-                        <li data-target="#step1" class="active"><span class="badge badge-info">1</span>Customer</li>
-                        <li data-target="#step2"><span class="badge">2</span>Policy</li>
-                        <li data-target="#step3"><span class="badge">3</span>Coverage</li>
-                        <li data-target="#step4"><span class="badge">4</span>Premium</li>
+                        <li data-target="#step1" class="active"><span class="badge badge-info">Quick</span>Quote</li>
+                      
+                        
                         
                       </ul>
-                      <div class="actions">
+                      {{-- <div class="actions">
                         <button type="button" class="btn btn-default btn-xs btn-prev" disabled="disabled">Prev</button>
                         <button type="button" class="btn btn-default btn-xs btn-next" data-last="Finish">Next</button>
-                      </div>
+                      </div> --}}
                     </div>
                     <div class="step-content">
                     {{-- Step 1 Start --}}
-                      <div class="step-pane active" id="step1">
-                      
-                      
-                      </div>
-                    {{-- Step 1 End --}}  
+   
 
 
 
-                    {{-- Step 2 Start --}}
-                      <div class="step-pane" id="step2">
-                     
-                     <section class="panel panel-default">
-                     <header class="panel-heading font-bold">                  
-                      Policy Info
-                    </header>
-                      <div class="panel-body">
-                        
-                        <div class="form-group pull-in clearfix">
-                         
-                          <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('policy_type') ? ' has-error' : ''}}">
-                            <label>Policy Type</label>
-                            <select id="policy_type" name="policy_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                         @foreach($policytypes as $policytype)
-                        <option value="{{ $policytype->type }}">{{ $policytype->type }}</option>
-                          @endforeach 
-                        </select>         
-                           @if ($errors->has('policy_type'))
-                          <span class="help-block">{{ $errors->first('policy_type') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
 
-                         <div class="form-group pull-in clearfix">
-                          <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('policy_insurer') ? ' has-error' : ''}}">
-                            <label>Insurer</label>
-                            <select id="policy_insurer" name="policy_insurer" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%">
-                             <option value="">-- select from here --</option>
-                        @foreach($insurers as $insurer)
-                        <option value="{{ $insurer->name }}">{{ $insurer->name }}</option>
-                          @endforeach 
-                        </select>         
-                           @if ($errors->has('policy_insurer'))
-                          <span class="help-block">{{ $errors->first('policy_insurer') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-
-
-                        <div class="form-group @if($errors->has('insurance_period')) has-error @endif">
-                        <label for="time">Insurance Period</label>
-                        <div class="input-group">
-                        <input type="text" class="form-control" name="insurance_period" id="insurance_period" placeholder="Select your time" value="{{ old('insurance_period') }}">
-                         <span class="input-group-addon">
-                      <span class="fa fa-calendar"></span>
-                      </span>
-                      </div>
-                        @if ($errors->has('insurance_period'))
-                        <p class="help-block"><span class="glyphicon glyphicon-exclamation-sign"></span> 
-                        {{ $errors->first('insurance_period') }}
-                       </p>
-                        @endif
-                      </div>
-                      
-                      </div>
-                    </section>
-                      </div>
                     {{-- Step 2 End --}}
                     {{-- Step 3 Start --}}
-                    <div class="step-pane" id="step3">
+                    <div class="step-pane active" id="step1">
                      <section class="panel panel-default">
                      <header class="panel-heading font-bold">                  
                       Choose Product
@@ -160,13 +48,15 @@
                         <div class="form-group pull-in clearfix">
                          
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('product') ? ' has-error' : ''}}">
-                            <select id="product" name="product" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b" onchange="getproductform()">
-                         <option value="">Select Insurance Cover</option>
+                          <div class="form-group{{ $errors->has('policy_product') ? ' has-error' : ''}}">
+                             <select id="policy_product" name="policy_product" rows="3" data-required="true" tabindex="1" data-placeholder="Select here.." style="width:100%" onchange="getproductform()">
+                             <option value="">-- select a product --</option>
+                  {{--       @foreach($producttypes as $producttype) --}}
                         <option value="Motor Insurance">Motor Insurance</option>
+                        {{--   @endforeach --}}
                         </select>         
-                           @if ($errors->has('product'))
-                          <span class="help-block">{{ $errors->first('product') }}</span>
+                           @if ($errors->has('policy_product'))
+                          <span class="help-block">{{ $errors->first('policy_product') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -203,7 +93,7 @@
 
                         <div class="col-sm-4">
                             <label>Vehicle Use</label> 
-                          <select id="vehicle_use" name="vehicle_use" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                          <select id="vehicle_use" name="vehicle_use" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b" onchange="loadNCD(),loadRisk()">
                            <option value="">-- select from here --</option>
                           <option value="Commercial">Commercial</option>
                            <option value="Private">Private</option>
@@ -245,7 +135,7 @@
 
                           <div class="col-sm-4">
                             <label>Vehicle Value</label> 
-                           <input type="number" class="form-control" id="vehicle_value"  value="0"  name="vehicle_value">
+                           <input type="number" class="form-control" id="vehicle_value"  value="{{ Request::old('vehicle_value') ?: '' }}"  name="vehicle_value">
                           @if ($errors->has('vehicle_value'))
                           <span class="help-block">{{ $errors->first('vehicle_value') }}</span>
                            @endif   
@@ -279,7 +169,7 @@
                           <div class="col-sm-4">
                           <div class="form-group{{ $errors->has('vehicle_make') ? ' has-error' : ''}}">
                             <label>Vehicle Make</label>
-                            <select id="vehicle_make" name="vehicle_make" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%">
+                            <select id="vehicle_make" name="vehicle_make" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%" onchange="loadModels()">
                              <option value="">-- select from here --</option>
                           @foreach($vehiclemakes as $vehiclemake)
                         <option value="{{ $vehiclemake->type }}">{{ $vehiclemake->type }}</option>
@@ -293,7 +183,7 @@
 
                          <div class="col-sm-4">
                           <div class="form-group{{ $errors->has('vehicle_model') ? ' has-error' : ''}}">
-                            <label>Vehicle Make</label>
+                            <label>Vehicle Model</label>
                             <select id="vehicle_model" name="vehicle_model" rows="3" tabindex="1" data-placeholder="Select here.." style="width:100%">
                              <option value="">-- select from here --</option>
                           @foreach($vehiclemodels as $vehiclemodel)
@@ -369,7 +259,7 @@
                         <div class="form-group pull-in clearfix">
                            <div class="col-sm-4">
                             <label>Cubic Capacity</label> 
-                           <input type="number" class="form-control" id="vehicle_cubic_capacity"  value="0"  name="vehicle_cubic_capacity">
+                           <input type="number" class="form-control" id="vehicle_cubic_capacity"  value="{{ Request::old('vehicle_cubic_capacity') ?: '' }}"  name="vehicle_cubic_capacity">
                           @if ($errors->has('vehicle_cubic_capacity'))
                           <span class="help-block">{{ $errors->first('vehicle_cubic_capacity') }}</span>
                            @endif   
@@ -431,6 +321,8 @@
                         <div class="col-sm-6">
                         <div  class="btn-group pull-right"> 
                         <button type="button" class="btn btn-rounded btn-sm btn-info" onclick="computePremium()">Compute Premium
+                        </button>
+                         <button type="button" class="btn btn-rounded btn-sm btn-dark" onclick="">Print Slip
                         </button>
                         </div>
                         </div>
@@ -788,9 +680,9 @@
                           <div class="form-group{{ $errors->has('nature_of_work') ? ' has-error' : ''}}">
                             <label>Nature of Work</label>
                             <select id="nature_of_work" name="nature_of_work" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                        {{--   @foreach($dosage as $dosage)
-                        <option value="{{ $dosage->Name }}">{{ $dosage->Name }}</option>
-                          @endforeach --}}
+                           @foreach($natureofwork as $natureofwork)
+                        <option value="{{ $natureofwork->type }}">{{ $natureofwork->type }}</option>
+                          @endforeach 
                         </select>         
                            @if ($errors->has('nature_of_work'))
                           <span class="help-block">{{ $errors->first('nature_of_work') }}</span>
@@ -828,9 +720,9 @@
                             <label>Nature of Accident</label> 
                              <div class="form-group{{ $errors->has('pa_nature_of_accident') ? ' has-error' : ''}}">
                           <select id="pa_nature_of_accident" name="pa_nature_of_accident" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-{{--                           @foreach($application as $application)
-                        <option value="{{ $application->Name }}">{{ $application->Name }}</option>
-                          @endforeach --}}
+                       @foreach($natureofaccident as $natureofaccident)
+                        <option value="{{ $natureofaccident->type }}">{{ $natureofaccident->type }}</option>
+                          @endforeach 
                         </select> 
                            @if ($errors->has('pa_nature_of_accident'))
                           <span class="help-block">{{ $errors->first('pa_nature_of_accident') }}</span>
@@ -977,7 +869,7 @@
                         <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
                           <div class="form-group{{ $errors->has('pa_benefit_details') ? ' has-error' : ''}}">
-                            <label>Name, Gender, Date of Birth, Passport No of each person on a new line</label>
+                            <label>Name, Gender, Date of Birth, Relationship of each person on a new line</label>
                             <textarea type="text" rows="3" class="form-control" id="pa_benefit_details" name="pa_benefit_details" value="{{ Request::old('pa_benefit_details') ?: '' }}"></textarea>         
                            @if ($errors->has('pa_benefit_details'))
                           <span class="help-block">{{ $errors->first('pa_benefit_details') }}</span>
@@ -991,11 +883,13 @@
 
 
                          {{-- Personal Accident Insurance End--}}
+
                              {{--Bond Insurance Start--}}
                       <div id="liabilityinsurance" name="liabilityinsurance">
                             <section class="panel panel-default">
                      <header class="panel-heading font-bold">                  
                       Liability Information
+
                     </header>
                       <div class="panel-body">
                         
@@ -1005,8 +899,8 @@
                             <label>Liability Type</label>
                             <select id="liability_risk_type" name="liability_risk_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
                         <option value="">-- Select coverage --</option>
-{{--                          @foreach($bondtypes as $bondtype)
-                        <option value="{{ $bondtype->type }}">{{ $bondtype->type }}</option>
+                           @foreach($liabilitytypes as $liabilitytypes)
+                        <option value="{{ $liabilitytypes->type }}">{{ $liabilitytypes->type }}</option>
                           @endforeach  --}}
                         </select>         
                            @if ($errors->has('liability_risk_type'))
@@ -1017,29 +911,26 @@
                         </div>
 
 
-                        
                            <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('bond_contract_description') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('liability_schedule') ? ' has-error' : ''}}">
                             <label>Schedule description of each object on a new line </label>
-                             <textarea type="text" class="form-control" rows="3" id="bond_contract_description"  value="{{ Request::old('bond_contract_description') ?: '' }}"  name="bond_contract_description"></textarea>           
-                           @if ($errors->has('bond_contract_description'))
-                          <span class="help-block">{{ $errors->first('bond_contract_description') }}</span>
+                             <textarea type="text" class="form-control" rows="5" id="liability_schedule"  value="{{ Request::old('liability_schedule') ?: '' }}"  name="liability_schedule"></textarea>           
+                           @if ($errors->has('liability_schedule'))
+                          <span class="help-block">{{ $errors->first('liability_schedule') }}</span>
                            @endif    
                           </div>   
                         </div>
                         </div>
 
 
-
-
                           <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('bond_contract_description') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('liability_beneficiary') ? ' has-error' : ''}}">
                             <label>List of beneficiaries of limits on a new line </label>
-                             <textarea type="text" class="form-control" rows="3" id="bond_contract_description"  value="{{ Request::old('bond_contract_description') ?: '' }}"  name="bond_contract_description"></textarea>           
-                           @if ($errors->has('bond_contract_description'))
-                          <span class="help-block">{{ $errors->first('bond_contract_description') }}</span>
+                             <textarea type="text" class="form-control" rows="5" id="liability_beneficiary"  value="{{ Request::old('liability_beneficiary') ?: '' }}"  name="liability_beneficiary"></textarea>           
+                           @if ($errors->has('liability_beneficiary'))
+                          <span class="help-block">{{ $errors->first('liability_beneficiary') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1049,6 +940,249 @@
                    </section>
 
             </div>
+
+
+            <div id="healthinsurance" name="healthinsurance">
+                            <section class="panel panel-default">
+                     <header class="panel-heading font-bold">                  
+                      Health Plan Information
+
+                    </header>
+                      <div class="panel-body">
+                        
+                        <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('health_type') ? ' has-error' : ''}}">
+                            <label>Plan Type</label>
+                            <select id="health_type" name="health_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                        <option value="">-- Select coverage --</option>
+                           @foreach($healthplans as $healthplan)
+                        <option value="{{ $healthplan->type }}">{{ $healthplan->type }}</option>
+                          @endforeach  
+                        </select>         
+                           @if ($errors->has('health_type'))
+                          <span class="help-block">{{ $errors->first('health_type') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+                           <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('health_plan_details') ? ' has-error' : ''}}">
+                            <label>Plan Details </label>
+                             <textarea type="text" class="form-control" rows="5" id="health_plan_details"  value="{{ Request::old('health_plan_details') ?: '' }}"  name="health_plan_details"></textarea>           
+                           @if ($errors->has('health_plan_details'))
+                          <span class="help-block">{{ $errors->first('health_plan_details') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+                          <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('health_plan_limits') ? ' has-error' : ''}}">
+                            <label>List of plan limits, each on a new line </label>
+                             <textarea type="text" class="form-control" rows="5" id="health_plan_limits"  value="{{ Request::old('health_plan_limits') ?: '' }}"  name="health_plan_limits"></textarea>           
+                           @if ($errors->has('health_plan_limits'))
+                          <span class="help-block">{{ $errors->first('health_plan_limits') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+                       
+                      </div>
+                   </section>
+
+            </div>
+
+            <div id="lifeinsurance" name="lifeinsurance">
+                            <section class="panel panel-default">
+                     <header class="panel-heading font-bold">                  
+                      Life Plan Information
+
+                    </header>
+                      <div class="panel-body">
+                        
+                        <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('life_type') ? ' has-error' : ''}}">
+                            <label>Plan Type</label>
+                            <select id="life_type" name="life_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                        <option value="">-- Select coverage --</option>
+                           @foreach($lifeplans as $lifeplan)
+                        <option value="{{ $lifeplan->type }}">{{ $lifeplan->type }}</option>
+                          @endforeach  
+                        </select>         
+                           @if ($errors->has('life_type'))
+                          <span class="help-block">{{ $errors->first('life_type') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+                        <div class="form-group pull-in clearfix">
+                          <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('life_cover_amount') ? ' has-error' : ''}}">
+                            <label>Cover Amount</label>
+                            <input type="text" class="form-control" id="life_cover_amount"  value="{{ Request::old('life_cover_amount') ?: '' }}"  name="life_cover_amount">         
+                           @if ($errors->has('life_cover_amount'))
+                          <span class="help-block">{{ $errors->first('life_cover_amount') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                         <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('life_monthly_premium') ? ' has-error' : ''}}">
+                            <label>Monthly Premium</label>
+                            <input type="text" class="form-control" id="life_monthly_premium"  value="{{ Request::old('life_monthly_premium') ?: '' }}"  name="life_monthly_premium">         
+                           @if ($errors->has('life_monthly_premium'))
+                          <span class="help-block">{{ $errors->first('life_monthly_premium') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+
+                           <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('health_plan_details') ? ' has-error' : ''}}">
+                            <label>Plan Details </label>
+                             <textarea type="text" class="form-control" rows="5" id="health_plan_details"  value="{{ Request::old('health_plan_details') ?: '' }}"  name="health_plan_details"></textarea>           
+                           @if ($errors->has('health_plan_details'))
+                          <span class="help-block">{{ $errors->first('health_plan_details') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+                          <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('health_plan_limits') ? ' has-error' : ''}}">
+                            <label>List of plan limits, each on a new line </label>
+                             <textarea type="text" class="form-control" rows="5" id="health_plan_limits"  value="{{ Request::old('health_plan_limits') ?: '' }}"  name="health_plan_limits"></textarea>           
+                           @if ($errors->has('health_plan_limits'))
+                          <span class="help-block">{{ $errors->first('health_plan_limits') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+                       
+                      </div>
+                   </section>
+
+            </div>
+
+
+{{-- starting GeneralAccident--}}
+ <div id="generalaccident" name="generalaccident">
+ 
+                    <section class="panel panel-default">
+                     <header class="panel-heading font-bold">                  
+                      Accident Details
+                    </header>
+                      <div class="panel-body">
+                        
+
+                            <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('accident_risk_type') ? ' has-error' : ''}}">
+                            <label>Accident Type</label>
+                            <select id="accident_risk_type" name="accident_risk_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                        <option value="">-- Select type --</option>
+                         @foreach($accidenttypes as $accidenttypes)
+                        <option value="{{ $accidenttypes->type }}">{{ $accidenttypes->type }}</option>
+                          @endforeach  
+                        </select>         
+                           @if ($errors->has('accident_risk_type'))
+                          <span class="help-block">{{ $errors->first('accident_risk_type') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+              
+
+                        
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('general_accident_sum_insured') ? ' has-error' : ''}}">
+                            <label>Capital Sum Insured</label>
+                             <input type="text" class="form-control" id="general_accident_sum_insured"  value="{{ Request::old('general_accident_sum_insured') ?: '' }}"  name="general_accident_sum_insured">           
+                           @if ($errors->has('general_accident_sum_insured'))
+                          <span class="help-block">{{ $errors->first('general_accident_sum_insured') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('general_accident_deductible') ? ' has-error' : ''}}">
+                            <label>Deductible</label>
+                                 <input type="text" class="form-control" id="general_accident_deductible"  value="{{ Request::old('general_accident_deductible') ?: '' }}"  name="general_accident_deductible">          
+                           @if ($errors->has('general_accident_deductible'))
+                          <span class="help-block">{{ $errors->first('general_accident_deductible') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        </div>
+
+
+                          <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('accident_description') ? ' has-error' : ''}}">
+                            <label>Accident Description </label>
+                             <textarea type="text" class="form-control" rows="3" id="accident_description"  value="{{ Request::old('accident_description') ?: '' }}"  name="accident_description"></textarea>           
+                           @if ($errors->has('accident_description'))
+                          <span class="help-block">{{ $errors->first('accident_description') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('accident_beneficiaries') ? ' has-error' : ''}}">
+                            <label>Beneficiaries (Name, Benefit of each person on a new line) </label>
+                             <textarea type="text" class="form-control" rows="6" id="accident_beneficiaries"  value="{{ Request::old('accident_beneficiaries') ?: '' }}"  name="accident_beneficiaries"></textarea>           
+                           @if ($errors->has('accident_beneficiaries'))
+                          <span class="help-block">{{ $errors->first('accident_beneficiaries') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('accident_clause_limit') ? ' has-error' : ''}}">
+                            <label>Clause Applicable / Limits Applicable (Each item on a new line)</label>
+                             <textarea type="text" class="form-control" rows="6" id="accident_clause_limit"  value="{{ Request::old('accident_clause_limit') ?: '' }}"  name="accident_clause_limit"></textarea>           
+                           @if ($errors->has('accident_clause_limit'))
+                          <span class="help-block">{{ $errors->first('accident_clause_limit') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        </div>
+                        </div>
+                   </section>
+</div>
+
+
+
+
+
+
+{{-- Ending General Accident--}}
+
+
+
+
                         {{--Bond Insurance Start--}}
                             <div id="bondinsurance" name="bondinsurance">
                             <section class="panel panel-default">
@@ -1079,7 +1213,7 @@
                          <div class="form-group pull-in clearfix">
                           <div class="col-sm-6">
                           <div class="form-group{{ $errors->has('bond_interest') ? ' has-error' : ''}}">
-                            <label>Bond Interest</label>
+                            <label>Principal</label>
                              <input type="text" class="form-control" id="bond_interest"  value="{{ Request::old('bond_interest') ?: '' }}"  name="bond_interest">           
                            @if ($errors->has('bond_interest'))
                           <span class="help-block">{{ $errors->first('bond_interest') }}</span>
@@ -1089,7 +1223,7 @@
 
                         <div class="col-sm-6">
                           <div class="form-group{{ $errors->has('bond_interest_address') ? ' has-error' : ''}}">
-                            <label>Bond Interest Address</label>
+                            <label>Principal Address</label>
                                  <input type="text" class="form-control" id="bond_interest_address"  value="{{ Request::old('bond_interest_address') ?: '' }}"  name="bond_interest_address">          
                            @if ($errors->has('bond_interest_address'))
                           <span class="help-block">{{ $errors->first('bond_interest_address') }}</span>
@@ -1123,7 +1257,7 @@
 
                         <div class="col-sm-6">
                           <div class="form-group{{ $errors->has('bond_sum_insured') ? ' has-error' : ''}}">
-                            <label>Sum Insured</label>
+                            <label>Bond Amount</label>
                                  <input type="text" class="form-control" id="bond_sum_insured"  value="{{ Request::old('pa_height') ?: '' }}"  name="bond_sum_insured">          
                            @if ($errors->has('bond_sum_insured'))
                           <span class="help-block">{{ $errors->first('bond_sum_insured') }}</span>
@@ -1159,7 +1293,137 @@
 
                         {{--Bond Insurance End--}}
 
-                             {{--Bond Insurance Start--}}
+              {{-- CAR start--}}
+
+                             <div id="contractorallrisk" name="contractorallrisk">
+                            <section class="panel panel-default">
+                     <header class="panel-heading font-bold">                  
+                      Contract Details
+                    </header>
+                      <div class="panel-body">
+
+                      <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('car_risk_type') ? ' has-error' : ''}}">
+                            <label>Risk Type</label>
+                            <select id="car_risk_type" name="car_risk_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                        <option value="">-- Select risk --</option>
+                          @foreach($engineeringrisktypes as $engineeringrisktypes)
+                        <option value="{{ $engineeringrisktypes->type }}">{{ $engineeringrisktypes->type }}</option>
+                          @endforeach 
+                        </select>         
+                           @if ($errors->has('car_risk_type'))
+                          <span class="help-block">{{ $errors->first('car_risk_type') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+                        
+                        
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('car_parties') ? ' has-error' : ''}}">
+                            <label>Parties Involved</label>
+                             <input type="text" class="form-control" id="car_parties"  value="{{ Request::old('car_parties') ?: '' }}"  name="car_parties">           
+                           @if ($errors->has('car_parties'))
+                          <span class="help-block">{{ $errors->first('car_parties') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('car_nature_of_business') ? ' has-error' : ''}}">
+                            <label>Nature of Business</label>
+                                 <input type="text" class="form-control" id="car_nature_of_business"  value="{{ Request::old('car_nature_of_business') ?: '' }}"  name="car_nature_of_business">          
+                           @if ($errors->has('car_nature_of_business'))
+                          <span class="help-block">{{ $errors->first('car_nature_of_business') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+
+
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('car_contract_description') ? ' has-error' : ''}}">
+                            <label>Contract Description</label>
+                             <textarea type="text" class="form-control" rows="3" id="car_contract_description"  value="{{ Request::old('car_contract_description') ?: '' }}"  name="car_contract_description"></textarea>           
+                           @if ($errors->has('car_contract_description'))
+                          <span class="help-block">{{ $errors->first('car_contract_description') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+                        </div>
+                   </section>
+
+                    <section class="panel panel-default">
+                     <header class="panel-heading font-bold">                  
+                     
+                    </header>
+                      <div class="panel-body">
+                        
+              
+
+                        
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('car_contract_sum') ? ' has-error' : ''}}">
+                            <label>Engineering Sum Insured</label>
+                             <input type="text" class="form-control" id="car_contract_sum"  value="{{ Request::old('car_contract_sum') ?: '' }}"  name="car_contract_sum">           
+                           @if ($errors->has('car_contract_sum'))
+                          <span class="help-block">{{ $errors->first('car_contract_sum') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('car_deductible') ? ' has-error' : ''}}">
+                            <label>Deductible</label>
+                                 <input type="text" class="form-control" id="car_deductible"  value="{{ Request::old('car_deductible') ?: '' }}"  name="car_deductible">          
+                           @if ($errors->has('car_deductible'))
+                          <span class="help-block">{{ $errors->first('car_deductible') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        </div>
+
+
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('car_endorsements') ? ' has-error' : ''}}">
+                            <label>Engineering Items - Add each item on a new line</label>
+                             <textarea type="text" class="form-control" rows="3" id="car_endorsements"  value="{{ Request::old('car_endorsements') ?: '' }}"  name="car_endorsements"></textarea>           
+                           @if ($errors->has('car_endorsements'))
+                          <span class="help-block">{{ $errors->first('car_endorsements') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        </div>
+
+
+
+                        </div>
+                    
+                   </section>
+</div>
+
+
+
+
+
+
+
+
+
+                      {{-- CAR end--}}
+
+
+
+
+                             {{--marine Insurance Start--}}
                             <div id="marineinsurance" name="marineinsurance">
                             <section class="panel panel-default">
                      <header class="panel-heading font-bold">                  
@@ -1169,16 +1433,16 @@
                         
                         <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('bond_risk_type') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_risk_type') ? ' has-error' : ''}}">
                             <label>Marine Type</label>
-                            <select id="bond_risk_type" name="bond_risk_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                            <select id="marine_risk_type" name="marine_risk_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
                         <option value="">-- Select coverage --</option>
-{{--                          @foreach($bondtypes as $bondtype)
-                        <option value="{{ $bondtype->type }}">{{ $bondtype->type }}</option>
-                          @endforeach  --}}
+                          @foreach($marinetypes as $marinetypes)
+                        <option value="{{ $marinetypes->type }}">{{ $marinetypes->type }}</option>
+                          @endforeach  
                         </select>         
-                           @if ($errors->has('bond_risk_type'))
-                          <span class="help-block">{{ $errors->first('bond_risk_type') }}</span>
+                           @if ($errors->has('marine_risk_type'))
+                          <span class="help-block">{{ $errors->first('marine_risk_type') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1188,21 +1452,21 @@
                         
                          <div class="form-group pull-in clearfix">
                           <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('bond_interest') ? ' has-error' : ''}}">
-                            <label>Invoice Number</label>
-                             <input type="text" class="form-control" id="bond_interest"  value="{{ Request::old('bond_interest') ?: '' }}"  name="bond_interest">           
-                           @if ($errors->has('bond_interest'))
-                          <span class="help-block">{{ $errors->first('bond_interest') }}</span>
+                          <div class="form-group{{ $errors->has('marine_sum_insured') ? ' has-error' : ''}}">
+                            <label>Sum Insured</label>
+                             <input type="text" class="form-control" id="marine_sum_insured"  value="{{ Request::old('marine_sum_insured') ?: '' }}"  name="marine_sum_insured">           
+                           @if ($errors->has('marine_sum_insured'))
+                          <span class="help-block">{{ $errors->first('marine_sum_insured') }}</span>
                            @endif    
                           </div>   
                         </div>
 
                         <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('bond_interest_address') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_bill_landing') ? ' has-error' : ''}}">
                             <label>Bill of Landing No.</label>
-                                 <input type="text" class="form-control" id="bond_interest_address"  value="{{ Request::old('bond_interest_address') ?: '' }}"  name="bond_interest_address">          
-                           @if ($errors->has('bond_interest_address'))
-                          <span class="help-block">{{ $errors->first('bond_interest_address') }}</span>
+                                 <input type="text" class="form-control" id="marine_bill_landing"  value="{{ Request::old('marine_bill_landing') ?: '' }}"  name="marine_bill_landing">          
+                           @if ($errors->has('marine_bill_landing'))
+                          <span class="help-block">{{ $errors->first('marine_bill_landing') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1219,21 +1483,21 @@
                         
                          <div class="form-group pull-in clearfix">
                           <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('contract_sum') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_interest') ? ' has-error' : ''}}">
                             <label>Interest & Marks</label>
-                             <input type="text" class="form-control" id="contract_sum"  value="{{ Request::old('contract_sum') ?: '' }}"  name="contract_sum">           
-                           @if ($errors->has('contract_sum'))
-                          <span class="help-block">{{ $errors->first('contract_sum') }}</span>
+                             <input type="text" class="form-control" id="marine_interest"  value="{{ Request::old('marine_interest') ?: '' }}"  name="marine_interest">           
+                           @if ($errors->has('marine_interest'))
+                          <span class="help-block">{{ $errors->first('marine_interest') }}</span>
                            @endif    
                           </div>   
                         </div>
 
                         <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('bond_sum_insured') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_vessel') ? ' has-error' : ''}}">
                             <label>Name of Vessel</label>
-                                 <input type="text" class="form-control" id="bond_sum_insured"  value="{{ Request::old('pa_height') ?: '' }}"  name="bond_sum_insured">          
-                           @if ($errors->has('bond_sum_insured'))
-                          <span class="help-block">{{ $errors->first('bond_sum_insured') }}</span>
+                                 <input type="text" class="form-control" id="marine_vessel"  value="{{ Request::old('marine_vessel') ?: '' }}"  name="marine_vessel">          
+                           @if ($errors->has('marine_vessel'))
+                          <span class="help-block">{{ $errors->first('marine_vessel') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1242,21 +1506,21 @@
 
                         <div class="form-group pull-in clearfix">
                           <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('contract_sum') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_insurance_condition') ? ' has-error' : ''}}">
                             <label>Insurance Condition</label>
-                             <input type="text" class="form-control" id="contract_sum"  value="{{ Request::old('contract_sum') ?: '' }}"  name="contract_sum">           
-                           @if ($errors->has('contract_sum'))
-                          <span class="help-block">{{ $errors->first('contract_sum') }}</span>
+                             <input type="text" class="form-control" id="marine_insurance_condition"  value="{{ Request::old('marine_insurance_condition') ?: '' }}"  name="marine_insurance_condition">           
+                           @if ($errors->has('marine_insurance_condition'))
+                          <span class="help-block">{{ $errors->first('marine_insurance_condition') }}</span>
                            @endif    
                           </div>   
                         </div>
 
                         <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('bond_sum_insured') ? ' has-error' : ''}}">
-                            <label>Valution Basis</label>
-                                 <input type="text" class="form-control" id="bond_sum_insured"  value="{{ Request::old('pa_height') ?: '' }}"  name="bond_sum_insured">          
-                           @if ($errors->has('bond_sum_insured'))
-                          <span class="help-block">{{ $errors->first('bond_sum_insured') }}</span>
+                          <div class="form-group{{ $errors->has('marine_valuation') ? ' has-error' : ''}}">
+                            <label>Valuation Basis</label>
+                                 <input type="text" class="form-control" id="marine_valuation"  value="{{ Request::old('marine_valuation') ?: '' }}"  name="marine_valuation">          
+                           @if ($errors->has('marine_valuation'))
+                          <span class="help-block">{{ $errors->first('marine_valuation') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1266,11 +1530,11 @@
 
                          <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('bond_contract_description') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_means_of_conveyance') ? ' has-error' : ''}}">
                             <label>Ship or vessel or other means of conveyance </label>
-                             <textarea type="text" class="form-control" rows="3" id="bond_contract_description"  value="{{ Request::old('bond_contract_description') ?: '' }}"  name="bond_contract_description"></textarea>           
-                           @if ($errors->has('bond_contract_description'))
-                          <span class="help-block">{{ $errors->first('bond_contract_description') }}</span>
+                             <textarea type="text" class="form-control" rows="3" id="marine_means_of_conveyance"  value="{{ Request::old('marine_means_of_conveyance') ?: '' }}"  name="marine_means_of_conveyance"></textarea>           
+                           @if ($errors->has('marine_means_of_conveyance'))
+                          <span class="help-block">{{ $errors->first('marine_means_of_conveyance') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1278,11 +1542,11 @@
 
                         <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('contract_sum') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_voyage') ? ' has-error' : ''}}">
                             <label>Voyage</label>
-                             <input type="text" class="form-control" id="contract_sum"  value="{{ Request::old('contract_sum') ?: '' }}"  name="contract_sum">           
-                           @if ($errors->has('contract_sum'))
-                          <span class="help-block">{{ $errors->first('contract_sum') }}</span>
+                             <input type="text" class="form-control" id="marine_voyage"  value="{{ Request::old('marine_voyage') ?: '' }}"  name="marine_voyage">           
+                           @if ($errors->has('marine_voyage'))
+                          <span class="help-block">{{ $errors->first('marine_voyage') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1290,11 +1554,11 @@
 
                         <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('bond_contract_description') ? ' has-error' : ''}}">
+                          <div class="form-group{{ $errors->has('marine_condition') ? ' has-error' : ''}}">
                             <label>Conditions of insurance subject to </label>
-                             <textarea type="text" class="form-control" rows="3" id="bond_contract_description"  value="{{ Request::old('bond_contract_description') ?: '' }}"  name="bond_contract_description"></textarea>           
-                           @if ($errors->has('bond_contract_description'))
-                          <span class="help-block">{{ $errors->first('bond_contract_description') }}</span>
+                             <textarea type="text" class="form-control" rows="3" id="marine_condition"  value="{{ Request::old('marine_condition') ?: '' }}"  name="marine_condition"></textarea>           
+                           @if ($errors->has('marine_condition'))
+                          <span class="help-block">{{ $errors->first('marine_condition') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1309,91 +1573,75 @@
           
                       {{-- Fire Insurance End--}}
                        <div id="fireinsurance" name="fireinsurance">
-                     <section class="panel panel-default">
-                     <header class="panel-heading font-bold">                  
-                      ABOUT YOUR INSURANCE
-                    </header>
-                      <div class="panel-body">
-                        
-                        <div class="form-group pull-in clearfix">
+                         <section class="panel panel-default">
+                                 <header class="panel-heading font-bold">                  
+                              ABOUT INSURANCE
+                               </header>
+                            <div class="panel-body">
+
+                             <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('fire_risk_type') ? ' has-error' : ''}}">
-                            <label>What insurance do you need?</label>
-                            <select id="fire_risk_type" name="fire_risk_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                        <option value="">-- Select coverage --</option>
-                         @foreach($firerisks as $firerisk)
-                        <option value="{{ $firerisk->type }}">{{ $firerisk->type }}</option>
-                          @endforeach
+                          <div class="form-group{{ $errors->has('fire_risk_covered') ? ' has-error' : ''}}">
+                            <label>Risk Covered</label>
+                            <select id="fire_risk_covered" name="fire_risk_covered" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                       @foreach($firerisks as $firerisks)
+                        <option value="{{ $firerisks->type }}">{{ $firerisks->type }}</option>
+                          @endforeach 
                         </select>         
-                           @if ($errors->has('fire_risk_type'))
-                          <span class="help-block">{{ $errors->first('fire_risk_type') }}</span>
+                           @if ($errors->has('fire_risk_covered'))
+                          <span class="help-block">{{ $errors->first('fire_risk_covered') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
+                              
+                        <div class="form-group pull-in clearfix">
+                          <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('fire_building_cost') ? ' has-error' : ''}}">
+                            <label>Sum Insured</label>
+                            <input type="number" class="form-control" id="fire_building_cost"  value="{{ Request::old('fire_building_cost') ?: '' }}"  name="fire_building_cost">         
+                           @if ($errors->has('fire_building_cost'))
+                          <span class="help-block">{{ $errors->first('fire_building_cost') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                         <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('fire_deductible') ? ' has-error' : ''}}">
+                            <label>Deductible</label>
+                           <input type="text" class="form-control" id="fire_deductible"  value="{{ Request::old('fire_deductible') ?: '' }}"  name="fire_deductible">  
+                           @if ($errors->has('fire_deductible'))
+                          <span class="help-block">{{ $errors->first('fire_deductible') }}</span>
                            @endif    
                           </div>   
                         </div>
                         </div>
 
+                        <div class="form-group pull-in clearfix">
+                          <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('fire_personal_property_coverage') ? ' has-error' : ''}}">
+                            <label>Personal Property Coverage</label>
+                              <input type="number" class="form-control" id="fire_personal_property_coverage"  value="{{ Request::old('fire_personal_property_coverage') ?: '' }}"  name="fire_personal_property_coverage">
+                           @if ($errors->has('fire_personal_property_coverage'))
+                          <span class="help-block">{{ $errors->first('fire_personal_property_coverage') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
 
+                         <div class="col-sm-6">
+                          <div class="form-group{{ $errors->has('fire_temporary_rental_cost') ? ' has-error' : ''}}">
+                            <label>Temporay Rental Costs Coverage</label>
+                            <input type="number" class="form-control" id="fire_temporary_rental_cost"  value="{{ Request::old('fire_temporary_rental_cost') ?: '' }}"  name="fire_temporary_rental_cost">
+
+                           @if ($errors->has('fire_temporary_rental_cost'))
+                          <span class="help-block">{{ $errors->first('fire_temporary_rental_cost') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div>
                         
-                         <div class="form-group pull-in clearfix">
-                          <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_house_hold_insurance_5years') ? ' has-error' : ''}}">
-                            <label>Had Household Insurance within the past 5 years?</label>
-                            <select id="fire_house_hold_insurance_5years" name="fire_house_hold_insurance_5years" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                        <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_house_hold_insurance_5years'))
-                          <span class="help-block">{{ $errors->first('fire_house_hold_insurance_5years') }}</span>
-                           @endif    
-                          </div>   
                         </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_insurance_5years') ? ' has-error' : ''}}">
-                            <label>Had Fire Insurance within the past 5 years?</label>
-                                <select id="fire_insurance_5years" name="fire_insurance_5years" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                           <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_insurance_5years'))
-                          <span class="help-block">{{ $errors->first('fire_insurance_5years') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_burglary_5years') ? ' has-error' : ''}}">
-                            <label>Have you had Burglary Insurance the past 5 years?</label>
-                            <select id="fire_burglary_5years" name="fire_burglary_5years" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                         <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_burglary_5years'))
-                          <span class="help-block">{{ $errors->first('fire_burglary_5years') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_claims_5years') ? ' has-error' : ''}}">
-                            <label>Made any insurance claim within the past 5 years?</label>
-                            <select id="fire_claims_5years" name="fire_claims_5years" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                         <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_claims_5years'))
-                          <span class="help-block">{{ $errors->first('fire_claims_5years') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-                        </div>
-                    
-                   </section> 
+                        </section>
 
                    <section class="panel panel-default">
                      <header class="panel-heading font-bold">                  
@@ -1401,91 +1649,27 @@
                     </header>
                       <div class="panel-body">
                         
-                        <div class="form-group pull-in clearfix">
+                       <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('fire_mortgage_status') ? ' has-error' : ''}}">
-                            <label>Is your building subject to a mortgage loan?</label>
-                            <select id="fire_mortgage_status" name="fire_mortgage_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                         <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
+                          <div class="form-group{{ $errors->has('fire_building_address') ? ' has-error' : ''}}">
+                            <label>Building Address</label>
+                            <textarea type="text" rows="3" class="form-control" id="fire_building_address" name="fire_building_address" value="{{ Request::old('fire_building_address') ?: '' }}"></textarea>         
                            @if ($errors->has('fire_mortgage_status'))
-                          <span class="help-block">{{ $errors->first('fire_mortgage_status') }}</span>
+                          <span class="help-block">{{ $errors->first('fire_building_address') }}</span>
                            @endif    
                           </div>   
                         </div>
 
                         <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('fire_mortgage_company') ? ' has-error' : ''}}">
-                            <label>Provide name of mortgage company</label>
-                            <select id="fire_mortgage_company" name="fire_mortgage_company" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-{{--                           @foreach($accounttype as $accounttype)
-                        <option value="{{ $accounttype->type }}">{{ $accounttype->type }}</option>
-                          @endforeach --}}
+                          <div class="form-group{{ $errors->has('fire_property_type') ? ' has-error' : ''}}">
+                            <label>Property Type</label>
+                            <select id="fire_property_type" name="fire_property_type" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                           @foreach($propertytypes as $propertytypes)
+                        <option value="{{ $propertytypes->type }}">{{ $propertytypes->type }}</option>
+                          @endforeach 
                         </select>         
-                           @if ($errors->has('fire_mortgage_company'))
-                          <span class="help-block">{{ $errors->first('fire_mortgage_company') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-
-
-                        
-                         <div class="form-group pull-in clearfix">
-                          <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_residential_status') ? ' has-error' : ''}}">
-                            <label>Are your buildings occupied for residential purposes?</label>
-                            <select id="fire_residential_status" name="fire_residential_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                          <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_residential_status'))
-                          <span class="help-block">{{ $errors->first('fire_residential_status') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_business_status') ? ' has-error' : ''}}">
-                            <label>Is any Business or trade carried out in your building?</label>
-                            <select id="fire_business_status" name="fire_business_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                          <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_business_status'))
-                          <span class="help-block">{{ $errors->first('fire_business_status') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_premises_status') ? ' has-error' : ''}}">
-                            <label>Will your premises be occupied always?</label>
-                            <select id="fire_premises_status" name="fire_premises_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                          <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>
-                        </select>         
-                           @if ($errors->has('fire_premises_status'))
-                          <span class="help-block">{{ $errors->first('fire_premises_status') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-
-                        <div class="col-sm-3">
-                          <div class="form-group{{ $errors->has('fire_other_insurance_status') ? ' has-error' : ''}}">
-                            <label>Any other insurance on your building?</label>
-                            <select id="fire_other_insurance_status" name="fire_other_insurance_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                        <option value=""></option>
-                        <option value="Yes">Yes</option>
-                         <option value="Yes">No</option>  
-                        </select>         
-                           @if ($errors->has('fire_other_insurance_status'))
-                          <span class="help-block">{{ $errors->first('fire_other_insurance_status') }}</span>
+                           @if ($errors->has('fire_property_type'))
+                          <span class="help-block">{{ $errors->first('fire_property_type') }}</span>
                            @endif    
                           </div>   
                         </div>
@@ -1524,77 +1708,59 @@
                     
                    </section>
 
-                    <section class="panel panel-default">
-                                 <header class="panel-heading font-bold">                  
-                              AMOUNT OF COVER REQUIRED
-                               </header>
-                            <div class="panel-body">
-                              
-                        <div class="form-group pull-in clearfix">
-                          <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('fire_building_cost') ? ' has-error' : ''}}">
-                            <label>Rebuilding cost</label>
-                            <input type="number" class="form-control" id="fire_building_cost"  value="{{ Request::old('fire_building_cost') ?: '' }}"  name="fire_building_cost">         
-                           @if ($errors->has('fire_building_cost'))
-                          <span class="help-block">{{ $errors->first('fire_building_cost') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
+                
+                 <section class="panel panel-default">
+                     <header class="panel-heading font-bold">                  
+                      INTEREST INFORMATION
+                    </header>
+                      <div class="panel-body">
 
-                         <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('fire_content_cost') ? ' has-error' : ''}}">
-                            <label>Contents cost</label>
-                           <input type="number" class="form-control" id="fire_content_cost"  value="{{ Request::old('fire_content_cost') ?: '' }}"  name="fire_content_cost">  
-                           @if ($errors->has('fire_content_cost'))
-                          <span class="help-block">{{ $errors->first('fire_content_cost') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-
-                        <div class="form-group pull-in clearfix">
-                          <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('fire_public_liability_cost') ? ' has-error' : ''}}">
-                            <label>Public liablity cost</label>
-                              <input type="number" class="form-control" id="fire_public_liability_cost"  value="{{ Request::old('fire_public_liability_cost') ?: '' }}"  name="fire_public_liability_cost">
-                           @if ($errors->has('fire_public_liability_cost'))
-                          <span class="help-block">{{ $errors->first('fire_public_liability_cost') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-
-                         <div class="col-sm-6">
-                          <div class="form-group{{ $errors->has('fire_personal_accident_cost') ? ' has-error' : ''}}">
-                            <label>Personal accident cost</label>
-                            <input type="number" class="form-control" id="fire_personal_accident_cost"  value="{{ Request::old('fire_personal_accident_cost') ?: '' }}"  name="fire_personal_accident_cost">
-
-                           @if ($errors->has('fire_personal_accident_cost'))
-                          <span class="help-block">{{ $errors->first('fire_personal_accident_cost') }}</span>
-                           @endif    
-                          </div>   
-                        </div>
-                        </div>
-                        
-                        <div class="form-group pull-in clearfix">
+                         <div class="form-group pull-in clearfix">
                           <div class="col-sm-12">
-                          <div class="form-group{{ $errors->has('fire_pa_benefit_spouse_status') ? ' has-error' : ''}}">
-                            <label>If personal accident insurance is required, should it cover spouse too?</label>
-                            <select id="fire_pa_benefit_spouse_status" name="fire_pa_benefit_spouse_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-{{--                           @foreach($accounttype as $accounttype)
-                        <option value="{{ $accounttype->type }}">{{ $accounttype->type }}</option>
+                          <div class="form-group{{ $errors->has('fire_mortgage_status') ? ' has-error' : ''}}">
+                            <label>Is your building subject to a mortgage loan?</label>
+                            <select id="fire_mortgage_status" name="fire_mortgage_status" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                         <option value=""></option>
+                        <option value="Yes">Yes</option>
+                         <option value="Yes">No</option>
+                        </select>         
+                           @if ($errors->has('fire_mortgage_status'))
+                          <span class="help-block">{{ $errors->first('fire_mortgage_status') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+
+                        <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('fire_mortgage_company') ? ' has-error' : ''}}">
+                            <label>Provide name of mortgage company</label>
+                            <select id="fire_mortgage_company" name="fire_mortgage_company" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
+                     @foreach($mortagecompanies as $mortagecompanies)
+                        <option value="{{ $mortagecompanies->name }}">{{ $mortagecompanies->name }}</option>
                           @endforeach --}}
                         </select>         
-                           @if ($errors->has('fire_pa_benefit_spouse_status'))
-                          <span class="help-block">{{ $errors->first('fire_pa_benefit_spouse_status') }}</span>
+                           @if ($errors->has('fire_mortgage_company'))
+                          <span class="help-block">{{ $errors->first('fire_mortgage_company') }}</span>
+                           @endif    
+                          </div>   
+                        </div>
+                        </div> 
+                        
+                         <div class="form-group pull-in clearfix">
+                          <div class="col-sm-12">
+                          <div class="form-group{{ $errors->has('property_content') ? ' has-error' : ''}}">
+                            <label>Property Content (Item Name, Description, Cost of each item on a new line)</label>
+                            <textarea type="text" rows="3" class="form-control" id="property_content" name="property_content" value="{{ Request::old('property_content') ?: '' }}"></textarea>         
+                           @if ($errors->has('property_content'))
+                          <span class="help-block">{{ $errors->first('property_content') }}</span>
                            @endif    
                           </div>   
                         </div>
                         </div>
 
-
-
                         </div>
-                        </section>
+                    
+                   </section>
+
 
 
                       </div>
@@ -1615,7 +1781,7 @@
                           <div class="form-group{{ $errors->has('gross_premium') ? ' has-error' : ''}}">
                             <label>Gross Premium</label>
                             <div class="input-group m-b">
-                            <input type="number" class="form-control" id="gross_premium"  value="{{ Request::old('gross_premium') ?: '' }}"  name="gross_premium"><span class="input-group-addon">.00</span>   
+                            <input type="text" class="form-control parsley-validated" data-required="true" id="gross_premium"  value="{{ Request::old('gross_premium') ?: '' }}" data-type="number" name="gross_premium"><span class="input-group-addon">.00</span>   
                             </div>      
                            @if ($errors->has('gross_premium'))
                           <span class="help-block">{{ $errors->first('gross_premium') }}</span>
@@ -1628,7 +1794,7 @@
                           <div class="col-sm-8">
                           <div class="form-group{{ $errors->has('commission_rate') ? ' has-error' : ''}}">
                             <label>Commission Rate</label>
-                            <input type="number" class="form-control" id="commission_rate"  value="{{ Request::old('commission_rate') ?: '' }}"  name="commission_rate">         
+                            <input type="text" class="form-control parsley-validated" data-required="true" id="commission_rate"  value="{{ Request::old('commission_rate') ?: '' }}" data-type="number"   name="commission_rate">         
                            @if ($errors->has('commission_rate'))
                           <span class="help-block">{{ $errors->first('commission_rate') }}</span>
                            @endif    
@@ -1642,7 +1808,6 @@
                           <div class="form-group{{ $errors->has('collection_mode') ? ' has-error' : ''}}">
                             <label>Collection</label>
                             <select id="collection_mode" name="collection_mode" rows="3" tabindex="1" data-placeholder="Select here.." class="form-control m-b">
-                            <option value="">-- Not set --</option>
                          @foreach($collectionmodes as $collectionmodes)
                         <option value="{{ $collectionmodes->type }}">{{ $collectionmodes->type }}</option>
                           @endforeach 
@@ -1655,7 +1820,7 @@
                         </div>
                         
                         <div class="btn-group pull-right">
-                        <button type="submit" class="btn btn-rounded btn-sm btn-info">Save Record</button>
+                        <button type="submit" onclick="fillmandatory()" class="btn btn-rounded btn-sm btn-info">Save Record</button>
                         <input type="hidden" name="_token" value="{{ Session::token() }}">
                         </div>
 
@@ -1689,13 +1854,16 @@
 <script type="text/javascript">
 $(function () {
   $('#insurance_period').daterangepicker({
-    "minDate": moment('2016-06-14 0'),
+    "minDate": moment('2015-06-14 0'),
+    "startDate":  moment(),
+    "endDate":  moment().add(1, 'years').subtract(1, 'days'),
     "timePicker": true,
     "timePicker24Hour": true,
     "timePickerIncrement": 15,
+    "showDropdowns": true,
     "autoApply": true,
     "locale": {
-      "format": "DD/MM/YYYY HH:mm:ss",
+      "format": "DD/MM/YYYY",
       "separator": " - ",
     }
   });
@@ -1706,8 +1874,8 @@ $(function () {
 function  getproductform() 
 {
 
-  //alert($('#product').val());
-   if( $('#product').val() == "Motor Insurance")
+
+   if( $('#policy_product').val() == "Motor Insurance")
     {
          $('#motorinsurance').show();
           $('#fireinsurance').hide(); 
@@ -1716,8 +1884,12 @@ function  getproductform()
           $('#bondinsurance').hide();
           $('#marineinsurance').hide();
           $('#liabilityinsurance').hide();
+          $('#contractorallrisk').hide();
+          $('#generalaccident').hide();
+          $('#healthinsurance').hide();
+          $('#lifeinsurance').hide();
    }
-  else if( $('#product').val() == "Fire Insurance")
+  else if( $('#policy_product').val() == "Fire Insurance")
     {
          $('#fireinsurance').show();
           $('#motorinsurance').hide(); 
@@ -1727,8 +1899,12 @@ function  getproductform()
            $('#bondinsurance').hide();
            $('#marineinsurance').hide();
            $('#liabilityinsurance').hide();
+           $('#contractorallrisk').hide();
+           $('#generalaccident').hide();
+           $('#healthinsurance').hide();
+           $('#lifeinsurance').hide();
    }
-else if( $('#product').val() == "Travel Insurance")
+else if( $('#policy_product').val() == "Travel Insurance")
     {
       $('#travelinsurance').show(); 
          $('#fireinsurance').hide();
@@ -1738,9 +1914,12 @@ else if( $('#product').val() == "Travel Insurance")
            $('#bondinsurance').hide();
            $('#marineinsurance').hide(); 
            $('#liabilityinsurance').hide();
+           $('#contractorallrisk').hide();
+           $('#healthinsurance').hide();
+           $('#lifeinsurance').hide();
    }
 
-   else if( $('#product').val() == "Personal Accident Insurance")
+   else if( $('#policy_product').val() == "Personal Accident Insurance")
     {
       $('#personalaccidentinsurance').show();
       $('#travelinsurance').hide(); 
@@ -1750,9 +1929,13 @@ else if( $('#product').val() == "Travel Insurance")
            $('#bondinsurance').hide();
            $('#marineinsurance').hide();
            $('#liabilityinsurance').hide();
+           $('#contractorallrisk').hide();
+           $('#generalaccident').hide();
+           $('#healthinsurance').hide();
+           $('#lifeinsurance').hide();
             
    }
-    else if( $('#product').val() == "Bond Insurance")
+    else if( $('#policy_product').val() == "Bond Insurance")
     {
       $('#bondinsurance').show();
       $('#personalaccidentinsurance').hide();
@@ -1762,10 +1945,14 @@ else if( $('#product').val() == "Travel Insurance")
            $('#motorinsurancecomprehensive').hide();
            $('#marineinsurance').hide();
            $('#liabilityinsurance').hide();
+           $('#contractorallrisk').hide();
+           $('#generalaccident').hide();
+           $('#healthinsurance').hide();
+           $('#lifeinsurance').hide();
             
    }
 
-    else if( $('#product').val() == "Marine Insurance")
+    else if( $('#policy_product').val() == "Marine Insurance")
     {
       $('#marineinsurance').show();
       $('#bondinsurance').hide();
@@ -1775,11 +1962,15 @@ else if( $('#product').val() == "Travel Insurance")
           $('#motorinsurance').hide(); 
            $('#motorinsurancecomprehensive').hide();
            $('#liabilityinsurance').hide();
+           $('#contractorallrisk').hide();
+           $('#generalaccident').hide();
+           $('#healthinsurance').hide();
+           $('#lifeinsurance').hide();
            
             
    }
 
-    else if( $('#product').val() == "Liability Insurance")
+    else if( $('#policy_product').val() == "Liability Insurance")
     {
       $('#marineinsurance').hide();
       $('#bondinsurance').hide();
@@ -1789,11 +1980,83 @@ else if( $('#product').val() == "Travel Insurance")
           $('#motorinsurance').hide(); 
            $('#motorinsurancecomprehensive').hide();
            $('#liabilityinsurance').show();
+           $('#contractorallrisk').hide();
+           $('#generalaccident').hide();
+           $('#healthinsurance').hide();
+           $('#lifeinsurance').hide();
            
             
    }
 
-   else if( $('#product').val() == "")
+   else if( $('#policy_product').val() == "Engineering Insurance")
+    {
+      $('#marineinsurance').hide();
+      $('#bondinsurance').hide();
+      $('#personalaccidentinsurance').hide();
+      $('#travelinsurance').hide(); 
+      $('#fireinsurance').hide();
+      $('#motorinsurance').hide(); 
+      $('#motorinsurancecomprehensive').hide();
+      $('#liabilityinsurance').hide();
+      $('#contractorallrisk').show();
+      $('#generalaccident').hide();
+      $('#healthinsurance').hide();
+      $('#lifeinsurance').hide();
+           
+            
+   }
+
+   else if( $('#policy_product').val() == "General Accident Insurance")
+    {
+      $('#marineinsurance').hide();
+      $('#bondinsurance').hide();
+      $('#personalaccidentinsurance').hide();
+      $('#travelinsurance').hide(); 
+      $('#fireinsurance').hide();
+      $('#motorinsurance').hide(); 
+      $('#motorinsurancecomprehensive').hide();
+      $('#liabilityinsurance').hide();
+      $('#contractorallrisk').hide();
+      $('#generalaccident').show();
+      $('#healthinsurance').hide();
+      $('#lifeinsurance').hide();
+           
+            
+   }
+
+   else if( $('#policy_product').val() == "Health Insurance")
+    {
+      $('#marineinsurance').hide();
+      $('#bondinsurance').hide();
+      $('#personalaccidentinsurance').hide();
+      $('#travelinsurance').hide(); 
+      $('#fireinsurance').hide();
+      $('#motorinsurance').hide(); 
+      $('#motorinsurancecomprehensive').hide();
+      $('#liabilityinsurance').hide();
+      $('#contractorallrisk').hide();
+      $('#generalaccident').hide();
+      $('#healthinsurance').show();
+      $('#lifeinsurance').hide();      
+   }
+
+    else if( $('#policy_product').val() == "Life Insurance")
+    {
+      $('#marineinsurance').hide();
+      $('#bondinsurance').hide();
+      $('#personalaccidentinsurance').hide();
+      $('#travelinsurance').hide(); 
+      $('#fireinsurance').hide();
+      $('#motorinsurance').hide(); 
+      $('#motorinsurancecomprehensive').hide();
+      $('#liabilityinsurance').hide();
+      $('#contractorallrisk').hide();
+      $('#generalaccident').hide();
+      $('#healthinsurance').hide();
+      $('#lifeinsurance').show();      
+   }
+
+   else if( $('#policy_product').val() == "")
     {
         $('#motorinsurance').hide(); 
         $('#fireinsurance').hide(); 
@@ -1803,6 +2066,10 @@ else if( $('#product').val() == "Travel Insurance")
        $('#bondinsurance').hide();
        $('#marineinsurance').hide();
        $('#liabilityinsurance').hide();
+       $('#contractorallrisk').hide();
+       $('#generalaccident').hide();
+       $('#healthinsurance').hide();
+       $('#lifeinsurance').hide();    
    }
    else
    {
@@ -1814,6 +2081,10 @@ else if( $('#product').val() == "Travel Insurance")
       $('#bondinsurance').hide(); 
       $('#marineinsurance').hide();
       $('#liabilityinsurance').hide();
+      $('#contractorallrisk').hide();
+      $('#generalaccident').hide();
+      $('#healthinsurance').hide();
+      $('#lifeinsurance').hide();
 
 
     }
@@ -1824,7 +2095,7 @@ else if( $('#product').val() == "Travel Insurance")
 function  getcomprehensiveform() 
 {
 
-  //alert($('#product').val());
+  //alert($('#policy_product').val());
    if( $('#preferedcover').val() == "Comprehensive")
     {
          
@@ -1844,8 +2115,7 @@ function  getcomprehensiveform()
      
        $('#motorinsurancecomprehensive').hide();
        $('#vehicle_value').prop('disabled', true);
-
-     // $('#vehicle_buy_back_excess').prop('disabled', true);
+      $('#vehicle_buy_back_excess').prop('disabled', true);
       $('#vehicle_tppdl_value').prop('disabled', true);
 
        $('#vehicle_body_type').prop('disabled', true);
@@ -1858,15 +2128,14 @@ function  getcomprehensiveform()
      else if( $('#preferedcover').val() == "Third Party Fire & Theft")
     {
      
-       $('#motorinsurancecomprehensive').hide();
-        $('#vehicle_value').prop('disabled', false);
+      $('#motorinsurancecomprehensive').hide();
+      $('#vehicle_value').prop('disabled', false);
       $('#vehicle_buy_back_excess').prop('disabled', false);
       $('#vehicle_tppdl_value').prop('disabled', false);
-
-          $('#vehicle_body_type').prop('disabled', false);
-        $('#vehicle_chassis_number').prop('disabled', false);
-         $('#vehicle_cubic_capacity').prop('disabled', false);
-          $('#vehicle_make_year').prop('disabled', false);
+      $('#vehicle_body_type').prop('disabled', false);
+      $('#vehicle_chassis_number').prop('disabled', false);
+      $('#vehicle_cubic_capacity').prop('disabled', false);
+      $('#vehicle_make_year').prop('disabled', false);
      }
 
      else if( $('#preferedcover').val() == "")
@@ -1891,7 +2160,11 @@ $(document).ready(function () {
     $('#bondinsurance').hide();
     $('#travelinsurance').hide(); 
     $('#personalaccidentinsurance').hide(); 
-    $('#liabilityinsurance').hide();   
+    $('#liabilityinsurance').hide();
+    $('#generalaccident').hide();
+    $('#contractorallrisk').hide();
+    $('#healthinsurance').hide();
+    $('#lifeinsurance').hide();  
     $('#pa_activities').select2();
     $('#policy_insurer').select2();
     $('#roofed_with').select2();
@@ -1900,12 +2173,42 @@ $(document).ready(function () {
     $('#vehicle_body_type').select2();
     $('#vehicle_make').select2();
     $('#vehicle_model').select2();
+    $('#policy_product').select2();
+
+    loadInsurer();
+    loadinsurancetype();
+
+    $("#formid").submit(function() 
+         {      
+             $(".masterform").val("");//for all textboxes having class "textbox" 
+         });
      
   });
 </script>
 
 
 <script type="text/javascript">
+
+function fillmandatory()
+{
+  if($('#customer_number').val()=="")
+  {sweetAlert("Please select a customer ",'Fill all fields', "error");}
+  
+   else if($('#policy_insurer').val()=="")
+  {sweetAlert("Please select an insurer ",'Fill all fields', "error");}
+
+  else if($('#policy_product').val()=="")
+  {sweetAlert("Please select a product",'Fill all fields', "error");}
+
+   else if($('#policy_type').val()=="")
+  {sweetAlert("Please select excess ",'Fill all fields', "error");}
+
+
+
+}
+
+
+
 function computePremium()
 {
 
@@ -1923,7 +2226,7 @@ else if($('#vehicle_risk').val()=="")
   {sweetAlert("Please select risk ",'Fill all fields', "error");}
 else if($('#vehicle_seating_capacity').val()=="")
   {sweetAlert("Please enter seat number ",'Fill all fields', "error");}
-else if($('#vehicle_cubic_capacity').val()=="")
+else if($('#vehicle_cubic_capacity').val()=="" & $('#preferedcover').val()!="Third Party")
   {sweetAlert("Please enter cubic capacity ",'Fill all fields', "error");}
 else if($('#vehicle_ncd').val()=="")
   {sweetAlert("Please select ncd ",'Fill all fields', "error");}
@@ -1965,6 +2268,74 @@ else if($('#vehicle_fleet_discount').val()=="")
 }
   
 </script>
+
+<script type="text/javascript">
+      function loadNCD()
+   {
+    
+        $.get('/load-ncd-rate',
+          {
+            "vehicle_use": $('#vehicle_use').val()
+          },
+          function(data)
+          { 
+
+            $('#vehicle_ncd').empty();
+            $.each(data, function () 
+            {           
+            $('#vehicle_ncd').append($('<option></option>').val(this['rate']).html(this['type']));
+            });
+                                          
+         },'json');      
+    }
+
+</script>
+
+<script type="text/javascript">
+      function loadRisk()
+   {
+         
+        
+        $.get('/load-risk',
+          {
+            "vehicle_use": $('#vehicle_use').val()
+          },
+          function(data)
+          { 
+
+            $('#vehicle_risk').empty();
+            $.each(data, function () 
+            {           
+            $('#vehicle_risk').append($('<option></option>').val(this['risk']).html(this['risk']));
+            });
+                                          
+         },'json');      
+    }
+</script>
+
+<script type="text/javascript">
+      function loadModels()
+   {
+         
+        
+        $.get('/load-vehicle-model',
+          {
+            "vehicle_make": $('#vehicle_make').val()
+          },
+          function(data)
+          { 
+
+            $('#vehicle_model').empty();
+            $.each(data, function () 
+            {           
+            $('#vehicle_model').append($('<option></option>').val(this['model']).html(this['model']));
+            });
+                                          
+         },'json');      
+    }
+</script>
+
+
 
 
 

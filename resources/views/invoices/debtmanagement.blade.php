@@ -18,7 +18,7 @@
                       <a href="#" data-toggle="modal" class="btn btn-sm btn-default"><i class="fa fa-upload"></i> Upload</a>
                       <a href="#" data-toggle="modal" class="btn btn-sm btn-default"><i class="fa fa-file"></i> File</a>
                     <a href="#" data-toggle="modal" class="btn btn-sm btn-default"><i class="fa fa-print"></i> Print List</a>
-                   {{--   <span class="badge badge-info">Record(s) Found : {{ $bills->total() }} {{ str_plural('Bill', $bills->total()) }} </span> --}}
+                     <span class="badge badge-info">Record(s) Found : {{ $bills->total() }} {{ str_plural('Bill', $bills->total()) }} </span> 
                     </div>
 
                   <form action="/find-account" method="GET">
@@ -44,31 +44,29 @@
                             <th width="20"></th>
                             <th>Invoice #</th>
                             <th>Customer</th>
-                            <th>Sum</th>
+                            <th>Product</th>
                             <th>Date</th>
-                            <th>Due Date</th>
                             <th>Days OverDue</th>
-                            <th>Status</th>
-                            <th>Reminder Sent</th>
+                            <th>Currency</th>
+                            <th>Amount</th>
                           </tr>
                         </thead>
                         <tbody>
-                       {{--  @foreach( $bills as $bill )
+                         @foreach( $bills as $bill )
                           <tr>
                            
                             <td><a onclick="makeNewPost('{{ $bill->id  }}')" class="bootstrap-modal-form-open" href="#modal_posting" data-toggle="modal" ><i class="fa fa-print"></i></a></td>
                             
-                            <td>{{ $bill->bill_number }}</td>
-                            <td>{{ $bill->guard_name }}</td>
-                            <td>{{ $bill->contract }}</td>
-                            <td>{{ $bill->date }}</td>
-                            <td>{{ $bill->rate }}</td>
-                            <td>{{ $bill->with_holding_rate }}</td>
-                            <td>{{ $bill->net_income }}</td>
-                            <td>{{ $bill->bill_payable }}</td>
-                            <td>{{ $bill->approvedby }}</td>
+                            <td>{{ $bill->invoice_number }}</td>
+                            <td>{{ $bill->account_name }}</td>
+                            <td>{{ $bill->policy_product }}</td>
+                            <td>{{ $bill->created_on }}</td>
+                            <td>{{ $bill->created_on->age }}</td>
+                            <td>{{ $bill->currency }}</td>
+                            <td>{{ $bill->amount }}</td>
+                           
                           </tr>
-                         @endforeach --}}
+                         @endforeach
                         </tbody>
  
                       </table>
@@ -83,7 +81,7 @@
                     </div>
                     <div class="col-md-6 col-sm-12 text-right text-center-xs">                
                      
-                       {{--  {!!$bills->render()!!} --}}
+                         {!!$bills->render()!!} 
                         
                     </div>
                   </div>

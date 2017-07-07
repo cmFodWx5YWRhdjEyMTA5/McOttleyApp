@@ -1,0 +1,342 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="commission_report" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8cc2ca6e-5f33-4764-8676-7f75dac4eeef">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="ireport.jasperserver.reportUnit" value="/mcottleybroker/commission_summary"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/services/repository"/>
+	<style name="Crosstab Data Text" hAlign="Center"/>
+	<parameter name="realPath" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="customerval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="businessclass" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="insurer" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="salesagentval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     pending_bills.`id` AS pending_bills_id,
+     pending_bills.`invoice_number` AS pending_bills_invoice_number,
+     pending_bills.`account_number` AS pending_bills_account_number,
+     pending_bills.`account_name` AS pending_bills_account_name,
+     pending_bills.`policy_number` AS pending_bills_policy_number,
+     pending_bills.`policy_product` AS pending_bills_policy_product,
+     pending_bills.`currency` AS pending_bills_currency,
+     pending_bills.`amount` AS pending_bills_amount,
+     pending_bills.`commission_rate` AS pending_bills_commission_rate,
+     pending_bills.`note` AS pending_bills_note,
+     pending_bills.`status` AS pending_bills_status,
+     pending_bills.`created_by` AS pending_bills_created_by,
+     pending_bills.`created_on` AS pending_bills_created_on,
+     pending_bills.`policy_insurer` AS policy_insurer,
+     pending_bills.`account_manager` AS account_manager
+FROM
+     `pending_bills` pending_bills
+WHERE
+      (pending_bills.`created_on` BETWEEN $P{start_date} and $P{end_date}) and
+     ($P{customerval} = 'All'
+     or pending_bills.`account_number` = $P{customerval})
+and ($P{businessclass} = 'All'
+     or pending_bills.`policy_product` = $P{businessclass})
+     and ($P{insurer} = 'All'
+     or pending_bills.`policy_insurer` = $P{insurer})
+     and ($P{salesagentval} = 'All'
+     or pending_bills.`created_by` = $P{salesagentval})
+     and (pending_bills.`currency` = $P{currencyval})]]>
+	</queryString>
+	<field name="pending_bills_id" class="java.lang.Long"/>
+	<field name="pending_bills_invoice_number" class="java.lang.String"/>
+	<field name="pending_bills_account_number" class="java.lang.Integer"/>
+	<field name="pending_bills_account_name" class="java.lang.String"/>
+	<field name="pending_bills_policy_number" class="java.lang.String"/>
+	<field name="pending_bills_policy_product" class="java.lang.String"/>
+	<field name="pending_bills_currency" class="java.lang.String"/>
+	<field name="pending_bills_amount" class="java.math.BigDecimal"/>
+	<field name="pending_bills_commission_rate" class="java.math.BigDecimal"/>
+	<field name="pending_bills_note" class="java.lang.String"/>
+	<field name="pending_bills_status" class="java.lang.String"/>
+	<field name="pending_bills_created_by" class="java.lang.String"/>
+	<field name="pending_bills_created_on" class="java.sql.Timestamp"/>
+	<field name="policy_insurer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="account_manager" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total_premium" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{pending_bills_amount}]]></variableExpression>
+	</variable>
+	<variable name="commission" class="java.lang.Double">
+		<variableExpression><![CDATA[(($F{pending_bills_amount} * ($F{pending_bills_commission_rate}/100))-15) - ((($F{pending_bills_amount} * ($F{pending_bills_commission_rate}/100))-15) * 5/100)]]></variableExpression>
+	</variable>
+	<variable name="total_commion" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{commission}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<image>
+				<reportElement x="593" y="8" width="189" height="71" uuid="b79bd120-de1c-433b-8120-3da7f4a2e443"/>
+				<imageExpression><![CDATA["IMG-20160817-WA0003.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="0" width="247" height="20" uuid="06073b09-a02b-4dfe-b6ef-34f67b9a5dcc"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commission Summary By Insurer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="28" width="59" height="20" uuid="cc9006fc-7481-4cac-a897-cc24e92272ae"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period From :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="48" width="59" height="20" uuid="a0d20463-c0d5-4d57-9be2-11398a51b7a5"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period To :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="69" width="59" height="20" uuid="70122ddd-5b0e-4f9d-960b-2ea9da43c56c"/>
+				<textElement>
+					<font fontName="SansSerif" size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Currency :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="60" y="28" width="100" height="20" uuid="e27db0a1-07f1-4a1a-a98c-74429a260ad0"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{start_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="49" width="100" height="20" uuid="5b76a0f5-650e-4308-b1cf-ae539bac18d3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{end_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="60" y="69" width="100" height="20" uuid="6c987f06-c7a0-45a7-a331-1314b507568e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currencyval}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="54" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="24" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="802" height="1" uuid="7a2e73cb-91d2-48f6-a896-cd74ce079182"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnHeader>
+	<columnFooter>
+		<band height="15" splitType="Stretch">
+			<elementGroup/>
+			<elementGroup/>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="55" splitType="Stretch">
+			<textField>
+				<reportElement x="667" y="34" width="80" height="20" uuid="f8df3efe-9274-427b-bd0e-0ff293161f7c"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="747" y="34" width="40" height="20" uuid="114c9303-7be6-452f-9abe-c5d209917070"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="34" width="41" height="20" uuid="329006e4-d004-44ba-9245-db68de8a5da8"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Printed By :]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="1" y="15" width="142" height="17" uuid="57252fb5-be5f-43c9-8a4a-a3ab0b762afb"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="281" y="32" width="219" height="20" uuid="59f1882a-81df-47a2-b1aa-64b4d28f23cc"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End of Report]]></text>
+			</staticText>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="178" splitType="Stretch">
+			<crosstab>
+				<reportElement x="0" y="0" width="802" height="178" uuid="7360266b-0204-4930-866e-a50e153091a3"/>
+				<rowGroup name="policy_insurer" width="99" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{policy_insurer}]]></bucketExpression>
+					</bucket>
+					<crosstabRowHeader>
+						<cellContents backcolor="#EABFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="11" y="0" width="78" height="25" uuid="5e560dc0-4428-47ed-ae06-5f7a5b81867d"/>
+								<textElement>
+									<font size="6"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{policy_insurer}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabRowHeader>
+					<crosstabTotalRowHeader>
+						<cellContents backcolor="#F7E6FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="70" height="25" uuid="093bb814-934c-4ed2-9b53-f07f5adb3b33"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[Total]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalRowHeader>
+				</rowGroup>
+				<columnGroup name="pending_bills_policy_product" height="30" totalPosition="End">
+					<bucket class="java.lang.String">
+						<bucketExpression><![CDATA[$F{pending_bills_policy_product}]]></bucketExpression>
+					</bucket>
+					<crosstabColumnHeader>
+						<cellContents backcolor="#EABFFF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<textField>
+								<reportElement style="Crosstab Data Text" x="0" y="0" width="74" height="30" uuid="b9c2c830-a6b1-461a-9e37-b47f02beaf67"/>
+								<textElement>
+									<font size="7"/>
+								</textElement>
+								<textFieldExpression><![CDATA[$V{pending_bills_policy_product}]]></textFieldExpression>
+							</textField>
+						</cellContents>
+					</crosstabColumnHeader>
+					<crosstabTotalColumnHeader>
+						<cellContents backcolor="#F7E6FF" mode="Opaque">
+							<box>
+								<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+							</box>
+							<staticText>
+								<reportElement x="0" y="0" width="73" height="30" uuid="5375bbf4-8c02-4465-b91b-096c0ce96ebd"/>
+								<textElement textAlignment="Center" verticalAlignment="Middle">
+									<font size="7"/>
+								</textElement>
+								<text><![CDATA[Total ]]></text>
+							</staticText>
+						</cellContents>
+					</crosstabTotalColumnHeader>
+				</columnGroup>
+				<measure name="commissionMeasure" class="java.lang.Double" calculation="Sum">
+					<measureExpression><![CDATA[$V{commission}]]></measureExpression>
+				</measure>
+				<crosstabCell width="76" height="25">
+					<cellContents>
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="#,##0.00;(#,##0.00)">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="74" height="25" uuid="648a561c-cf31-4d63-afa9-afff9da64a32"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{commissionMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="76" height="25" rowTotalGroup="policy_insurer">
+					<cellContents backcolor="#F7E6FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="#,##0.00;(#,##0.00)">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="74" height="25" uuid="f665f66d-86c8-4860-9c94-fee9fd2842dc"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{commissionMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="73" columnTotalGroup="pending_bills_policy_product">
+					<cellContents backcolor="#F7E6FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="#,##0.00;(#,##0.00)">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="73" height="25" uuid="961ae458-fe76-462a-b775-30eac3d83462"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{commissionMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+				<crosstabCell width="73" rowTotalGroup="policy_insurer" columnTotalGroup="pending_bills_policy_product">
+					<cellContents backcolor="#F7E6FF" mode="Opaque">
+						<box>
+							<pen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						</box>
+						<textField pattern="#,##0.00;(#,##0.00)">
+							<reportElement style="Crosstab Data Text" x="0" y="0" width="73" height="25" uuid="75cac489-acd2-4715-984e-8997482bd237"/>
+							<textElement>
+								<font size="7"/>
+							</textElement>
+							<textFieldExpression><![CDATA[$V{commissionMeasure}]]></textFieldExpression>
+						</textField>
+					</cellContents>
+				</crosstabCell>
+			</crosstab>
+		</band>
+	</summary>
+</jasperReport>

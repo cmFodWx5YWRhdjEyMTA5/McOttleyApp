@@ -11,6 +11,8 @@ use Illuminate\Foundation\Auth\ThrottlesLogins;
 use Illuminate\Foundation\Auth\AuthenticatesAndRegistersUsers;
 use DB;
 use OrionMedical\Models\Role; 
+use Input;
+use Response;
 
 class AuthController extends Controller
 {
@@ -21,11 +23,7 @@ class AuthController extends Controller
 
 
      
-     public function getSignup()
-    {
-         $roles=Role::get();
-         return view('auth.signup',compact('roles'));
-    }
+   
    
 
     public function postSignup(Request $request)
@@ -106,7 +104,26 @@ class AuthController extends Controller
     }
 
     
+    public function deleteUser()
+    {
 
+            $userid = Input::get("ID");
+
+            $affectedRows = User::where('id', '=', $userid)->delete();
+
+            if($affectedRows > 0)
+            {
+             
+                $ini = array('OK'=>'OK');
+                return  Response::json($ini);
+            }
+            else
+            {
+                $ini = array('No Data'=>'No Data');
+                return  Response::json($ini);
+            }
+
+    }
 
 
 

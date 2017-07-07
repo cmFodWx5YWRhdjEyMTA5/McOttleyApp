@@ -45,7 +45,7 @@
                   <header class="panel-heading">
                     <form action="/find-policy-detail" method="GET">
                       <div class="input-group text-ms">
-                        <input type="text" name='search' id='search' class="input-sm form-control" placeholder="Policy, Insurer, Customer, Cover, Status">
+                        <input type="text" name='search' id='search' class="input-sm form-control" placeholder="Search by policy, insurer, customer, cover, status">
                         <div class="input-group-btn">
                            <button class="btn btn-sm btn-dark" type="submit">Search!</button>
                         </div>
@@ -63,9 +63,10 @@
                             <th>Validity </th>
                             <th>Customer </th>
                             <th>Cover Type</th>
-                            <th>Premium</th>
+                            <th>Created By</th>
+                           <th>Created On</th>
                             <th>Status</th>
-                             @permission('edit-patient')
+                             @permission('edit-customer')
                             <th width="30"></th>
                             <th width="30"></th>
                             <th width="30"></th>
@@ -78,17 +79,28 @@
                         @foreach( $policies as $key => $policy )
                           <tr>
                            <td>{{ ++$key }}</td>
-                            <td><a href="/view-policy/{{ $policy->id }}" class="text-default">{{ $policy->policy_number }}</a></td>
+                           @if($policy->status =='Running')
+                            
+                              <td><a href="/view-policy/{{ $policy->id }}" class="text-info">{{ $policy->policy_number }} @if($policy->policy_product=='Motor Insurance') ( {{ $policy->vehicle_registration_number }} ) @else  @endif </a></td>
+                            @else
+                           <td><a href="/view-policy/{{ $policy->id }}" class="text-danger">{{ $policy->policy_number }} @if($policy->policy_product=='Motor Insurance') ( {{ $policy->vehicle_registration_number }} ) @else  @endif </a></td>
+                            @endif
                             <td>{{ $policy->policy_insurer }}</td>
                             <td>{{ $policy->insurance_period_from}} to {{ $policy->insurance_period_to}}</td>
-                            <td><a href="/customer-profile/{{ $policy->customer_number }}" class="text-default">{{ $policy->fullname }}</a></td>
+                            <td><a href="/customer-profile/{{ $policy->customer_number }}" class="text-default">{{ ucwords(strtolower($policy->fullname)) }}</a></td>
                             <td>{{ $policy->policy_product }}</td>
-                            <td>{{ $policy->amount }}</td>
-                            <td>{{ $policy->status }}</td>
+                             <td>{{ $policy->created_by }}</td> 
+                             <td>{{ $policy->created_on }}</td> 
 
-                            @permission('edit-patient')
+                             @if($policy->insurance_period_to < Carbon\Carbon::now())
+                            <td>Expired</td>
+                            @else
+                             <td>{{ $policy->status }}</td>
+                             @endif
+
+                            @permission('edit-customer')
                             <td>
-                            <a href="/view-policy/{{ $policy->id }}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-file"></i></a>
+                            <a href="/view-policy/{{ $policy->id }}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-folder-open"></i></a>
                              </td>
                              <td>
                             <a href="/print-policy/{{ $policy->id }}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-print"></i></a>
@@ -98,7 +110,7 @@
                              </td>
                            
                              <td>
-                              <a href="#" class="" onclick="removePolicy('{{ $policy->id }}','{{ $policy->fullname }}')" data-toggle="class"><i class="fa fa-trash"></i> </a>
+                              <a href="#" class="" onclick="removePolicy('{{ $policy->id }}','{{ $policy->ref_number }}','{{ $policy->fullname }}')" data-toggle="class"><i class="fa fa-trash"></i> </a>
 
                             </td>
                           
@@ -140,7 +152,7 @@
 @stop
 
 <script type="text/javascript">
-  function removePolicy(id,name)
+  function removePolicy(id,name,refid)
    {
       swal({   
         title: "Are you sure?",   
@@ -157,7 +169,8 @@
           { 
           $.get('/delete-policy',
           {
-             "ID": id 
+             "ID": id,
+             "policynumber": refid  
           },
           function(data)
           { 
@@ -166,12 +179,12 @@
             {
             if(value == "OK")
             {
-              swal("Deleted!", name +" was removed from prescription list.", "success"); 
+              swal("Deleted!", name +" was removed from policy list.", "success"); 
                location.reload(true);
              }
             else
             { 
-              swal("Cancelled", name +" failed to be removed from prescription.", "error");
+              swal("Cancelled", name +" failed to be removed from policy list.", "error");
               
             }
            
@@ -181,11 +194,27 @@
            
              } 
         else {     
-          swal("Cancelled", name +" failed to be removed from prescription.", "error");   
+          swal("Cancelled", name +" failed to be removed from policy list.", "error");   
         } });
 
     
    }
+</script>
+
+<script type="text/javascript">
+$(function () {
+  $('#departure_date').daterangepicker({
+     "minDate": moment('2010-06-14 0'),
+    "maxDate": moment(),
+    "singleDatePicker":true,
+    "autoApply": true,
+    "showDropdowns": true,
+    "locale": {
+      "format": "DD/MM/YYYY HH:mm:ss",
+      "separator": " - ",
+    }
+  });
+});
 </script>
 
 

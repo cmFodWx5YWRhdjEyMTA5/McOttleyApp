@@ -41,7 +41,7 @@
                       </form>
                     </header>
                     <div class="table-responsive">
-                      <table class="table table-striped m-b-none">
+                      <table class="table table-striped m-b-none text-sm" width="100%">
                         <thead>
                           <tr>
                             <th>Claim ID </th>
@@ -52,6 +52,10 @@
                             <th>Product</th>
                             <th>Broker</th>
                             <th>Loss Date</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
                           </tr>
                         </thead>
                         <tbody>
@@ -65,6 +69,24 @@
                             <td>{{ $claim->policy_product }}</td>
                             <td>{{ $claim->claim_handler }}</td>
                             <td>{{ $claim->loss_date }}</td>
+
+                                   @permission('edit-patient')
+                            <td>
+                            <a href="/claim-profile/{{ $claim->id }}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-folder-open"></i></a>
+                             </td>
+                             <td>
+                            <a href="/print-claim/{{ $claim->id }}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-print"></i></a>
+                             </td>
+                            <td>
+                            <a href="{{ route('edit-claim', $claim->id) }}" class="bootstrap-modal-form-open"   id="edit" name="edit" data-toggle="modal" alt="edit"><i class="fa fa-pencil"></i></a>
+                             </td>
+                           
+                             <td>
+                              <a href="#" class="" onclick="removePolicy('{{ $claim->id }}')" data-toggle="class"><i class="fa fa-trash"></i> </a>
+
+                            </td>
+                          
+                            @endpermission 
                           </tr>
                          @endforeach 
                         </tbody>

@@ -56,6 +56,13 @@
                         <input type="text" readonly="true" value="{{ $customers[0]->fullname }}" class="form-control rounded">                        
                       </div>
                     </div>
+                     <div class="line line-dashed line-lg pull-in"></div>
+                     <div class="form-group">
+                      <label class="col-sm-2 control-label">DOB</label>
+                      <div class="col-sm-10">
+                        <input type="text" readonly="true" value="{{ $customers[0]->date_of_birth }} ({{ $customers[0]->date_of_birth->age }} years)" class="form-control rounded">                        
+                      </div>
+                    </div>
                     <div class="line line-dashed line-lg pull-in"></div>
                      <div class="form-group">
                       <label class="col-sm-2 control-label">Email</label>
@@ -133,7 +140,8 @@
                             <th>Insurer</th>
                             <th>Validity</th>
                             <th>Object</th>
-                            <th>Premium</th>
+                            <th>Created On</th>
+                            <th>Created By</th>
                             <th>Status</th>
                           </tr>
                         </thead>
@@ -145,7 +153,8 @@
                             <td>{{ $policy->policy_insurer }}</td>
                             <td>{{ $policy->insurance_period_from }} to {{ $policy->insurance_period_to }}</td>
                             <td>{{ $policy->policy_product }}</td>
-                            <td>{{ $policy->amount }}</td>
+                            <td>{{ $policy->created_on }}</td>
+                            <td>{{ $policy->created_by }}</td>
                             <td>{{ $policy->status }}</td>
                           </tr>
                          @endforeach
@@ -205,21 +214,21 @@
                             <th>Date</th>
                             <th>Last Payment</th>
                             <th>Currency</th>
-                            <th>Invoice Sum</th>
-                            <th>Paid Sum</th>
+                            <th>Premium</th>
+                            <th>Paid Amount</th>
                             <th>Status</th>
                           </tr>
                         </thead>
                         <tbody>
-                         @foreach($policydetails as $key => $balancesheet )
+                         @foreach($balancesheet as $key => $balancesheet )
                           <tr>
                             <td>{{ $key++ }}</td>
                             <td>{{ $balancesheet->invoice_number }}</td>
                             <td>{{ $balancesheet->created_on }}</td>
-                            <td>{{ $balancesheet->payment_date }}</td>
+                            <td>{{ $balancesheet->last_payment_date }}</td>
                             <td>{{ $balancesheet->currency }}</td>
                             <td>{{ $balancesheet->amount }}</td>
-                            <td>{{ $balancesheet->payment_sum }}</td>
+                            <td>{{ $balancesheet->paid_amount }}</td>
                             <td>{{ $balancesheet->status }}</td>
                           </tr>
                          @endforeach
@@ -300,19 +309,19 @@
                           <ul class="list-group">
                             <div class="list-group no-radius alt">
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ $policydetails[0]->amount }}</span>
+                            <span class="badge bg-default">{{ $balancesheet->sum('amount') }}</span>
                             <i class="fa fa-money"></i> 
-                            Unpaid Invoice
+                            Generated Invoices
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-default">{{ $policydetails[0]->payment_sum }}</span>
+                            <span class="badge bg-info">{{ $balancesheet->sum('paid_amount') }}</span>
                             <i class="fa fa-bar-chart-o"></i> 
-                            Payment
+                            Payments
                           </a>
                           <a class="list-group-item" href="#">
-                            <span class="badge bg-danger">{{ $policydetails[0]->amount - $policydetails[0]->payment_sum }}</span>
+                            <span class="badge bg-danger">{{ $balancesheet->sum('amount') - $balancesheet->sum('paid_amount') }}</span>
                             <i class="fa  fa-heart-o "></i> 
-                           Total
+                           Balance Total
                           </a>
                         </div>
                           </ul>
@@ -320,32 +329,10 @@
                        
 
 
-                          <section class="panel panel-default">
-                          <h4 class="font-thin padder"><strong> Policies </strong></h4>
-                          <ul class="list-group">
-                            <div class="list-group no-radius alt">
-                          <a class="list-group-item" href="#">
-                            <span class="badge bg-info">{{ $policydetails[0]->amount }}</span>
-                            <i class="fa fa-money"></i> 
-                            Customer paid
-                          </a>
-                          <a class="list-group-item" href="#">
-                            <span class="badge bg-danger">0</span>
-                            <i class="fa fa-bar-chart-o"></i> 
-                            Customer payable
-                          </a>
-                          <a class="list-group-item" href="#">
-                            <span class="badge bg-light">5</span>
-                            <i class="fa  fa-qrcode"></i> 
-                           Policy balance
-                          </a>
-                        </div>
-                          </ul>
-                        </section>
                        
 
                         <section class="panel panel-default">
-                          <h4 class="font-thin padder"><strong> Sales Opoortunities </strong></h4>
+                          <h4 class="font-thin padder"><strong> Sales Opportunities </strong></h4>
                           <ul class="list-group">
                             <div class="list-group no-radius alt">
                           {{-- <a class="list-group-item" href="#">
@@ -364,28 +351,7 @@
                         </section>
                        
 
-                         <section class="panel panel-default">
-                          <h4 class="font-thin padder"><strong>Task</strong></h4>
-                          <ul class="list-group">
-                            <li class="list-group-item">
-                                <p>Wellcome <a href="#" class="text-info">@Drew Wllon</a> and play this web application template, have fun1 </p>
-                                <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
-                            </li>
-                           
-                          </ul>
-                        </section>
-
-                           <section class="panel panel-default">
-                          <h4 class="font-thin padder"><strong>Notes</strong></h4>
-                          <ul class="list-group">
-                            <li class="list-group-item">
-                                <p>Wellcome <a href="#" class="text-info">@Drew Wllon</a> and play this web application template, have fun1 </p>
-                                <small class="block text-muted"><i class="fa fa-clock-o"></i> 2 minuts ago</small>
-                            </li>
-                           
-                          </ul>
-                        </section>
-                      </div>
+                       
                     </section>
                     </section>
                     </aside>
@@ -396,7 +362,40 @@
   @stop
 
 
+ <div class="modal fade" id="attach_document" size="600">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h4 class="modal-title">Attach Document</h4>
+        </div>
 
+        <div class="modal-body">
+         <div class="fallback">
+          <form method="post"  enctype="multipart/form-data" action="/uploadfiles">
+          <input type="text" class="form-control" width="1000px" height="40px" name="filename" id="filename" placeholder="Enter file name" /><br>
+          <input type="file" class="form-control dropbox" width="500px" height="40px" name="image" /><br>
+          <input type="submit" name="submit"  class="btn btn-success btn-s-xs" value="upload" />
+          <input type="hidden" name="_token" value="{{ Session::token() }}">
+          <input type="hidden" name="selectedid" id="selectedid" value="{{ $customers[0]->id  }}">
+          <input type="hidden" name="selectedcustomer" id="selectedcustomer" value="{{ $customers[0]->id  }}">
+        </form>
+        </div>
+          <br>
+          <br>
+          <br>
+              <div class="jumbotron how-to-create">
+                <ul>
+                    <li>Documents/Images are uploaded as soon as you drop them</li>
+                    <li>Maximum allowed size of image is 8MB</li>
+                </ul>
+
+            </div>
+
+      </div>
+      </div>
+      </div>
+      </div>
 
 
 

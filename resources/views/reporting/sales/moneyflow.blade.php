@@ -6,96 +6,16 @@
               <ul class="breadcrumb no-border no-radius b-b b-light pull-in">
                 <li><a href="index.html"><i class="fa fa-home"></i> Home</a></li>
                 <li >Reports</li>
-                <li class="active">Money flow</li>
+                <li class="active">Commission Summary </li>
               </ul>
+
             
               <div class="col-lg-12">
-                  <h2 class="font-thin">Money flow</h2>
+                  <h2 class="font-thin">Commission Summary</h2>
                 </div>
                 
-              <div class="row">
-              <div class="col-sm-12">
-               <section class="panel panel-default">
-                <header class="panel-heading font-bold">
-                  Report Criteria
-                </header>
-                <div class="panel-body">
-                  <form class="form-horizontal" method="get">
-                    <div class="form-group">
-                      <label class="col-sm-2 control-label"> PERIOD</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-                   
-                   
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">CUSTOMER</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-                       <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">POLICY</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">INSURER</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">PRODUCT</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">SALES PERSON</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">POLICY ISSUED PERSON</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">CURRENCY</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" class="form-control rounded">                        
-                      </div>
-                    </div>
-                    <div class="line line-dashed line-lg pull-in"></div>
-                     <div class="form-group">
-                      <label class="col-sm-2 control-label">FORMAT</label>
-                      <div class="col-sm-10">
-                        <input type="text" readonly="true" value="" class="form-control rounded">                        
-                      </div>
-                    </div>
-
-                    </form>
-                    </div>
-                    </section>
-                    </div>
-
-              
-    
-              </div>
-              
+             <iframe height="800px" width="100%" allowTransparency="true" frameborder="0" scrolling="yes" style="width:100%;" src="http://172.23.1.4:8080/jasperserver/flow.html?_flowId=viewReportFlow&reportUnit=/mcottleybroker/commission_summary&decorate=no&j_username=jasperadmin&j_password=jasperadmin&viewAsDashboardFrame=false  
+" type= "text/javascript"></iframe>
 
      
             </section>

@@ -1,0 +1,397 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="commission_report" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="8cc2ca6e-5f33-4764-8676-7f75dac4eeef">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="21"/>
+	<property name="ireport.jasperserver.reportUnit" value="/mcottleybroker/commission_receivable"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/services/repository"/>
+	<parameter name="realPath" class="java.lang.String">
+		<parameterDescription><![CDATA[]]></parameterDescription>
+	</parameter>
+	<parameter name="customerval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="businessclass" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="insurer" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="salesagentval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     pending_bills.`id` AS pending_bills_id,
+     pending_bills.`invoice_number` AS pending_bills_invoice_number,
+     pending_bills.`account_number` AS pending_bills_account_number,
+     pending_bills.`account_name` AS pending_bills_account_name,
+     pending_bills.`policy_number` AS pending_bills_policy_number,
+     pending_bills.`policy_product` AS pending_bills_policy_product,
+     pending_bills.`currency` AS pending_bills_currency,
+     pending_bills.`amount` AS pending_bills_amount,
+     pending_bills.`commission_rate` AS pending_bills_commission_rate,
+     pending_bills.`note` AS pending_bills_note,
+     pending_bills.`status` AS pending_bills_status,
+     pending_bills.`created_by` AS pending_bills_created_by,
+     pending_bills.`created_on` AS pending_bills_created_on,
+     pending_bills.`policy_insurer` AS policy_insurer,
+     pending_bills.`account_manager` AS account_manager,
+     pending_bills.`paid_amount` AS paid_amount,
+     pending_bills.`last_payment_date` AS last_payment_date
+FROM
+     `pending_bills` pending_bills
+WHERE
+      (pending_bills.`created_on` BETWEEN $P{start_date} and $P{end_date}) and
+     ($P{customerval} = 'All'
+     or pending_bills.`account_number` = $P{customerval})
+and ($P{businessclass} = 'All'
+     or pending_bills.`policy_product` = $P{businessclass})
+     and ($P{insurer} = 'All'
+     or pending_bills.`policy_insurer` = $P{insurer})
+     and ($P{salesagentval} = 'All'
+     or pending_bills.`created_by` = $P{salesagentval})
+     and (pending_bills.`currency` = $P{currencyval})]]>
+	</queryString>
+	<field name="pending_bills_id" class="java.lang.Long"/>
+	<field name="pending_bills_invoice_number" class="java.lang.String"/>
+	<field name="pending_bills_account_number" class="java.lang.Integer"/>
+	<field name="pending_bills_account_name" class="java.lang.String"/>
+	<field name="pending_bills_policy_number" class="java.lang.String"/>
+	<field name="pending_bills_policy_product" class="java.lang.String"/>
+	<field name="pending_bills_currency" class="java.lang.String"/>
+	<field name="pending_bills_amount" class="java.math.BigDecimal"/>
+	<field name="pending_bills_commission_rate" class="java.math.BigDecimal"/>
+	<field name="pending_bills_note" class="java.lang.String"/>
+	<field name="pending_bills_status" class="java.lang.String"/>
+	<field name="pending_bills_created_by" class="java.lang.String"/>
+	<field name="pending_bills_created_on" class="java.sql.Timestamp"/>
+	<field name="policy_insurer" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="account_manager" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="paid_amount" class="java.math.BigDecimal">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="last_payment_date" class="java.sql.Timestamp">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<variable name="total_premium" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{pending_bills_amount}]]></variableExpression>
+	</variable>
+	<variable name="commission" class="java.lang.Double">
+		<variableExpression><![CDATA[(($F{pending_bills_amount} * ($F{pending_bills_commission_rate}/100))-15) - ((($F{pending_bills_amount} * ($F{pending_bills_commission_rate}/100))-15) * 5/100)]]></variableExpression>
+	</variable>
+	<variable name="total_commion" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{commission}]]></variableExpression>
+	</variable>
+	<variable name="tax" class="java.lang.Double">
+		<variableExpression><![CDATA[((($F{pending_bills_amount} * ($F{pending_bills_commission_rate}/100))-15) * 5/100)]]></variableExpression>
+	</variable>
+	<variable name="grosscommission" class="java.lang.Double">
+		<variableExpression><![CDATA[(($F{pending_bills_amount} * ($F{pending_bills_commission_rate}/100))-15)]]></variableExpression>
+	</variable>
+	<variable name="variable1" class="java.lang.String">
+		<variableExpression><![CDATA[]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="89" splitType="Stretch">
+			<image>
+				<reportElement x="599" y="2" width="189" height="71" uuid="b79bd120-de1c-433b-8120-3da7f4a2e443"/>
+				<imageExpression><![CDATA["IMG-20160817-WA0003.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="0" y="5" width="197" height="20" uuid="06073b09-a02b-4dfe-b6ef-34f67b9a5dcc"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commission Receivable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="25" width="61" height="20" uuid="f44e7432-59c0-49ec-9d86-66f75cf0853b"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period From :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="45" width="61" height="20" uuid="8ed7365e-7c35-478a-bad4-8d89ddbff4a4"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period To :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="1" y="65" width="61" height="20" uuid="ceb65c99-6e71-4b9d-8d7c-b809723f13db"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Currency :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="62" y="65" width="100" height="20" uuid="38a747c0-2444-44af-ab7d-581f717fc38e"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currencyval}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="25" width="100" height="20" uuid="c1f8343e-4ffe-4f65-becf-3ce5fd25e4d9"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{start_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="62" y="45" width="100" height="20" uuid="c8b7760c-ea62-4c64-ad7f-9a3dd325dff3"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{end_date}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="32" splitType="Stretch">
+			<staticText>
+				<reportElement x="40" y="5" width="81" height="20" uuid="d9639bae-1dca-4aa1-ab90-e67b7acfded6"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="379" y="5" width="64" height="20" uuid="564ddc36-a02d-4e76-a185-f84bca2b3a4a"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Date]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="0" width="802" height="1" uuid="7a2e73cb-91d2-48f6-a896-cd74ce079182"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="26" width="802" height="1" uuid="e553cea8-6a7c-4b15-a5ca-75c2fcb6af1c"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="123" y="5" width="100" height="20" uuid="1c68dccc-9391-4de6-b12c-33a047958a73"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="453" y="5" width="70" height="20" uuid="191c901c-6df1-4711-a4a4-3f3e29578068"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Premium]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="532" y="5" width="53" height="20" uuid="04d106eb-90db-45bb-83e0-65a2bafc9f81"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commission Rate]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="228" y="5" width="144" height="20" uuid="228d4d46-5e09-487d-ae09-aae97129d1bd"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Insurer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="728" y="5" width="74" height="20" uuid="b67edd2d-ab7b-48c2-992d-2b9a15a1b771"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commission Receivable]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="667" y="5" width="61" height="20" uuid="62a21de7-17a1-4fd2-9fc9-c7f571057f01"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tax]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="600" y="5" width="53" height="20" uuid="c2f12aff-12cc-4058-895e-cf5ff09c4c6c"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gross Commission]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="25" splitType="Stretch">
+			<textField>
+				<reportElement x="39" y="3" width="81" height="20" uuid="4d6ffebd-5fb5-41f1-b41e-fff6b33fe10b"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pending_bills_account_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="3" width="65" height="20" uuid="6f2c84db-335e-43bf-b9dc-ac8d19cb4b04"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pending_bills_created_on}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="22" width="802" height="1" uuid="a1427070-5ea5-4eff-881e-3a23aaea8e9c"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="453" y="3" width="70" height="20" uuid="e4e099d4-22c5-41d6-8088-554653a7de28"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pending_bills_amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="227" y="3" width="144" height="20" uuid="88623123-a6d3-4e46-8685-6b76df475e87"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{policy_insurer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="124" y="3" width="100" height="20" uuid="55a94552-004b-4174-9549-66d628f40a14"/>
+				<textElement>
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pending_bills_policy_product}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="532" y="3" width="53" height="20" uuid="0ca08d1a-ab6a-44bb-ae9a-81be10945875"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{pending_bills_commission_rate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="5" y="3" width="35" height="17" uuid="f31ed15c-8727-4ddc-a19d-b58ed7c071c4"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="728" y="3" width="74" height="20" uuid="590488ab-ab74-4a1d-a60f-16bf2f5817c7"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{commission}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="667" y="3" width="61" height="20" uuid="09176375-8784-4358-a051-b9d13c7135c3"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{tax}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="585" y="3" width="82" height="20" uuid="6d05d6bf-553d-457f-a7f1-62a927df85f1"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{grosscommission}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch">
+			<line>
+				<reportElement x="1" y="44" width="802" height="1" uuid="cf87f9e1-9a3f-4f47-a9ff-20e923996cd8"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+		</band>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch">
+			<textField>
+				<reportElement x="667" y="34" width="80" height="20" uuid="f8df3efe-9274-427b-bd0e-0ff293161f7c"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="747" y="34" width="40" height="20" uuid="114c9303-7be6-452f-9abe-c5d209917070"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="2" y="34" width="41" height="20" uuid="329006e4-d004-44ba-9245-db68de8a5da8"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Printed By :]]></text>
+			</staticText>
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="1" y="15" width="142" height="17" uuid="57252fb5-be5f-43c9-8a4a-a3ab0b762afb"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="76" splitType="Stretch">
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="485" y="0" width="100" height="20" uuid="028a246f-1ee2-461e-a54b-a331b0b81545"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_premium}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="289" y="56" width="219" height="20" uuid="59f1882a-81df-47a2-b1aa-64b4d28f23cc"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End of Report]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="702" y="0" width="89" height="20" uuid="31dc78f9-fc45-4b89-85ac-0b7cd2b76530"/>
+				<textElement textAlignment="Center">
+					<font size="8" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_commion}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

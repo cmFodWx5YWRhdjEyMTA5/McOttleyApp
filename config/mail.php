@@ -54,7 +54,7 @@ return [
     |
     */
 
-    'from' => ['address' =>'echo.jasonkerr7@gmail.com', 'name' => 'CDH Securities'],
+    'from' => ['address' =>'dev@mcbroker.com', 'name' => 'McBroker'],
 
     /*
     |--------------------------------------------------------------------------

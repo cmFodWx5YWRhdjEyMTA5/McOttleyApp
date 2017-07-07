@@ -99,6 +99,7 @@ return [
     */
 
     'migrations' => 'migrations',
+    'dump_command_path' => '/Applications/XAMPP/xamppfiles/bin',
 
     /*
     |--------------------------------------------------------------------------

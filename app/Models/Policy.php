@@ -9,6 +9,8 @@ class Policy extends Model
     protected $table = 'policy';
     public $timestamps = false;
 
+    protected $guarded = [];
+
 }
 
 

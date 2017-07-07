@@ -39,12 +39,7 @@
                   <a href="/policy-cancelled" class="list-group-item">
                     <i class="fa fa-fw fa-file"></i> Cancelled policies
                   </a>
-                  <a href="/policy-installment" class="list-group-item">
-                    <i class="fa fa-fw fa-file"></i> Installments report
-                  </a>
-                  <a href="#" class="list-group-item">
-                    <i class="fa fa-fw fa-file"></i> Paid installments report
-                  </a>
+                 
                   <a href="/policy-renewal" class="list-group-item">
                     <i class="fa fa-fw fa-file"></i> Renewal report
                   </a>
@@ -75,7 +70,7 @@
                     <i class="fa fa-fw fa-file"></i> Commission report
                   </a>
                   <a href="/sales-money-flow" class="list-group-item">
-                    <i class="fa fa-fw fa-file"></i> Money flow
+                    <i class="fa fa-fw fa-file"></i> Commission Summary
                   </a>
                 
                 </div>
@@ -94,18 +89,11 @@
                   <a href="/unpaid-invoices" class="list-group-item">
                     <i class="fa fa-fw fa-file"></i> Unpaid invoices
                   </a>
-                  <a href="/overpaid-invoices" class="list-group-item">
-                    <i class="fa fa-fw fa-file"></i> Overpaid invoices
-                  </a>
+                 
                   <a href="/invoices-generated" class="list-group-item">
                     <i class="fa fa-fw fa-file"></i> Generated invoices
                   </a>
-                  <a href="#" class="list-group-item">
-                    <i class="fa fa-fw fa-file"></i> Uninvoiced installments
-                  </a>
-                  <a href="/unpaid-installments" class="list-group-item">
-                    <i class="fa fa-fw fa-file"></i> Installments unpaid to insurer
-                  </a>
+                  
                   <a href="/receivables-summary" class="list-group-item">
                     <i class="fa fa-fw fa-file"></i> Receivables: summary
                   </a>

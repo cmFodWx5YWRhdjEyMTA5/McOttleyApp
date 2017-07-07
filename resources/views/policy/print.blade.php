@@ -9,24 +9,28 @@
               <i class="fa fa-power-off fa fa-3x"></i>
               <div class="row">
                 <div class="col-xs-6">
-                  <h4>McOcttleyBrokers</h4>
-                  <p><a href="#">www.McOcttleyBrokers.com</a></p>
+                  <h4>Asterix Brokers Limited</h4>
+                  <p><a href="#">www.asterixghana.com</a></p>
+                   <p><a href="#">P. O. Box AD 50, Adabraka-Accra</a></p>
+                    <p><a href="#">+233 302 544060;+233 302 946019;+233 28 9523683</a></p>
                   <br>
-                  <p>{{ $customers->fullname }} <br>
+                 <p>{{ $customers->fullname }} <br>
                     {{  $customers->postal_address }}<br>
                     Ghana
                   </p>
                   <p>
                     Telephone:  +{{ $customers->mobile_number }}<br>
                     Email:  {{ $customers->email }}
-                  </p>
+                  </p> 
                 </div>
                 <div class="col-xs-6 text-right">
                   <p class="h4">Policy : {{ $policydetails->policy_number }} </p>
                   <h5>{{ date('Y-m-d') }}</h5>   
-                  <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($policydetails->policy_number, 'QRCODE')}}" alt="barcode" />        
+                  <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($policydetails->ref_number, 'QRCODE')}}" alt="barcode" />        
                 </div>
-              </div>                
+              </div>
+
+              <div class="col-sm-6">                
               <section class="panel panel-info portlet-item">
               <header class="panel-heading">
                                         Policy Details
@@ -61,8 +65,9 @@
                                         </a>
                                     </div>
                                     </section>
+                                    </div>
                                     
-
+                                    <div class="col-sm-6">
                                     <section class="panel panel-info portlet-item">
                                       <header class="panel-heading">
                                         Object Details
@@ -113,10 +118,10 @@
                                     @elseif($policydetails->policy_product == 'Travel Insurance')
                                       <div class="list-group bg-white">
                                         <a href="#" class="list-group-item">
-                                          </i>Destination Country : {{ $fetchrecord->destination_country}}
+                                          </i>Date of Departure : {{ $fetchrecord->departure_date}}
                                         </a>
                                         <a href="#" class="list-group-item">
-                                          </i>Destination Phone : {{ $fetchrecord->destination_phone}}
+                                          </i>Date of Arrival : {{ $fetchrecord->arrival_date}}
                                         </a>
                                         <a href="#" class="list-group-item">
                                           </i>Destination Address : {{ $fetchrecord->destination_address}}
@@ -269,47 +274,15 @@
                                       </div>
                                       @endif
                                     </section>
-       {{--      <table class="table">
-                <thead>
-                  <tr>
-                    <th width="60">QTY</th>
-                    <th>DESCRIPTION</th>
-                    <th width="140">UNIT PRICE</th>
-                    <th width="90">TOTAL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 @foreach($bills as $bill )
-                  <tr>
-                    <td>1</td>
-                    <td>{{ $bill->policy_product }}</td>
-                    <td>{{ $bill->currency }}{{ $bill->amount }}</td>
-                    <td>{{ $bill->amount }}</td>
-                  </tr>
-                 @endforeach
-                  <tr>
-                    <td colspan="3" class="text-right"><strong>Subtotal</strong></td>
-                    <td>GHS {{ $bills->sum('amount') }}</td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" class="text-right no-border"><strong>Deliveries</strong></td>
-                    <td>GHS0.00</td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" class="text-right no-border"><strong>VAT Included in Total</strong></td>
-                    <td>GHS0.00</td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" class="text-right no-border"><strong>Total</strong></td>
-                    <td><strong>GHS {{ $bills->sum('amount') }}</strong></td>
-                  </tr>
-                </tbody> 
-              </table>   --}}
+                                    </div>
 
-              <h4 class="text-center">Thank you for doing business with us!</h4><br><br>
-     
-            </section>
+
+             
+  
+
           </section>
+
           <a href="#" class="hide nav-off-screen-block" data-toggle="class:nav-off-screen" data-target="#nav"></a>
         </section>
+        <h4 class="text-center">Thank you for doing business with us!</h4><br><br>
 @stop

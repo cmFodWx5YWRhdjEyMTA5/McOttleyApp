@@ -2,15 +2,18 @@
 @section('content')
           <section class="vbox bg-white">
             <header class="header b-b b-light hidden-print">
-              <button href="#" class="btn btn-sm btn-info pull-right" onClick="window.print();">Print</button>
+              <button href="#" class="btn btn-sm btn-info pull-right" onClick="javascript:window.print();">Print</button>
+              
               <p>Invoice</p>
             </header>
             <section class="scrollable wrapper">
               <i class="fa fa-power-off fa fa-3x"></i>
               <div class="row">
                 <div class="col-xs-6">
-                  <h4>McOcttleyBrokers</h4>
-                  <p><a href="#">www.McOcttleyBrokers.com</a></p>
+                   <h4>Asterix Brokers Limited</h4>
+                  <p><a href="#">www.asterixghana.com</a></p>
+                   <p><a href="#">P. O. Box AD 50, Adabraka-Accra</a></p>
+                    <p><a href="#">+233 302 544060;+233 302 946019;+233 28 9523683</a></p>
                   <br>
                   <p>{{ $customers->fullname }} <br>
                     {{  $customers->postal_address }}<br>
@@ -22,7 +25,7 @@
                   </p>
                 </div>
                 <div class="col-xs-6 text-right">
-                  <p class="h4"># {{ $bills[0]->invoice_number }}</p>
+                  <p class="h4"># {{ $bills->invoice_number }}</p>
                   <h5>{{ date('Y-m-d') }}</h5>   
                   <img src="data:image/png;base64,{{DNS2D::getBarcodePNG($bills->sum('amount'), 'QRCODE')}}" alt="barcode" />        
                 </div>
@@ -39,29 +42,22 @@
                   </tr>
                 </thead>
                 <tbody>
-                 @foreach($bills as $bill )
+                 
                   <tr>
                     <td>1</td>
-                    <td>{{ $bill->policy_product }}</td>
-                    <td>{{ $bill->currency }}{{ $bill->amount }}</td>
-                    <td>{{ $bill->amount }}</td>
+                    <td>{{ $bills->policy_product }}</td>
+                    <td>{{ $bills->currency }}{{ $bills->amount }}</td>
+                    <td>{{ $bills->amount }}</td>
                   </tr>
-                 @endforeach
+                 
                   <tr>
                     <td colspan="3" class="text-right"><strong>Subtotal</strong></td>
-                    <td>GHS {{ $bills->sum('amount') }}</td>
+                    <td>GHS {{ $bills->amount }}</td>
                   </tr>
-                  <tr>
-                    <td colspan="3" class="text-right no-border"><strong>Deliveries</strong></td>
-                    <td>GHS0.00</td>
-                  </tr>
-                  <tr>
-                    <td colspan="3" class="text-right no-border"><strong>VAT Included in Total</strong></td>
-                    <td>GHS0.00</td>
-                  </tr>
+         
                   <tr>
                     <td colspan="3" class="text-right no-border"><strong>Total</strong></td>
-                    <td><strong>GHS {{ $bills->sum('amount') }}</strong></td>
+                    <td><strong>GHS {{ $bills->amount }}</strong></td>
                   </tr>
                 </tbody>
               </table>  

@@ -1,0 +1,430 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="sale_report" language="groovy" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="5c4c5480-6c78-4df3-8095-9ef42aac66e5">
+	<property name="ireport.zoom" value="1.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="27"/>
+	<property name="ireport.jasperserver.reportUnit" value="/mcottleybroker/registered_policy"/>
+	<property name="ireport.jasperserver.url" value="http://localhost:8080/jasperserver/services/repository"/>
+	<parameter name="customerval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="businessclass" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="insurer" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="currencyval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="salesagentval" class="java.lang.String">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<parameter name="start_date" class="java.util.Date"/>
+	<parameter name="end_date" class="java.util.Date">
+		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
+	</parameter>
+	<queryString>
+		<![CDATA[SELECT
+     sales_report.`id` AS sales_report_id,
+     sales_report.`invoice_number` AS sales_report_invoice_number,
+     sales_report.`account_number` AS sales_report_account_number,
+     sales_report.`account_name` AS sales_report_account_name,
+     sales_report.`account_manager` AS sales_report_account_manager,
+     sales_report.`policy_number` AS sales_report_policy_number,
+     sales_report.`policy_product` AS sales_report_policy_product,
+     sales_report.`currency` AS sales_report_currency,
+     sales_report.`amount` AS sales_report_amount,
+     sales_report.`commission_rate` AS sales_report_commission_rate,
+     sales_report.`note` AS sales_report_note,
+     sales_report.`status` AS sales_report_status,
+     sales_report.`created_by` AS sales_report_created_by,
+     sales_report.`created_on` AS sales_report_created_on,
+     sales_report.`policy_insurer` AS sales_report_policy_insurer,
+     sales_report.`insurance_period_from` AS sales_report_insurance_period_from,
+     sales_report.`insurance_period_to` AS sales_report_insurance_period_to,
+     sales_report.`policy_sales_type` AS sales_report_policy_sales_type,
+     sales_report.`paid_amount` AS sales_report_paid_amount,
+     sales_report.`last_payment_date` AS sales_report_last_payment_date,
+     sales_report.`age` AS sales_report_age
+FROM
+     `sales_report` sales_report where
+ (sales_report.`created_on` BETWEEN $P{start_date} and $P{end_date}) and
+     ($P{customerval} = 'All'
+     or sales_report.`account_number` = $P{customerval})
+and ($P{businessclass} = 'All'
+     or sales_report.`policy_product` = $P{businessclass})
+     and ($P{insurer} = 'All'
+     or sales_report.`policy_insurer` = $P{insurer})
+     and ($P{salesagentval} = 'All'
+     or sales_report.`created_by` = $P{salesagentval})
+     and (sales_report.`currency` = $P{currencyval})]]>
+	</queryString>
+	<field name="sales_report_id" class="java.lang.Long"/>
+	<field name="sales_report_invoice_number" class="java.lang.String"/>
+	<field name="sales_report_account_number" class="java.lang.Integer"/>
+	<field name="sales_report_account_name" class="java.lang.String"/>
+	<field name="sales_report_account_manager" class="java.lang.String"/>
+	<field name="sales_report_policy_number" class="java.lang.String"/>
+	<field name="sales_report_policy_product" class="java.lang.String"/>
+	<field name="sales_report_currency" class="java.lang.String"/>
+	<field name="sales_report_amount" class="java.math.BigDecimal"/>
+	<field name="sales_report_commission_rate" class="java.math.BigDecimal"/>
+	<field name="sales_report_note" class="java.lang.String"/>
+	<field name="sales_report_status" class="java.lang.String"/>
+	<field name="sales_report_created_by" class="java.lang.String"/>
+	<field name="sales_report_created_on" class="java.sql.Timestamp"/>
+	<field name="sales_report_policy_insurer" class="java.lang.String"/>
+	<field name="sales_report_insurance_period_from" class="java.sql.Date"/>
+	<field name="sales_report_insurance_period_to" class="java.sql.Date"/>
+	<field name="sales_report_policy_sales_type" class="java.lang.String"/>
+	<field name="sales_report_paid_amount" class="java.math.BigDecimal"/>
+	<field name="sales_report_last_payment_date" class="java.sql.Timestamp"/>
+	<field name="sales_report_age" class="java.lang.Long"/>
+	<variable name="gross_commission" class="java.lang.Double">
+		<variableExpression><![CDATA[(($F{sales_report_amount} * ($F{sales_report_commission_rate}/100))-15) - ((($F{sales_report_amount} * ($F{sales_report_commission_rate}/100))-15) * 5/100)]]></variableExpression>
+	</variable>
+	<variable name="total_commission" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$V{gross_commission}]]></variableExpression>
+	</variable>
+	<variable name="total_premium" class="java.lang.Double" calculation="Sum">
+		<variableExpression><![CDATA[$F{sales_report_amount}]]></variableExpression>
+	</variable>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="88" splitType="Stretch">
+			<image>
+				<reportElement x="610" y="4" width="189" height="71" uuid="ba44c1c0-3275-42e0-b2c1-c925422190b7"/>
+				<imageExpression><![CDATA["repo:IMG-20160817-WA0003.jpg"]]></imageExpression>
+			</image>
+			<staticText>
+				<reportElement x="2" y="1" width="197" height="20" uuid="f2d558f2-0522-4215-b7cf-a98282c1ef47"/>
+				<textElement>
+					<font fontName="SansSerif" size="14" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Registered Policy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="63" width="61" height="20" uuid="d2a89858-9865-4a71-b983-6f385ebbef53"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Currency :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="3" y="23" width="61" height="20" uuid="65cc20a9-1fe9-451d-94de-08665dab7f2a"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period From :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="64" y="43" width="100" height="20" uuid="42e0412f-d3b4-4138-bf29-3e65e59cd767"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{end_date}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="3" y="43" width="61" height="20" uuid="50bce5a3-0371-4b46-9c30-7953e13814dd"/>
+				<textElement>
+					<font size="8" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Period To :]]></text>
+			</staticText>
+			<textField>
+				<reportElement x="64" y="23" width="100" height="20" uuid="72e64da8-1558-41ba-8daa-70c89c22cd0d"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{start_date}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="64" y="63" width="100" height="20" uuid="86436e10-7623-486a-a9c3-6f60a002e514"/>
+				<textElement>
+					<font size="8"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$P{currencyval}]]></textFieldExpression>
+			</textField>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="35" splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band height="41" splitType="Stretch">
+			<line>
+				<reportElement x="0" y="0" width="802" height="1" uuid="69e06e0c-14df-49b7-8b81-bff775755fe8"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement x="0" y="30" width="802" height="1" uuid="c9a5b7a8-2e1e-481c-9fce-702f27b7aaa9"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="22" y="7" width="56" height="20" uuid="1d1fcdd6-81ae-46bd-8e1a-483179e40063"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Policy]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="81" y="7" width="56" height="20" uuid="8ad4e8b8-3244-4ceb-a87c-59468f7d67e3"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Issue Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="141" y="7" width="56" height="20" uuid="2bc4361f-b9bf-489e-8aae-7427fefd9d9c"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Start Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="201" y="7" width="56" height="20" uuid="a972d0d9-27d2-4b11-b9ce-a2857da0c9d3"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End Date]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="262" y="7" width="53" height="20" uuid="89a1056c-b518-4c73-bdc5-bfbf2cdaf614"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Gross Premium]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="319" y="7" width="55" height="20" uuid="c24d8e4d-8158-4a36-af50-e6665b3d386b"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Comm(%)]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="378" y="7" width="55" height="20" uuid="4a24acd2-b649-419e-973e-3eb34a35accd"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Commission ]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="436" y="7" width="81" height="20" uuid="2da34b21-9db8-4871-8341-057a4920773b"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Customer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="521" y="7" width="73" height="20" uuid="39a2211f-00df-4294-8a7b-5a35a44c379f"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Insurer]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="598" y="7" width="71" height="20" uuid="c62828ca-7f81-4201-b419-4c8cf2ea5f81"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Product]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="674" y="7" width="60" height="20" uuid="c6649f76-dc57-477b-bbf2-a6b7cc3966af"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Sale Manager]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="734" y="7" width="60" height="20" uuid="51caadf7-e31b-4717-bdd5-0a56e6160c02"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Issued By]]></text>
+			</staticText>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="28" splitType="Stretch">
+			<textField>
+				<reportElement x="22" y="3" width="56" height="20" uuid="0d88b8a0-e897-4e40-9bba-fcec5631fda3"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_policy_number}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="81" y="3" width="56" height="20" uuid="e32a198f-7d04-4b21-bed7-cfde56f38584"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_created_on}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="140" y="3" width="57" height="20" uuid="a86ac33a-7bcc-4095-841f-7c5e9518a35c"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_insurance_period_from}]]></textFieldExpression>
+			</textField>
+			<textField pattern="MM/dd/yyyy">
+				<reportElement x="201" y="3" width="56" height="20" uuid="6a0f5b6e-413b-413f-9ec2-ffe552888372"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_insurance_period_to}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="262" y="3" width="53" height="20" uuid="1cd91f4f-b182-4394-a893-76b33fe63d65"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_amount}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="319" y="3" width="55" height="20" uuid="4ab4bbbc-e1ba-4fba-bf9e-063b0d58e2f3"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_commission_rate}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="378" y="3" width="55" height="20" uuid="141c08ba-e213-42fb-9287-cc66da033434"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{gross_commission}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="436" y="3" width="81" height="20" uuid="14edb852-4ac1-4fbb-88b0-8dd6e8b9f860"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_account_name}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="521" y="3" width="73" height="20" uuid="70d4a4b2-d576-47e0-a1fc-a0f11d8035bc"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_policy_insurer}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="598" y="3" width="71" height="20" uuid="9c2021fc-2717-4c4d-b183-5e5a51c56090"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_policy_product}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="674" y="3" width="60" height="20" uuid="9e3e94e4-0d6f-476b-b5e5-fbf7e2cebeaf"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_account_manager}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="734" y="3" width="65" height="20" uuid="259263d4-e1aa-4cd0-9a5c-1ef3d2da7af5"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{sales_report_created_by}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="2" y="23" width="802" height="1" uuid="07b2dff5-fdc7-49df-8ee0-f6aeff3983f5"/>
+				<graphicElement>
+					<pen lineStyle="Dashed" lineColor="#999999"/>
+				</graphicElement>
+			</line>
+			<textField>
+				<reportElement x="-3" y="3" width="25" height="20" uuid="315afcff-9a4f-411b-bd82-08c8a91d1644"/>
+				<textElement textAlignment="Center">
+					<font size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{REPORT_COUNT}]]></textFieldExpression>
+			</textField>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="33" splitType="Stretch">
+			<textField>
+				<reportElement x="674" y="13" width="80" height="20" uuid="68c76b04-7204-41a2-a3cc-b1f9db7d9e6a"/>
+				<textElement textAlignment="Right">
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA["Page "+$V{PAGE_NUMBER}+" of"]]></textFieldExpression>
+			</textField>
+			<textField evaluationTime="Report">
+				<reportElement x="754" y="13" width="40" height="20" uuid="870a0ae1-4a66-429d-adfa-399921a2b4ca"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[" " + $V{PAGE_NUMBER}]]></textFieldExpression>
+			</textField>
+		</band>
+	</pageFooter>
+	<summary>
+		<band height="105" splitType="Stretch">
+			<textField pattern="EEE, d MMM yyyy HH:mm:ss Z">
+				<reportElement x="5" y="58" width="142" height="17" uuid="90e39d0f-4b82-4836-b858-bfb959d55ace"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement x="6" y="77" width="41" height="20" uuid="210d3f1e-6510-449f-9eaf-3511004bab44"/>
+				<textElement>
+					<font fontName="SansSerif" size="7"/>
+				</textElement>
+				<text><![CDATA[Printed By :]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="5" y="27" width="63" height="20" uuid="a266ee6f-8d82-4aad-9404-4b92c1f9583b"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="7" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Grand Total]]></text>
+			</staticText>
+			<line>
+				<reportElement x="0" y="53" width="802" height="1" uuid="1d23dcee-b7a6-4cce-85d3-d05aa33c2d16"/>
+				<graphicElement>
+					<pen lineWidth="2.0"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement x="278" y="85" width="219" height="20" uuid="be544574-7d05-4e38-8c37-8b60f139b1ff"/>
+				<textElement textAlignment="Center">
+					<font fontName="SansSerif" size="10" isBold="true"/>
+				</textElement>
+				<text><![CDATA[End of Report]]></text>
+			</staticText>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="378" y="27" width="55" height="20" uuid="0a4deb0c-949b-47ae-bd74-312ef536c08b"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_commission}]]></textFieldExpression>
+			</textField>
+			<textField pattern="#,##0.00;(#,##0.00)">
+				<reportElement x="262" y="27" width="57" height="20" uuid="193188b3-fcf7-4bb8-808d-458a81b25047"/>
+				<textElement textAlignment="Center">
+					<font size="7" isBold="true"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$V{total_premium}]]></textFieldExpression>
+			</textField>
+		</band>
+	</summary>
+</jasperReport>

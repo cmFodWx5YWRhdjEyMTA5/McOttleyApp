@@ -10,10 +10,12 @@ use OrionMedical\Models\Bill;
 use OrionMedical\Models\SalesChannel;
 use OrionMedical\Models\Gender;
 use OrionMedical\Models\AccountType;
+use OrionMedical\Models\Serials;
 
 use OrionMedical\Models\CustomerBalanceSheet;
 use OrionMedical\Models\ProcessedPolicy;
 use OrionMedical\Models\AttachDocuments;
+
 
 use OrionMedical\Http\Requests;
 use OrionMedical\Models\User;
@@ -27,6 +29,7 @@ use Illuminate\Support\Facades\Mail;
 use Image;
 use Carbon\Carbon;
 use Cache;
+use DateTime;
 
 
 
@@ -52,10 +55,10 @@ class KYCController extends Controller
    
    
     $policies      =  ProcessedPolicy::where('customer_number',$id)->get();
-    $policydetails =  CustomerBalanceSheet::where('account_number',$id)->get();
+    $balancesheet =  Bill::where('account_number',$id)->get();
     $customers     =  Customer::where('id', $id)->get();
-    $images        =     AttachDocuments::where('owner_id', $id)->get();
-    return view('customer.view', compact('customers','images','policydetails','policies'));
+    $images        =     AttachDocuments::where('customer', $id)->get();
+    return view('customer.view', compact('customers','images','balancesheet','policies'));
 
    }
 
@@ -125,14 +128,21 @@ public function getSearchResults(Request $request)
 
 function generateCustomerID()
 {
-    $number = Customer::count();
-    $account = str_pad($number+1,5, '0', STR_PAD_LEFT);
+    $number = Serials::where('name','=','customer')->first();
+    $number = $number->counter;
+    $account = str_pad($number,5, '0', STR_PAD_LEFT);
     $myaccount= 'C'.$account;
+
+    Serials::where('name','=','customer')->increment('counter',1);
     return  $myaccount;
 
-    //dd($account);
-
 }
+
+ public function change_date_format($date)
+    {
+        $time = DateTime::createFromFormat('d/m/Y', $date);
+        return $time->format('Y-m-d');
+    }
 
     
     public function postNewCustomer(Request $request)
@@ -166,7 +176,7 @@ function generateCustomerID()
             }
 
            
-
+            
            $customer = new Customer;
       	   $customer->account_number  = $genaccountnumber;
            $customer->fullname = $request->input('fullname');
@@ -175,7 +185,7 @@ function generateCustomerID()
            $customer->residential_address = $request->input('residential_address');
            $customer->email = $request->input('email');
            $customer->mobile_number = $request->input('mobile_number');
-           $customer->date_of_birth = Carbon::createFromFormat('d/m/Y', $request->input('date_of_birth'));
+           $customer->date_of_birth = $this->change_date_format($request->input('date_of_birth'));
            $customer->field_of_activity = $request->input('field_of_activity');
            $customer->gender = $request->input('gender');
            $customer->sales_channel = $request->input('sales_channel');
@@ -184,6 +194,9 @@ function generateCustomerID()
            $customer->created_on=Carbon::now();
            $customer->last_updated_on=Carbon::now();
            $customer->created_by=Auth::user()->getNameOrUsername();
+           
+
+           //dd($customer);
            
            if($customer->save())
           {
@@ -199,20 +212,9 @@ function generateCustomerID()
           ]);
 
 
-              $data = array(
-            'fullname' => $request->input('fullname'),
-           );
-
-
-            
-
-            Mail::queue('email.welcome', $data, function($message)
-            {
-                $message->to('echo.jasonkerr7@gmail.com', 'Jason')->subject('Welcome!');
-            });
         
             return redirect()
-            ->route('online-policies/new')
+            ->route('online-policies/new',[$genaccountnumber])
             ->with('success','Customer has successfully been created!... You can begin to create a policy');
           }
 
@@ -266,7 +268,7 @@ public function updateCustomer()
             $email = Input::get("email");
             $mobile_number = Input::get("mobile_number");
             $field_of_activity = Input::get("field_of_activity");
-            $date_of_birth = Carbon::createFromFormat('d/m/Y', Input::get('date_of_birth'));
+            $date_of_birth = $this->change_date_format(Input::get('date_of_birth'));
             $sales_channel = Input::get('sales_channel');
             $gender = Input::get('gender');
 
