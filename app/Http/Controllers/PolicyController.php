@@ -373,8 +373,6 @@ class PolicyController extends Controller
              $fetchrecord = AccidentDetails::where('ref_number','=',$policydetails->ref_number)->first();
             break;
 
-
-
       }
 
        //dd($fetchrecord);
